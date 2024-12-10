@@ -1,1 +1,1 @@
-# Examensarbeten-
+För att köra denna projekt behöver du köra npm i / npm install samt ställa in .env filen
