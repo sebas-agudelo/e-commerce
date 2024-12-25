@@ -1,8 +1,8 @@
-import { supabase_config } from "../../supabase_config/supabase_conlig.js";
+import { supabase_config } from "../../../supabase_config/supabase_conlig.js";
 
 const supabase = supabase_config();
 
-export const createNewUser = async (req, res) => {
+export const userSignUp = async (req, res) => {
   const { email, password } = req.body;
 
   try {
@@ -24,7 +24,7 @@ export const createNewUser = async (req, res) => {
   }
 };
 
-export const confirmSignup = async (req, res) => {
+export const verifySignUp = async (req, res) => {
   const { tokenHash  } = req.params; 
 
   if (!tokenHash) {

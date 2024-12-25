@@ -1,3 +1,7 @@
+import { supabase_config } from "../../../supabase_config/supabase_conlig.js";
+
+const supabase = supabase_config();
+
 export const recavoryPwdLink = async (req, res) => {
   const {email} = req.body;
 
