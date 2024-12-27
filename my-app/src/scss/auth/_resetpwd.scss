@@ -4,36 +4,52 @@ main{
     display: flex;
     justify-content: center;
     align-items: center;
+    background-color: #0000001e;
 
 .reset-password-container{
-    width: 45%;
-  height: 100%;
+    width: 348px;
+    height: 100%;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    padding: 0 24px;
 
     h1{
-        font-size: 50px;
+        font-size: 35px;
+        text-align: left;
+        width: 100%;
+        margin-bottom: 30px;
     }
 
-    form{
+    p{
+        margin-bottom: 30px;
+        
+        
+    }
+
+    .reset-password-form{
         display: flex;
         flex-direction: column;
+        width: 100%;
 
         input{
-            width: 300px;
-            padding: 12px;
+            padding: 12px 6px;
+            // color: #fff;
             margin-bottom: 24px;
             background: transparent;
-            // border: 1px solid transparent;
             border-style: none;
             border-bottom: 1px solid #000000;
+
+            &:focus{
+                border: 1px solid #efdd54;
+                outline: #efdd54;
+
+            }
         }
 
         button{
-            width: 300px;
-            padding: 12px;
+            height: 45px;
             border: none;
             background-color: #efdd54;
             cursor: pointer;

@@ -10,8 +10,7 @@ import Pizzas from "./pages/Pizzas";
 import SignUp from "./pages/SignUp";
 import Contact from "./pages/Contact";
 import About from "./pages/About";
-import RecaveryPwd from './pages/RecaveryPwd';
-
+import ResetPwdLink from './pages/ResetPwdLink';
 
 function App() {
   return (
@@ -23,7 +22,7 @@ function App() {
           <Route path="/pizzas" element={<Pizzas />} />
           <Route path="/contact" element={<Contact />} />
           <Route path="/about" element={<About />} />
-          <Route path="/recaverypassword" element={<RecaveryPwd />} />
+          <Route path="/resetpwdlink" element={<ResetPwdLink />} />
 
 
           {/* HAVE TO AUTH PAGES */}

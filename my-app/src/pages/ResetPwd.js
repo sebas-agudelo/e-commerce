@@ -1,20 +1,13 @@
 import React, { useState } from 'react';
-import { useParams  } from 'react-router-dom';
+import { useNavigate, useParams  } from 'react-router-dom';
+import ResetPassword from '../components/auth_form/ResetPasswordForm';
 
 const ResetPwd = () => {
     const { tokenHash } = useParams(); // Hämta path-parametrar    
-
-    const [isLoading, setIsLoading] = useState(false);
-    const [confirmationStatus, setConfirmationStatus] = useState(null);
     const [newPassword, setNewPassword] = useState();
+    const nav = useNavigate()
 
     const handleConfirm = async () => {
-        if (!tokenHash) {
-            setConfirmationStatus('No token or email provided');
-            return;
-        }
-
-        setIsLoading(true);
 
         try {
             const response = await fetch(`http://localhost:3030/auth/resetpwd/${tokenHash}`, {
@@ -25,16 +18,16 @@ const ResetPwd = () => {
 
             const data = await response.json();
 
-            if (response.ok) {
-                setConfirmationStatus(data.successfully);
+            if (!response.ok) {
+                alert(data.error)
             } else {
-                setConfirmationStatus(data.error);
+                alert(data.successfully)
+                nav('/signin')
             }
         } catch (error) {
-            setConfirmationStatus('Error: ' + error.message);
+          
         }
 
-        setIsLoading(false);
     };
 
     const handleSubmit = (e) => {
@@ -43,15 +36,13 @@ const ResetPwd = () => {
 
     }
     return (
-        <div>
-       <form onSubmit={handleSubmit}>
-            <input type='text'
-            onChange={(e) => setNewPassword(e.target.value)}
+        <main>
+            <ResetPassword 
+            setNewPassword={setNewPassword}
+            handleSubmit={handleSubmit}
             />
-            <button type='submit'>Send</button>
-       </form>
-            {confirmationStatus && <p>{confirmationStatus}</p>}
-        </div>
+          
+        </main>
     );
 };
 
