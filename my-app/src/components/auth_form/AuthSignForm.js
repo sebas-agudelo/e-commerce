@@ -33,7 +33,7 @@ export default function AuthSignForm({
           />
         <button type="submit">{isSignIn ? 'Sign in' : 'Sign up'}</button>
         </form>
-        {isSignIn ? <a href="/recaverypassword">Forgot password</a> : <a href="/signin">Sign in</a>}
+        {isSignIn ? <a href="/resetpwdlink">Forgot password</a> : <a href="/signin">Sign in</a>}
       </article>
     </section>
   );

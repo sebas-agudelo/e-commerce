@@ -21,7 +21,7 @@ export const recavoryPwdLink = async (req, res) => {
 
 export const resetpwd = async (req, res) => {
   const { password } = req.body;
-  const { tokenHash } = req.params; // Token kommer nu från URL-parametern
+  const { tokenHash } = req.params; 
 
   if (!tokenHash) {
     return res.status(400).json({ error: "Token is required" });
@@ -41,7 +41,6 @@ export const resetpwd = async (req, res) => {
     if (updateError) {
       return res.status(400).json({ error: updateError.message });
     } else {
-      console.log("Password updated successfully.");  // För debug
       return res.status(200).json({ successfully: "Password is changed" });
     }
 
