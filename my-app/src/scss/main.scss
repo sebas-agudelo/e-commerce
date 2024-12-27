@@ -1,0 +1,19 @@
+@use "./nav/navbar";
+@use "./auth/signin";
+@use "./auth//resetpwd";
+
+
+
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body{
+
+        font-family: "Kanit", serif;
+        font-weight: 200;
+        font-style: normal;
+      
+}
