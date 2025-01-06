@@ -1,18 +1,23 @@
 import express from 'express';
-import { userSignUp, verifySignUp } from '../../controllers/auth/signUp/userSignUp.js';
-import { signIn, signOut } from '../../controllers/auth/signIn_signOut/signInSignOut.js';
-import { recavoryPwdLink, resetpwd } from '../../controllers/auth/recovery_pwd/recoveryPassword.js';
+import { sessionAuthCheck, validateAdminRole, signIn, signOut } from '../../controllers/auth/sessionManagement/sessionManagement .js';
+import { passwordResetLink, resetPassword } from '../../controllers/auth/passwordReset/passwordReset.js';
+import { signUpUser, verifyEmail } from '../../controllers/auth/userRegistration/userRegistration.js';
 
 
-export const router = express.Router();
+export const authRouter = express.Router();
 
 /* ALL AUTH ROUTES */
-router.post('/auth/signup', userSignUp);
-router.post('/confirm/:tokenHash', verifySignUp);
-router.post('/auth/signin', signIn);
-router.post('/auth/signout', signOut);
-router.post('/auth/recavorpwdlink', recavoryPwdLink);
-router.post('/auth/resetpwd/:tokenHash', resetpwd);
+authRouter.post('/auth/signup', signUpUser);
+authRouter.post('/confirm/:tokenHash', verifyEmail);
+authRouter.post('/auth/signin', signIn);
+authRouter.post('/auth/signout', signOut);
+authRouter.post('/auth/passwordresetlink', passwordResetLink);
+authRouter.post('/auth/resetpassword/:tokenHash', resetPassword);
+
+authRouter.get('/auth/sessionAuthCheck', sessionAuthCheck);
+authRouter.get('/auth/validateAdminRole', validateAdminRole);
+
+
 
 
 

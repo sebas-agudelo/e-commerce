@@ -2,7 +2,7 @@ import { supabase_config } from "../../../supabase_config/supabase_conlig.js";
 
 const supabase = supabase_config();
 
-export const recavoryPwdLink = async (req, res) => {
+export const passwordResetLink = async (req, res) => {
   const { email } = req.body;
 
   try {
@@ -19,7 +19,7 @@ export const recavoryPwdLink = async (req, res) => {
   }
 };
 
-export const resetpwd = async (req, res) => {
+export const resetPassword = async (req, res) => {
   const { password } = req.body;
   const { tokenHash } = req.params; 
 
