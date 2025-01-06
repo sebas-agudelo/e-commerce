@@ -10,6 +10,7 @@ export default function SignIn() {
   const fetchSignIn = async () => {
     const sign = await fetch(`http://localhost:3030/auth/signin`, {
       method: "POST",
+      credentials: "include",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ email, password }),
     })
