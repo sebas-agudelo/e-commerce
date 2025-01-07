@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useParams  } from 'react-router-dom';
 
-const ConfirmEmail = () => {
+const ConfirmSignup = () => {
     const { tokenHash } = useParams(); // Hämta path-parametrar    
 
     const [isLoading, setIsLoading] = useState(false);
@@ -38,7 +38,7 @@ const ConfirmEmail = () => {
     };
 
     return (
-        <div>
+        <div style={{paddingTop: "55px"}}>
             <h2>Confirm your signup</h2>
             <button onClick={handleConfirm} disabled={isLoading}>
                 {isLoading ? 'Verifying...' : 'Confirm Email'}
@@ -48,4 +48,4 @@ const ConfirmEmail = () => {
     );
 };
 
-export default ConfirmEmail;
+export default ConfirmSignup;

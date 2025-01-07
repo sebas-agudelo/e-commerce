@@ -10,11 +10,50 @@
     box-sizing: border-box;
 }
 
-body{
 
-        font-family: "Kanit", serif;
-        font-weight: 200;
-        font-style: normal;
-        height: 1500px;
-      
+body{
+    
+    font-family: "Kanit", serif;
+    font-weight: 200;
+    font-style: normal;
+    font-size: 19px;
+    // height: 1500px;
+    
+}
+
+.error-message {
+    color: #ff0000;
+    display: block;
+    font-weight: 300;
+    padding: 0 12px;
+    text-align: center;
+    margin-bottom: 12px;
+}
+
+.ok-message {
+    color: #008925;
+    display: block;
+    padding: 0 12px;
+    text-align: center;
+}
+
+.validation-message {
+    display: block;
+    font-size: 13px;
+    padding: 0 12px;
+    text-align: center;
+
+}
+
+
+.no-error-message {
+    display: none;
+}
+
+.no-validation-message {
+    display: none;
+}
+
+.no-ok-message {
+    display: none;
 }

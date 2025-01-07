@@ -1,16 +1,17 @@
 import './scss/main.scss';
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import Home from "./pages/Home";
-import Profile from "./pages/Profile";
-import SignIn from "./pages/SignIn";
-import ConfirmEmail from "./pages/ConfirmEmail";
-import ResetPwd from "./pages/ResetPwd";
 import Navbar from "./components/nav/Navbar";
-import Pizzas from "./pages/Pizzas";
-import SignUp from "./pages/SignUp";
+import Home from "./pages/Home";
+import Pizzas from "./pages/pizzas_pages/Pizzas";
 import Contact from "./pages/Contact";
 import About from "./pages/About";
-import ResetPwdLink from './pages/ResetPwdLink';
+
+import SignUp from './pages/auth_pages/SignUp';
+import ConfirmSignup from './pages/auth_pages/ConfirmSignup';
+import SignIn from './pages/auth_pages/SignIn';
+import ResetPassword from './pages/auth_pages/ResetPassword';
+import ResetPasswordLink from './pages/auth_pages/ResetPasswordLink';
+import Profile from './pages/auth_pages/Profile';
 
 function App() {
   return (
@@ -22,16 +23,18 @@ function App() {
           <Route path="/pizzas" element={<Pizzas />} />
           <Route path="/contact" element={<Contact />} />
           <Route path="/about" element={<About />} />
-          <Route path="/resetpwdlink" element={<ResetPwdLink />} />
 
 
-          {/* HAVE TO AUTH PAGES */}
-          <Route path="/profile" element={<Profile />} />
-          <Route path="/signin" element={<SignIn />} />
+          {/* AUTH PAGES */}
           <Route path="/signup" element={<SignUp />} />
-          <Route path="/confirm/:tokenHash" element={<ConfirmEmail />} />
+          <Route path="/confirm/:tokenHash" element={<ConfirmSignup />} />
+          <Route path="/signin" element={<SignIn />} />
+          <Route path="/resetpwdlink" element={<ResetPasswordLink />} />
+          <Route path="/resetpwd/:tokenHash" element={<ResetPassword />} />
+          <Route path="/profile" element={<Profile />} />
           
-          <Route path="/resetpwd/:tokenHash" element={<ResetPwd />} />
+       
+          
 
 
           
