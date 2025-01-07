@@ -10,7 +10,7 @@ export const signIn = async (req, res) => {
       });
       
       if (error) {
-        return res.status(400).json({ error: error.message });
+        return res.status(400).json({ error: "Felaktig e-postadress eller lösenord. Vänligen försök igen." });
       } 
 
       const { data: sessionData, error: sessionError } = await supabase.auth.getSession()
@@ -19,7 +19,7 @@ export const signIn = async (req, res) => {
         return res.status(400).json({ error: error.message });
       }
         const { access_token } = sessionData.session;
-        console.log('Access Token:', access_token); // Logga access_token för felsökning
+        console.log('Access Token:', access_token);
 
         return res
         .cookie('cookie_key', access_token, {
@@ -38,7 +38,7 @@ export const signIn = async (req, res) => {
       let { error } = await supabase.auth.signOut();
   
       if (error) {
-        return res.status(400).json({ error: error.message });
+        return res.status(400).json({ error: "Det uppstod ett problem med att logga ut dig. Försök igen." });
       } else {
         return res
         .clearCookie('cookie_key')

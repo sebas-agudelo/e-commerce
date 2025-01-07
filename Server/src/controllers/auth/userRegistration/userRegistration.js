@@ -3,22 +3,24 @@ import { supabase_config } from "../../../supabase_config/supabase_conlig.js";
 const supabase = supabase_config();
 
 export const signUpUser = async (req, res) => {
-  const { email, password } = req.body;
+  const { email, password, repeitpassword } = req.body;
 
   try {
+    if (repeitpassword !== password) { 
+      return res.status(400).json({ error: "Passwords do not match" });
+    }
     let { data, error } = await supabase.auth.signUp({
       email,
       password,
+      repeitpassword
     });
 
     if (error) {
       return res.status(400).json({ error: error.message });
     }
-
-    // console.log(data.user.id);
     return res
       .status(200)
-      .json({ successfully: "User has been created successfully" });
+      .json({ success: "A verification email has been sent to your inbox." });
   } catch (error) {
     return res.status(500).json({ error: "Server error" });
   }
