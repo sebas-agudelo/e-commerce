@@ -19,11 +19,9 @@ export const stripeCheckOut = async (req, res) => {
     try{
 
       if(items.length === 0){
-        console.log(items);
-        return
-      } else{
-        console.log(items);
-        
+        return;
+
+      } else{     
         const metadata = items
         .map((item, index) => {
           return `Product${index + 1}: ${item.title}, Price: ${item.price}, Quantity: ${item.quantity}`;

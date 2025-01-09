@@ -5,6 +5,7 @@ import cookieParser from 'cookie-parser';
 import { authRouter } from "./routes/auth/usersRoutes.js";
 import { productsRouter } from "./routes/products/productsRouter.js";
 import { paymentRouter } from "./routes/payment/paymentRouter.js";
+import { cartRouter } from "./routes/cartRouter/CartRouter.js";
 
 dotenv.config();
 
@@ -20,6 +21,7 @@ app.use(express.json());
 app.use(authRouter);
 app.use(productsRouter);
 app.use(paymentRouter);
+app.use(cartRouter);
 
 
 app.listen(process.env.PORT, () => {
