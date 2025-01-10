@@ -7,8 +7,7 @@ import { IoMdCheckmark } from "react-icons/io";
 import { VscChromeClose } from "react-icons/vsc";
 
 export default function ProductDetails() {
-    const [isClicked, setIsClicked] = useState(false)
-
+  const [isClicked, setIsClicked] = useState(false);
   const { fetchProductById, productDetails } = useContext(ProductContext);
   const { addToCart } = useContext(CartContext);
   const { id } = useParams();
@@ -18,17 +17,15 @@ export default function ProductDetails() {
   }, [id]);
 
   const readMoreOpen = () => {
-    setIsClicked(true)
+    setIsClicked(true);
     console.log("Is clicked");
-    
-  }
+  };
 
   const readMoreClose = () => {
-    setIsClicked(false)
+    setIsClicked(false);
     console.log("Is clicked");
-    
-  }
-  
+  };
+
   return (
     <main className="product-details" style={{ paddingTop: "65px" }}>
       <section>
@@ -63,19 +60,26 @@ export default function ProductDetails() {
         </article>
 
         <article className="description">
-            <div className="dddd">
-          <span>Produktbeskrivning</span>
-          {isClicked ? <span onClick={readMoreClose}><VscChromeClose /></span> : ""}
+          <div className="dddd">
+            <span>Produktbeskrivning</span>
+            {isClicked ? (
+              <span onClick={readMoreClose}>
+                <VscChromeClose />
+              </span>
+            ) : (
+              ""
+            )}
           </div>
 
-          <p className={isClicked ? "isClicked" : ""}>{productDetails?.description}</p>
+          <p className={isClicked ? "isClicked" : ""}>
+            {productDetails?.description}
+          </p>
 
-          {isClicked ? "" : <button onClick={ readMoreOpen }>Läs mer</button>}
-
+          {isClicked ? "" : <button onClick={readMoreOpen}>Läs mer</button>}
         </article>
 
         <article className="specifications">
-        <span>Specifikationer</span>
+          <span>Specifikationer</span>
           <p>Märke: {productDetails?.brand}</p>
           <p>Betteritid: {productDetails?.battery_life}h</p>
           <p>Anslutning: {productDetails?.connection_type}</p>

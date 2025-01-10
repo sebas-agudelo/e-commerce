@@ -1,5 +1,4 @@
-import { createContext, useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { createContext, useState } from "react";
 
 export const ProductContext = createContext();
 
@@ -20,8 +19,7 @@ export const ProductProvider = ({ children }) => {
 
       if (response.ok) {
         setProductDetails(data.product);
-        // console.log(data);
-        
+
       } else {
         setErrorProducts(data.error);
       }
@@ -30,7 +28,7 @@ export const ProductProvider = ({ children }) => {
     }
   };
 
-  const deleteProductByID = async (id) => {
+  const deleteProductByID = async (id) => {  
     try {
       const response = await fetch(
         `http://localhost:3030/api/product/delete/${id}`,
