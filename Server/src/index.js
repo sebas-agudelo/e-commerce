@@ -17,6 +17,10 @@ app.use(cors({
 app.use(cookieParser())
 app.use(express.json());
 
+app.get('/', (req, res) => {
+  return res.status(200).json("Hello word")
+})
+
 
 app.use(authRouter);
 app.use(productsRouter);
