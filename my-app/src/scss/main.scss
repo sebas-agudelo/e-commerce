@@ -1,6 +1,10 @@
 @use "./nav/navbar";
 @use "./auth/signin";
 @use "./auth//resetpwd";
+@use "./home/home";
+@use "./products/products";
+@use "./products/product";
+
 
 
 
@@ -8,6 +12,7 @@
     margin: 0;
     padding: 0;
     box-sizing: border-box;
+    font-size: 19px;
 }
 
 
@@ -16,7 +21,7 @@ body{
     font-family: "Kanit", serif;
     font-weight: 200;
     font-style: normal;
-    font-size: 19px;
+ 
     // height: 1500px;
     
 }
@@ -57,3 +62,4 @@ body{
 .no-ok-message {
     display: none;
 }
+

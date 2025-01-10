@@ -1,7 +1,7 @@
 import React, { useContext, useState, useEffect } from "react";
 import SignOut from "../SignOut";
 import { Link, useLocation } from "react-router-dom";
-import { CiPizza } from "react-icons/ci";
+import { PiShoppingCartThin } from "react-icons/pi";
 import { AuthSessionContext } from "../../Context/SessionProvider";
 import { VscChromeClose } from "react-icons/vsc";
 import { RxHamburgerMenu } from "react-icons/rx";
@@ -42,7 +42,7 @@ export default function Navbar() {
       <div className="icons">
         <>
           <Link to={`/cart`}>
-            <CiPizza />
+            <PiShoppingCartThin />
           </Link>
         </>
 
@@ -58,7 +58,7 @@ export default function Navbar() {
             <Link to={`/`}>Start</Link>
           </li>
           <li>
-            <Link to={`pizzas`}>Pizzas</Link>
+            <Link to={`/products`}>Products</Link>
           </li>
           <li>
             <Link to={`/contact`}>Contact</Link>

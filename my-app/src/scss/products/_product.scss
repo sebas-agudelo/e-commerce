@@ -1,0 +1,125 @@
+.product-details {
+
+    section {
+        padding-left: 24px;
+        padding-right: 24px;
+
+        .image-wrapper {
+            width: 100%;
+            padding-left: 12px;
+            padding-right: 12px;
+
+            img {
+                width: 100%;
+            }
+        }
+
+        .title-and-actions {
+            padding-top: 24px;
+            padding-bottom: 24px;
+
+            #title {
+                font-size: 24px;
+                font-weight: 500;
+                margin-bottom: 6px;
+            }
+
+            #price {
+                font-size: 34px;
+                font-weight: 500;
+                margin-bottom: 24px;
+            }
+
+            .add-cart-btn {
+                width: 100%;
+                padding: 12px;
+                background-color: #2756bc;
+                border-style: none;
+                border-radius: 12px;
+                color: #fff;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                margin-bottom: 24px;
+
+                svg {
+                    font-size: 24px;
+                    margin-right: 12px;
+                }
+
+            }
+
+            .additional-info {
+
+                p {
+                    border-bottom: 1px solid #d3d3d3;
+                    padding: 12px 0;
+                    display: flex;
+                    align-items: center;
+
+                    svg {
+                        margin-right: 12px;
+                    }
+                }
+            }
+        }
+
+        .description {
+
+            .dddd {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+
+                span {
+                    font-size: 24px;
+                    font-weight: 300;
+                }
+
+                svg {
+                    font-size: 24px;
+                }
+            }
+
+            p {
+                height: 100px;
+                overflow: hidden;
+                padding: 12px 0;
+
+
+            }
+
+            button {
+                width: 100%;
+                border-style: none;
+                padding: 12px 0;
+                border-radius: 12px;
+                font-weight: 500;
+                background-color: #efefef;
+                margin-top: 12px;
+
+            }
+
+            .isClicked {
+                overflow: visible;
+                height: auto;
+
+            }
+        }
+
+        .specifications {
+            padding: 24px 0;
+
+            span {
+                font-size: 24px;
+                font-weight: 300;
+            }
+
+            p {
+                border-bottom: 1px solid #d3d3d3;
+                padding: 12px 0;
+            }
+        }
+
+    }
+}

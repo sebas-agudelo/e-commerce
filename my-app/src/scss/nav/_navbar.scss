@@ -1,7 +1,7 @@
 header{
     height: 55px;
     width: 100%;
-    // background-color: #00000016;
+    background-color: #4770a3;    
     position: fixed;
     display: flex;
     justify-content: center;
@@ -15,23 +15,18 @@ header{
         z-index: 999;
         position: fixed;
         text-align: right;
-        color: #e6cb00;
         padding-right: 15px;
         cursor: pointer;
         
 
 
         svg{
-            fill: #e6cb00;
-            font-size: 35px;
+        fill: #000;
+        font-size: 30px;
         margin-left: 15px;
-
-        
         }
-
     }
     
-
     nav{
         width: 100%;
         display: flex;
@@ -44,6 +39,7 @@ header{
         right: -100%;
         transition: right 650ms ease-in-out;    
    
+   
         opacity: 0;
         text-align: center;
         
@@ -51,6 +47,7 @@ header{
             display: flex;
             flex-direction: column;
             list-style: none;
+       
             
             li{
                 // margin-right: 1rem;
@@ -58,7 +55,7 @@ header{
                 
                 a{
                     text-decoration: none;
-                    color: #ff5e00;
+                    color: #000000;
                 }
             }
         }
@@ -77,7 +74,6 @@ header{
     // top: 0;
     right: 0;
     // border-radius: 20px;
-    background-color: #ffffff;
-
+    background-color: #dbdbdb;
 
 }
