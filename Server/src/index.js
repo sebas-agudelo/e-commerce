@@ -11,14 +11,14 @@ dotenv.config();
 
 const app = express();
 app.use(cors({
-  origin: "http://localhost:3000",
+  origin: "https://examensarbeten.vercel.app/",
   credentials: true, 
 }));
 app.use(cookieParser())
 app.use(express.json());
 
-app.get('/', (req, res) => {
-  return res.status(200).json("Hello word")
+app.get("/", (req, res) => {
+  return res.status(200).send("Hello word")
 })
 
 
