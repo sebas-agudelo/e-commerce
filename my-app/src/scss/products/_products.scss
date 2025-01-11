@@ -1,5 +1,5 @@
 .Products-main {
-    padding-top: 55px;
+    padding-top: 118px;
 
     .product-filter-container {
         padding-top: 27px;
@@ -7,19 +7,19 @@
         padding-right: 24px;
 
         .filter-btn {
-            padding: 12px 24px;
+            padding: 12px 28px;
             display: flex;
             justify-content: center;
             align-items: center;
             border-style: none;
-            border-radius: 12px;
-
+            border-radius: 50px;
             background-color: #2756bc;
             color: #fff;
-            font-size: 16px;
+            font-weight: 700;
 
             svg {
-                margin-right: 10px;
+                margin-right: 16px;
+                font-size: 26px;
             }
         }
     }

@@ -1,7 +1,6 @@
 import React, { useContext, useEffect, useState } from "react";
 import { Link } from 'react-router-dom'
 import { ProductContext } from "../../Context/ProductContext";
-import { CartContext } from "../../Context/CartContext";
 import ProductFilters from "../../components/ProductFilters";
 
 export default function Products() {
@@ -54,8 +53,6 @@ export default function Products() {
             <div className="product-details">
               <p id="title">{product.title}</p>
               <p id="price">{product.price}.-</p>
-
-              {/* <button onClick={() => deleteProductByID(product.id)}>Ta bort produkt</button> */}
             </div>
           </article>
             </Link>

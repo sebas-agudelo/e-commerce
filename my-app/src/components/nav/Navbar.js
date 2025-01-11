@@ -52,6 +52,12 @@ export default function Navbar() {
           <RxHamburgerMenu className="open" onClick={isOpen} />
         )}
       </div>
+
+      <div className="search-container">
+        <input type="search"
+        placeholder="Sök product"
+        />
+      </div>
       <nav className={isClicked ? "active-menu" : ""}>
         <ul onClick={isClose}>
           <li>
