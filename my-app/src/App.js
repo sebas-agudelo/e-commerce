@@ -17,9 +17,13 @@ import CheckOut from "./pages/cart_payment_pages/CheckOut";
 import { ProductProvider } from "./Context/ProductContext";
 import { CartProvider } from "./Context/CartContext";
 import ProductDetails from "./pages/product_pages/ProductDetails";
+
+
 function App() {
+
   return (
     <div className="App">
+  
       <BrowserRouter>
         <ProductProvider>
           <CartProvider>

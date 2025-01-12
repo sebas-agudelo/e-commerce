@@ -25,7 +25,7 @@ export default function SignUp() {
       const response = await fetch(`http://localhost:3030/auth/signup`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email, password, repeitPassword }),
+        body: JSON.stringify({ email, password: password, repeitpassword: repeitPassword }),
       });
 
       const data = await response.json();
@@ -50,10 +50,14 @@ export default function SignUp() {
     }
 
     if (name === "password") {
+      console.log("Password",value);
+
       setPassword(value);
 
       validatePassword(value);
     } else if (name === "repeitPassword") {
+      console.log("Repeit",value);
+      
       setRepeitPassword(value);
     }
   };

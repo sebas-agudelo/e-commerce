@@ -3,38 +3,106 @@ import { Link, useNavigate, useParams } from "react-router-dom";
 import { CartContext } from "../../Context/CartContext";
 import { AuthSessionContext } from "../../Context/SessionProvider";
 import { ProductContext } from "../../Context/ProductContext";
+import { BsPlusLg } from "react-icons/bs";
+import { PiMinusThin } from "react-icons/pi";
+import ShowCartItems from "../../components/ShowCartItems";
 
 export default function Cart() {
-  const {clearCart, cartItems, setCartItems, showCart, } = useContext(CartContext);
-  const {fetchProductById} = useContext(ProductContext);
+  const {
+    cartItems,
+    setCartItems,
+    total,
+    showCart,
+    updateCartQty,
+    setTotal,
+  } = useContext(CartContext);
+  const { fetchProductById } = useContext(ProductContext);
+  const {session} = useContext(AuthSessionContext);
 
-  const {id} = useParams();
+  const { id } = useParams();
+
   useEffect(() => {
-    showCart()
-
-    if(id){
-      fetchProductById(id)
+    if (id) {
+      fetchProductById(id);
     }
-
+    showCart();
   }, [setCartItems, id]);
 
-  if(cartItems.length === 0){
-    return <h3>Varukorgen är tom</h3>
-  }
+  const incruseQty = (item) => {
+    if (!item) {
+      console.log(item);
+      return;
+    }
+
+    const newQty = item.quantity + 1;
+
+    const updatedCart = cartItems.map((items) =>
+      items.product_id === item.product_id
+        ? { ...items, quantity: newQty }
+        : items
+    );
+
+    setCartItems(updatedCart);
+
+    let newTotal = 0;
+    updatedCart.forEach((p) => {
+      newTotal += p.quantity * p.unit_price;
+    });
+
+    console.log("New total", newTotal);
+    setTotal(newTotal);
+
+    if(!session){
+      localStorage.setItem("cart", JSON.stringify(updatedCart));
+      console.log("Varukorgen uppdaterad i localStorage");
+    }else {
+      updateCartQty(item.product_id, newQty);
+    }
+  };
+
+  const reduceQty = (item) => {
+    if (!item) {
+      console.log(item);
+      return;
+    }
+    const newQty = item.quantity - 1;
+
+    const updatedCart = cartItems.map((items) =>
+      items.product_id === item.product_id
+        ? { ...items, quantity: newQty }
+        : items
+    );
+
+    const filteredCart = updatedCart.filter((p) => p.quantity > 0);
+
+    setCartItems(filteredCart);
+
+    let newTotal = 0;
+    updatedCart.forEach((p) => {
+      newTotal += p.quantity * p.unit_price;
+    });
+    
+    setTotal(newTotal);
+
+    
+    if(!session){
+      localStorage.setItem("cart", JSON.stringify(filteredCart));
+
+    } else {
+      updateCartQty(item.product_id, newQty);
+
+    }
+    
+  };
+
   return (
-    <div style={{paddingTop: "55px"}}>
-      {cartItems.map((item) => (
-        <div key={item.product_id}>
-          <h3>{item.product_title}</h3>
-          <h3>{item.unit_price}</h3>
-          <Link to={`/product/${item.product_id}`}>
-          <img style={{width: "55px"}} src={item.product_img} alt={item.product_title}/>
-          </Link>
-          <p>Antal: {item.quantity}</p>
-        </div>
-      ))}
-        <Link to={`/checkout`}>{cartItems.length > 0 ? "checkout" : ""}</Link>     
-        <button onClick={() => clearCart()}>{cartItems.length > 0 ? "Ta bort" : ""}</button>  
-    </div>
+    <main className="cart-container">
+      <section>
+        <ShowCartItems 
+        reduceQty={reduceQty}
+        incruseQty={incruseQty}
+        />
+      </section>
+    </main>
   );
 }
