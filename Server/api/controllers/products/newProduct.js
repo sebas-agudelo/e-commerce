@@ -22,9 +22,16 @@ export const newProduct =  async (req, res) => {
   const file = req.file;
 
   if(!file){
-    console.log(`Filen kunde inte laddas upp`);
-    return;    
+    console.error("Ingen fil bifogades.");
+    return res.status(400).json({ error: "En bildfil måste tillhandahållas." });  
   }
+
+  if (!title || !price || !category_id) {
+    return res
+      .status(400)
+      .json({ error: "Titel, pris och kategori-ID måste tillhandahållas." });
+  }
+  
   try {
 
     const {data: uploadData, error: uploadError} = await supabase.storage
@@ -39,7 +46,7 @@ export const newProduct =  async (req, res) => {
   }
 
   if(!uploadData){
-      return res.status(500).json({error: "EROOR 500...... Något har gått fel"})
+      return res.status(500).json({ error: "Filen kunde inte laddas upp. Försök igen." });
   };
 
   const { data: publicUrlData } = supabase.storage

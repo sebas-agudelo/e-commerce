@@ -11,22 +11,20 @@ dotenv.config();
 
 const app = express();
 app.use(cors({
-  origin: "https://examensarbeten.vercel.app/",
+  origin: "http://localhost:3000",
   credentials: true, 
 }));
 app.use(cookieParser())
 app.use(express.json());
-
-app.get("/", (req, res) => {
-  return res.status(200).send("Hello word")
-})
-
 
 app.use(authRouter);
 app.use(productsRouter);
 app.use(paymentRouter);
 app.use(cartRouter);
 
+app.get("/", (req, res) => {
+  return res.send("Hello word")
+})
 
 app.listen(process.env.PORT, () => {
   console.log(`Server is running on port ${process.env.PORT}`);

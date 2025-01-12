@@ -4,11 +4,13 @@ const supabase = supabase_config();
 
 export const signUpUser = async (req, res) => {
   const { email, password, repeitpassword } = req.body;
+  if (repeitpassword !== password) { 
+    console.log("Repeit",repeitpassword, "Pwd",password);
+    
+    return res.status(400).json({ error: "Passwords do not match" });
+  }
 
   try {
-    if (repeitpassword !== password) { 
-      return res.status(400).json({ error: "Passwords do not match" });
-    }
     let { data, error } = await supabase.auth.signUp({
       email,
       password,
