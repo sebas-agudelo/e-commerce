@@ -13,7 +13,7 @@
     const { cartItems, setCartItems, setQuantity } = useContext(CartContext);
     const [isClicked, setIsClicked] = useState(false);
     const [isScrolled, setIsScrolled] = useState(false);
-    const totalQuantity = cartItems.reduce((total, item) => total + item.quantity, 0);
+    // const totalQuantity = cartItems.reduce((total, item) => total + item.quantity, 0);
     
     useEffect(() => {
       window.scrollTo(0, 0);
@@ -47,7 +47,7 @@
 
           <>
           <div className="cart">
-          <p className="view-qty">{totalQuantity}</p>
+          {/* <p className="view-qty">{totalQuantity}</p> */}
           
             <Link to={`/cart`}>
               <PiShoppingCartThin />
@@ -93,16 +93,6 @@
                   <Link to={`/signup`}>Sign up</Link>
                 </li>
               </>
-            )}
-
-            {session && admin ? (
-              <>
-                <li>
-                <Link to={`/newpizza`}>New pizza</Link>
-              </li>
-              </>
-            ) : (
-                  ""
             )}
           </ul>
         </nav>

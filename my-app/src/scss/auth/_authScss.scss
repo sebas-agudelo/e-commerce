@@ -1,4 +1,4 @@
-.sign-main {
+.user-data-container {
 
     width: 100%;
     background-color: #0000001e;
@@ -10,7 +10,7 @@
     align-items: center;
 
 
-    .sign-container {
+    .user-data-wrapper {
         width: 100%;
         height: 100%;
         display: flex;
@@ -18,7 +18,7 @@
         align-items: center;
         padding: 0 12px;
 
-        .sign-content {
+        .user-data-content {
             width: 368px;
             height: 550px;
             padding: 0 12px;

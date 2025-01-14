@@ -1,13 +1,13 @@
 @use "./nav/navbar";
-@use "./auth/signin";
 @use "./auth//resetpwd";
 @use "./home/home";
 @use "./products/products";
 @use "./products/product";
 @use "./cart/cart";
-
-
-
+@use "./products/NewProduct";
+@use "./auth/authScss";
+@use "./auth/profile.scss";
+@use "./about";
 
 *{
     margin: 0;
@@ -21,19 +21,19 @@ body{
     
     font-family: "Kanit", serif;
     font-weight: 200;
-    font-style: normal;
- 
-    // height: 1500px;
-    
+    font-style: normal;    
 }
 
 .error-message {
     color: #ff0000;
     display: block;
     font-weight: 300;
-    padding: 0 12px;
+    padding: 24px 12px;
     text-align: center;
-    margin-bottom: 12px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0 10px 0 0;
 }
 
 .ok-message {

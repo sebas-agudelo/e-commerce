@@ -1,11 +1,32 @@
-import { createContext, useState } from "react";
+import { createContext, useEffect, useState } from "react";
+import { useLocation } from "react-router-dom";
 
 export const ProductContext = createContext();
 
 export const ProductProvider = ({ children }) => {
-  const [products, setProducts] = useState([]);
-  const [productDetails, setProductDetails] = useState(null);
-  const [errorProducts, setErrorProducts] = useState("");
+  const location = useLocation()
+    const [okmessage, setOkMessage] = useState("");
+    const [Errormessage, setErrorMessage] = useState("");
+    const [categories, setCategories] = useState([]);
+    const [productData, setProductData] = useState({
+      title: "",
+      price: "",
+      category_id: "",
+      category_name: "",
+      description: "",
+      brand: "",
+      connection_type: "",
+      charging_time: "",
+      battery_life: "",
+      garanti: "",
+      img: null,
+    });
+
+    useEffect(() => {
+      getCategories()
+      setErrorMessage("")
+      setOkMessage("")
+    }, [location])
 
   const fetchProductById = async (id) => {
     try {
@@ -18,55 +39,42 @@ export const ProductProvider = ({ children }) => {
       const data = await response.json();
 
       if (response.ok) {
-        setProductDetails(data.product);
+        setProductData(data.product);
 
       } else {
-        setErrorProducts(data.error);
+        setErrorMessage(data.error);
       }
     } catch (error) {
       console.error(error);
     }
   };
 
-  const deleteProductByID = async (id) => {  
-    try {
-      const response = await fetch(
-        `http://localhost:3030/api/product/delete/${id}`,
-        {
-          method: "DELETE",
-          credentials: "include",
-          headers: { "Content-Type": "application/json" },
-        }
-      );
+  const getCategories = async () => {
+    const response = await fetch(`http://localhost:3030/api/categori/get`, {
+      method: "GET",
+      credentials: "include",
+      headers: { "Content-Type": "application/json" },
+    });
 
-      const delProduct = products.filter((item) => item.id !== id);
+    const data = await response.json();
 
-      if (delProduct) {
-        setProducts(delProduct);
-      }
-
-      const data = await response.json();
-
-      if (response.ok) {
-        alert(data.success);
-      } else {
-        alert(data.error);
-      }
-    } catch (error) {
-      console.error(error);
+    if (response.ok) {
+      setCategories(data.data);
     }
   };
 
   return (
     <ProductContext.Provider
       value={{
-        products,
-        productDetails,
-        errorProducts,
-        setProducts,
-        deleteProductByID,
-        setErrorProducts,
-        fetchProductById
+        productData,
+        Errormessage,
+        okmessage,
+        categories,
+        setProductData,
+        setErrorMessage,
+        setOkMessage,
+        getCategories,
+        fetchProductById,
       }}
     >
       {children}

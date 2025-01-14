@@ -1,7 +1,9 @@
-import React from 'react'
-import { useNavigate } from 'react-router-dom';
+import React, { useContext } from 'react'
+import { useLocation, useNavigate } from 'react-router-dom';
+import { AuthSessionContext } from '../Context/SessionProvider';
 
 export default function SignOut() {
+  const {setSession, setAdmin } = useContext(AuthSessionContext)
   const nav = useNavigate();
 
   const signOut = async () => {
@@ -17,8 +19,10 @@ export default function SignOut() {
       alert(data.error)
     } else {
       alert(data.successfully);
+      setSession(false)
+      setAdmin(false)
       nav('/signin')
-      window.location.reload();
+ 
     }
   }
   return (

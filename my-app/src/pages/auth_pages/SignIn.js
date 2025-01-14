@@ -1,8 +1,10 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import SignInForm from "../../components/auth_form/SignInForm";
 import { useNavigate } from "react-router-dom";
+import { AuthSessionContext } from "../../Context/SessionProvider";
 
 export default function SignIn() {
+  const {setAdmin, setSession, admin} = useContext(AuthSessionContext);
   const [email, setEmail] = useState();
   const [password, setPassword] = useState();
   const [errorMessage, setErrorMessage] = useState("");
@@ -25,7 +27,11 @@ export default function SignIn() {
   
       if (response.ok) {
         nav("/profile");
-        window.location.reload();
+        setSession(true)
+
+        if(admin){
+          setAdmin(true)
+        }
       } else {
         setErrorMessage(data.error);
       }
@@ -41,8 +47,8 @@ export default function SignIn() {
   };
 
   return (
-    <main className="sign-main">
-      <section className="sign-container">
+    <main className="user-data-container">
+      <section className="user-data-wrapper">
         <SignInForm
           handleSubmit={handleSubmit}
           setEmail={setEmail}

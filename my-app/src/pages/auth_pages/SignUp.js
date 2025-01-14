@@ -5,27 +5,21 @@ import PasswordValidation from "../../hooks/PasswordValidation";
 export default function SignUp() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [repeitPassword, setRepeitPassword] = useState("");
   const [okMessage, setOkMessage] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
   const { validatePassword, validationMessage } = PasswordValidation();
 
   const fetchSignUp = async () => {
     try {
-      if (!email || !password || !repeitPassword) {
+      if (!email || !password) {
         setErrorMessage("Email samt lösenord får inte vara tomma");
-        return;
-      }
-
-      if (repeitPassword !== password) {
-        setErrorMessage("Lösenorden stämmer inte överens");
         return;
       }
 
       const response = await fetch(`http://localhost:3030/auth/signup`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email, password: password, repeitpassword: repeitPassword }),
+        body: JSON.stringify({ email, password: password }),
       });
 
       const data = await response.json();
@@ -55,10 +49,6 @@ export default function SignUp() {
       setPassword(value);
 
       validatePassword(value);
-    } else if (name === "repeitPassword") {
-      console.log("Repeit",value);
-      
-      setRepeitPassword(value);
     }
   };
 
@@ -68,8 +58,8 @@ export default function SignUp() {
   };
 
   return (
-    <main className="sign-main">
-      <section className="sign-container">
+    <main className="user-data-container">
+      <section className="user-data-wrapper">
         <SignUpForm
           handleSubmit={handleSubmit}
           setEmail={setEmail}

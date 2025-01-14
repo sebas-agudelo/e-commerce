@@ -1,17 +1,24 @@
-import React, {useState} from 'react';
+import React, {useContext, useState} from 'react';
 import {useStripe, useElements, PaymentElement} from '@stripe/react-stripe-js';
+import { CartContext } from '../Context/CartContext';
+import { AuthSessionContext } from '../Context/SessionProvider';
 
 const CheckoutForm = () => {
   const stripe = useStripe();
   const elements = useElements();
 
   const [errorMessage, setErrorMessage] = useState(null);
+  const { clearCart } = useContext(CartContext);
+  const {session} = useContext(AuthSessionContext);
 
   const handleSubmit = async (event) => {
     // We don't want to let default form submission happen here,
     // which would refresh the page.
     event.preventDefault();
     localStorage.removeItem('cart');
+    if(session){
+      clearCart()
+    }
 
     if (!stripe || !elements) {
       // Stripe.js hasn't yet loaded.
@@ -41,7 +48,7 @@ const CheckoutForm = () => {
   };
 
   return (
-    <form onSubmit={handleSubmit}>
+    <form style={{padding: "100px 0 0"}} onSubmit={handleSubmit}>
       <PaymentElement />
       <button disabled={!stripe}>Submit</button>
       {/* Show error message to your customers */}

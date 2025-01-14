@@ -3,8 +3,7 @@ import React from "react";
 export default function SignInForm({ handleSubmit, setEmail, setPassword, errorMessage }) {
   return (
     <>
-      <article className="bg-img"></article>
-        <article className="sign-content">
+        <article className="user-data-content">
           <p className={errorMessage ? "error-message" : "no-error-message"}>{errorMessage}</p>
         
           <h1>Sign in</h1>

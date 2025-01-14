@@ -15,7 +15,7 @@ const ResetPassword = () => {
   const handleConfirm = async () => {
     try {
       if (repetPassword !== newPassword) {
-        setErrorMessage("Passwords do not match");
+        setErrorMessage("PLösenorden matchar inte. Försök igen");
         return;
       };
 
@@ -40,14 +40,7 @@ const ResetPassword = () => {
       } 
       
       else if(!response.ok) {
-        const errors = [
-          data.verifyError,
-          data.error,
-          data.updateError,
-          "An unknown error occurred.",
-        ];
-        const findError = errors.find((err) => err);
-        setErrorMessage(findError);
+        setErrorMessage(data.error);
         setOkMessage("");
 
       }

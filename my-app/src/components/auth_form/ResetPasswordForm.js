@@ -3,7 +3,7 @@ import React from 'react'
 export default function ResetPasswordForm({errorMessage, validationMessage, handleSubmit, handleChangePassword}) {
   return (
     <section className="reset-password-container">
-    <p className="header-password-reset">Write your new password</p>
+    <p className="header-password-reset">Ange ett nytt lösenord</p>
     <p
       className={
         validationMessage ? "validation-message" : "no-validation-message"

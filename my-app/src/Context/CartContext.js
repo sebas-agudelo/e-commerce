@@ -136,7 +136,6 @@ export const CartProvider = ({ children }) => {
         }
       } catch (error) {
         console.error("Fetch error:", error);
-        // alert("Ett nätverksfel inträffade. Kontrollera din internetanslutning och försök igen.");
       }
     }
   };
@@ -144,25 +143,29 @@ export const CartProvider = ({ children }) => {
   //Lägger till produkter från LocalStorage i databsen vid inloggning
   const checkLocalStorage = async () => {
     if (cart.length > 0 && session) {
-      try {
-        const response = await fetch("http://localhost:3030/api/cart/bulk-add", {
-          method: "POST",
-          credentials: "include",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ products: cart }), // Skickar hela cart som en array
-        });
-  
-        const data = await response.json();
-  
-        if (response.ok) {
-          console.log("Produkter tillagda i databasen.");
-        } else {
-          alert(data.error);
+      for (let i = 0; i < cart.length; i++) {
+        const product_id = cart[i].product_id;
+        const quantity = cart[i].quantity;
+
+        try {
+          const response = await fetch(
+            "http://localhost:3030/api/cart/addtocart",
+            {
+              method: "POST",
+              credentials: "include",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({ product_id, quantity }),
+            }
+          );
+
+          const data = await response.json();
+          if (!response.ok) {
+            alert(data.error);
+          }
+        } catch (error) {
+          console.error("Fetch error:", error);
         }
-      } catch (error) {
-        console.error("Fetch error:", error);
       }
-  
       localStorage.removeItem("cart");
     }
   };
@@ -184,9 +187,33 @@ export const CartProvider = ({ children }) => {
       }
     } catch (error) {
       console.error("Fetch error:", error);
-      // alert("Ett nätverksfel inträffade. Kontrollera din internetanslutning och försök igen.");
     }
   };
+
+
+  const clearCart = async () => {
+  
+      try {
+        const response = await fetch("http://localhost:3030/api/cart/delete", {
+          method: "DELETE",
+          credentials: "include",
+          headers: { "Content-Type": "application/json" },
+       
+        });
+  
+        const data = await response.json();
+  
+        if (response.ok) {
+          console.log("Produkter tillagda i databasen.");
+          setCartItems("")
+        } else {
+          alert(data.error);
+        }
+      } catch (error) {
+        console.error("Fetch error:", error);
+      }
+  };
+
   return (
     <CartContext.Provider
       value={{
@@ -201,6 +228,7 @@ export const CartProvider = ({ children }) => {
         setCartMessages,
         updateCartQty,
         setTotal,
+        clearCart
       }}
     >
       {children}

@@ -10,8 +10,8 @@ export default function SignUpForm({
 }) {
   return (
     <>
-      <article className="bg-img"></article>
-      <article className="sign-content">
+    
+      <article className="user-data-content">
         <h1>Sign up</h1>
 
         <p className={okMessage ? "ok-message" : "no-ok-message"}>
@@ -38,12 +38,6 @@ export default function SignUpForm({
             type="password"
             placeholder="Password"
             name="password"
-            onChange={handlePassword}
-          />
-          <input
-            type="password"
-            placeholder="Password again"
-            name="repeitPassword"
             onChange={handlePassword}
           />
           <button type="submit">Sign up</button>

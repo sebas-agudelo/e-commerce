@@ -12,6 +12,7 @@ export const SessionProvider = ({ children }) => {
   }, [session, admin]);
     
   const verifySession = async () => {
+    
     try {
         const response = await fetch('http://localhost:3030/auth/sessionAuthCheck', {
             method: "GET",
@@ -27,7 +28,7 @@ export const SessionProvider = ({ children }) => {
         else if(!response.ok && data.isLoggedIn){
             
             setSession(false)
-            console.log('Det gick');
+
           }
     } catch (error) {
       console.error("Ett fel uppstod vid admin-verifiering:", error);
@@ -46,10 +47,10 @@ export const SessionProvider = ({ children }) => {
 
         if (response.ok && data.isAdmin) {
             setAdmin(true);
-            console.log('Användaren är admin');
+
         } else if(!response.ok && data.isAdmin) {
             setAdmin(false);
-            console.log("Användaren är ingen admin");
+
         }
     } catch (error) {
         console.error("Ett fel uppstod vid admin-verifiering:", error);
@@ -60,7 +61,9 @@ export const SessionProvider = ({ children }) => {
     <AuthSessionContext.Provider
       value={{
         session,
-        admin
+        setSession,
+        admin,
+        setAdmin
       }}
     >
       {children}

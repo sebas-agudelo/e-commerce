@@ -8,7 +8,7 @@ import { VscChromeClose } from "react-icons/vsc";
 
 export default function ProductDetails() {
   const [isClicked, setIsClicked] = useState(false);
-  const { fetchProductById, productDetails } = useContext(ProductContext);
+  const { fetchProductById, productData } = useContext(ProductContext);
   const { addToCart } = useContext(CartContext);
   const { id } = useParams();
 
@@ -18,27 +18,25 @@ export default function ProductDetails() {
 
   const readMoreOpen = () => {
     setIsClicked(true);
-    console.log("Is clicked");
   };
 
   const readMoreClose = () => {
     setIsClicked(false);
-    console.log("Is clicked");
   };
 
   return (
     <main className="product-details" style={{ paddingTop: "65px" }}>
       <section>
         <div className="image-wrapper">
-          <img src={productDetails?.img} alt={productDetails?.title} />
+          <img src={productData?.img} alt={productData?.title} />
         </div>
 
         <article className="title-and-actions">
-          <p id="title">{productDetails?.title}</p>
-          <p id="price">{productDetails?.price}.-</p>
+          <p id="title">{productData?.title}</p>
+          <p id="price">{productData?.price}.-</p>
           <button
             className="add-cart-btn"
-            onClick={() => addToCart(productDetails, productDetails.id)}
+            onClick={() => addToCart(productData, productData.id)}
           >
             <PiShoppingCartThin />
             Lägg i varukorgen
@@ -54,7 +52,7 @@ export default function ProductDetails() {
             </p>
             <p>
               <IoMdCheckmark />
-              Garanti: {productDetails?.garanti}år
+              Garanti: {productData?.garanti}år
             </p>
           </div>
         </article>
@@ -72,7 +70,7 @@ export default function ProductDetails() {
           </div>
 
           <p className={isClicked ? "isClicked" : ""}>
-            {productDetails?.description}
+            {productData?.description}
           </p>
 
           {isClicked ? "" : <button onClick={readMoreOpen}>Läs mer</button>}
@@ -80,9 +78,9 @@ export default function ProductDetails() {
 
         <article className="specifications">
           <span>Specifikationer</span>
-          <p>Märke: {productDetails?.brand}</p>
-          <p>Betteritid: {productDetails?.battery_life}h</p>
-          <p>Anslutning: {productDetails?.connection_type}</p>
+          <p>Märke: {productData?.brand}</p>
+          <p>Betteritid: {productData?.battery_life}h</p>
+          <p>Anslutning: {productData?.connection_type}</p>
         </article>
       </section>
     </main>

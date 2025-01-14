@@ -37,10 +37,10 @@ export default function ResetPasswordLink() {
   return (
     <main className="reset-password-main">
       <section className="reset-password-container">
-        <p className="header-password-reset">Forgot your password?</p>
+        <p className="header-password-reset">Glömt ditt lösenord?</p>
 
         <p>
-          Enter the email address you used to create your account.
+          Ange e-postadressen du använde för att skapa ditt konto.
         </p>
         
         <p className={errorMessage ? "error-message" : "no-error-message"}>{errorMessage}</p>
