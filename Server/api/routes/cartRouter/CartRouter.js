@@ -8,6 +8,6 @@ export const cartRouter = express.Router();
 
 cartRouter.post('/api/cart/addtocart', authenticateUser, addToCart);
 cartRouter.put('/api/cart/update', authenticateUser, updateCartQty);
-cartRouter.delete('/api/cart/delete', authenticateUser, showCart);
-cartRouter.get('/api/cart/show', authenticateUser, deleteCart);
+cartRouter.delete('/api/cart/delete', authenticateUser, deleteCart);
+cartRouter.get('/api/cart/show', authenticateUser, showCart);
 

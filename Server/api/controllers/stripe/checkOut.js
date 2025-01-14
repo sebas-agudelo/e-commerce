@@ -8,47 +8,47 @@ dotenv.config();
 const stripePay = stripe(process.env.STRIPE_SECRET_KEY);
 
 const calculateOrderAmount = (items) => {
-  if (items.length == 0) return 100 * 100;
+  if (items.length === 0) return 100 * 100; // Om varukorgen är tom, sätt ett minimibelopp
   const totalAmount = items.reduce(
     (acc, product) => acc + product.unit_price * product.quantity,
     0
   );
-  return totalAmount * 100;
+  return totalAmount * 100; // Stripe kräver beloppet i cent
 };
 
 export const stripeCheckOut = async (req, res) => {
-  const {items} = req.body;
-    try{
-      
-      if(items.length === 0){
-        console.log(`Varukorgen är tom`);
-        
-        return;
+  const { items } = req.body;
 
-      } else{     
-        const metadata = items
+  try {
+    if (items.length === 0) {
+      console.log(`Varukorgen är tom`);
+      return res.status(400).json({ message: "Varukorgen är tom" });
+    } else {
+      const metadata = items
         .map((item, index) => {
-          return `Product${index + 1}: ${item.product_title}, Price: ${item.unit_price}, Quantity: ${item.quantity}`;
+          return `Product${index + 1}: ${item.product_title}, Price: ${
+            item.unit_price
+          }, Quantity: ${item.quantity}`;
         })
         .join("; ");
-          const paymentIntent = await stripePay.paymentIntents.create({
-              amount: calculateOrderAmount(items),
-              currency: 'sek',
-              automatic_payment_methods: {
-                enabled: true,
-              },
-              metadata: { orderDetails: metadata }, // Lägg till metadata här
-            });
-            console.log(items);
-            
-            return res.status(200).json({client_secret: paymentIntent.client_secret});
 
-      }
+      const paymentIntent = await stripePay.paymentIntents.create({
+        amount: calculateOrderAmount(items),
+        currency: "sek",
+        payment_method_types: ["card"],
+        metadata: { orderDetails: metadata },
+      });
 
-    }catch(error){
-        console.log(error);
-        
+      console.log(items);
+
+      return res
+        .status(200)
+        .json({ client_secret: paymentIntent.client_secret });
     }
-
-      
+  } catch (error) {
+    console.error("Stripe Error:", error.message);
+    return res
+      .status(500)
+      .json({ error: "Ett fel inträffade vid skapandet av betalningen." });
+  }
 };

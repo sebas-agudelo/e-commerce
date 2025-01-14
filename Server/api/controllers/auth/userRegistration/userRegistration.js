@@ -3,28 +3,24 @@ import { supabase_config } from "../../../supabase_config/supabase_conlig.js";
 const supabase = supabase_config();
 
 export const signUpUser = async (req, res) => {
-  const { email, password, repeitpassword } = req.body;
-  if (repeitpassword !== password) { 
-    console.log("Repeit",repeitpassword, "Pwd",password);
-    
-    return res.status(400).json({ error: "Passwords do not match" });
-  }
-
+  const { email, password } = req.body;
+ 
   try {
     let { data, error } = await supabase.auth.signUp({
       email,
-      password,
-      repeitpassword
+      password
     });
 
     if (error) {
+      console.log(error);
+      
       return res.status(400).json({ error: error.message });
     }
     return res
       .status(200)
-      .json({ success: "A verification email has been sent to your inbox." });
+      .json({ success: "Ett verifieringsmejl har skickats till din inkorg." });
   } catch (error) {
-    return res.status(500).json({ error: "Server error" });
+    return res.status(500).json({ error: "Ett oväntat fel inträffade. Försök senare igen." });
   }
 };
 
@@ -44,16 +40,14 @@ export const verifyEmail = async (req, res) => {
         return res.status(400).json({ error: error.message });
       }
       
-      const email = data.email; // E-postadress associerad med tokenet
-      console.log("Email confirmed for:", email);
+      const email = data.email; 
       
       return res.status(200).json({
-          message: "Email confirmed successfully",
+          message: "E-post bekräftad framgångsrikt",
           email,
           session: data.session,
       });
   } catch (err) {
-      console.error("Error confirming email:", err);
-      return res.status(500).json({ error: "An error occurred during confirmation" });
+      return res.status(500).json({ error: "Ett oväntat fel inträffade. Försök senare igen." });
   }
 };

@@ -12,11 +12,11 @@ export const addToCart = async (req, res) => {
       .json({ error: "Ogiltig användare. Försök att logga in." });
   }
 
-  if (quantity === undefined || quantity === null || !product_id) {
-    return res
-    .status(400)
-    .json({ error: "Ogiltig produkt eller kvantitet." });
-  }
+  // if (quantity === undefined || quantity === null || !product_id) {
+  //   return res
+  //   .status(400)
+  //   .json({ error: "Ogiltig produkt eller kvantitet." });
+  // }
   
   try {
     //Hämtar id, title, price och img från produkt tabellen som ska läggas till i varukorgen
@@ -27,6 +27,8 @@ export const addToCart = async (req, res) => {
       .single();
 
     if (!products || productsError) {
+      console.log(productsError);
+      
       return res
       .status(404)
       .json({ error: "Produkten finns inte." });

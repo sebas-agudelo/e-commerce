@@ -26,7 +26,7 @@ export const showCart = async (req, res) => {
       if(!shopping_cart){
         return res
         .status(200)
-        .json({ error: "Varukorgen är tom." });
+        .json([]);
       }
 
       let totalPrice = 0;

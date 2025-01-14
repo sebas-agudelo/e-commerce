@@ -10,7 +10,7 @@ export const passwordResetLink = async (req, res) => {
     if (error) {
       return res.status(400).json({ error: error.message });
     } else {
-      return res.status(200).json({ success: "A link has been sent to your email address." });
+      return res.status(200).json({ success: "En länk har skickats till din e-postadress." });
     }
 
   } catch (error) {
@@ -29,12 +29,12 @@ export const resetPassword = async (req, res) => {
   
   try {
     if (repetpassword !== password) { 
-      return res.status(400).json({ error: "Passwords do not match" });
+      return res.status(400).json({ error: "Lösenorden matchar inte" });
     }
     const { data: verifyData, error: verifyError } = await supabase.auth.verifyOtp({ token_hash: tokenHash, type: 'recovery' });
     
     if (verifyError) {
-      return res.status(400).json({ verifyError: "Please request a new link to reset your password if needed." });
+      return res.status(400).json({ error: "Begär en ny länk för att återställa ditt lösenord om det behövs." });
     }
     
     const { data: userData, error: updateError } = await supabase.auth.updateUser({
@@ -46,10 +46,10 @@ export const resetPassword = async (req, res) => {
     if (updateError) {
       return res.status(400).json({ error: updateError.message });
     } else {
-      return res.status(200).json({ success: "Password is changed" });
+      return res.status(200).json({ success: "Lösenordet är ändrat" });
     }
 
   } catch (error) {
-    return res.status(500).json({ error: "Internal Server Error" });
+    return res.status(500).json({ error: "Ett oväntat fel inträffade. Försök senare igen." });
   }
 };

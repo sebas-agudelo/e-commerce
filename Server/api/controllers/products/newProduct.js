@@ -1,5 +1,8 @@
 import { supabase_config } from "../../supabase_config/supabase_conlig.js";
+import { productDataValidation } from "../../validate/productDataValidation.js";
+import { productFileValidation } from "../../validate/productDataValidation.js";
 import multer from 'multer';
+import validator from 'validator';
 
 const supabase = supabase_config();
 export const upload = multer({storage: multer.memoryStorage()}); 
@@ -15,24 +18,45 @@ export const newProduct =  async (req, res) => {
     connection_type,
     charging_time,
     battery_life,
-    garanti,
-    img,
+    garanti
   } = req.body;
 
   const file = req.file;
 
-  if(!file){
-    console.error("Ingen fil bifogades.");
-    return res.status(400).json({ error: "En bildfil måste tillhandahållas." });  
-  }
+  // Validerar om om kommande data uppfyller alla krav innan den når databasen
+  const dataValidation = productDataValidation( 
+    title,
+    price,
+    category_id,
+    category_name,
+    description,
+    brand,
+    connection_type,
+    charging_time,
+    battery_life,
+    garanti);
 
-  if (!title || !price || !category_id) {
-    return res
+    if(dataValidation){
+      return res
       .status(400)
-      .json({ error: "Titel, pris och kategori-ID måste tillhandahållas." });
-  }
-  
+      .json({ error: dataValidation.error });
+    }
+
   try {
+
+    let imageUrl = null;
+
+    //Om det finns en file så kör vi koden annars fortsätter koden med att lägga till produkten
+    if(file){
+
+      //Kontrollerar om filen är giltig bildformat
+      const fileValidation = productFileValidation(file);
+
+      if(fileValidation){
+        return res
+      .status(400)
+      .json({ error: fileValidation.error });
+      }
 
     const {data: uploadData, error: uploadError} = await supabase.storage
     .from('product_img')
@@ -42,7 +66,7 @@ export const newProduct =  async (req, res) => {
 
     if (uploadError) {
       console.log('Upload Error: ', uploadError); 
-      return res.status(500).json({error: "EROOR 500...... Något gick fel under filuppladdning"});
+      return res.status(500).json({error: "Något gick fel under filuppladdning"});
   }
 
   if(!uploadData){
@@ -53,8 +77,9 @@ export const newProduct =  async (req, res) => {
   .from('product_img')
   .getPublicUrl(uploadData.path);
 
-  const imageUrl = publicUrlData.publicUrl;
+   imageUrl = publicUrlData.publicUrl;
 
+}
     const { data, error } = await supabase
       .from("products")
       .insert([
@@ -79,10 +104,10 @@ export const newProduct =  async (req, res) => {
 
       return res
         .status(400)
-        .json({ error: "Något gick fel. Kunde inte läggas till" });
+        .json({ error: "Något gick fel. Kontrollera att inga obligatoriska fält har lämnats tomma" });
     }
 
-    return res.status(200).json({ success: "Produkten kunde läggas till" });
+    return res.status(200).json({ success: `Produkten ${title} är nu tillagd i databasen`  });
   } catch (error) {
     console.log(error);
   }

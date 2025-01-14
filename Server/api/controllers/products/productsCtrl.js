@@ -8,23 +8,19 @@ export const getProducts = async (req, res) => {
       .from("products")
       .select("*");
 
-    if (productsError) {
-      console.log(
-        "Supabase error '400' Produkt listan kunde inte hämtas.",
-        productsError
-      );
-      return res
-        .status(400)
-        .json({ error: "Något gick fel. Produkt listan kunde inte hämtas." });
-    }
+      if (productsError) {
+        return res
+        .status(500)
+        .json({ error: "Ett fel uppstod och produkterna är inte tillgängliga just nu."});
+      } 
 
     if (!products) {
       return res.status(200).json([]);
     }
 
-    return res.status(200).json(products);
+    return res.status(200).json({products});
+
   } catch (error) {
-    console.error("(get products) Server error:", error);
     return res
       .status(500)
       .json({ error: "Ett okänt fel uppstod. Försök igen senare." });
@@ -34,11 +30,11 @@ export const getProducts = async (req, res) => {
 //Hämtar en produkt baserad på ID
 export const getProductByID = async (req, res) => {
   const { id } = req.params;
-
+    
   if (!id) {
     return res
       .status(400)
-      .json({ error: `Ett giltigt produkt-ID måste tillhandahållas.` });
+      .json({ error: `Det saknas en giltig produkt. Försök igen.` });
   }
 
   try {
@@ -49,19 +45,15 @@ export const getProductByID = async (req, res) => {
       .single();
 
     if (productError) {
-      console.log(
-        "Supabase error '400' Produkten kunde inte hittas.",
-        productError
-      );
       return res
-        .status(400)
-        .json({ error: "Produkten kunde inte hittas. Kontrollera ID." });
+        .status(404)
+        .json({ error: "Produkten som du försöker se är ogiltig eller har tagits bort." });
     }
 
-    return res.status(200).json({
-      // success: `Produkten med ID: ${id} hittades`, product,
-      product
-    });
+    return res
+    .status(200)
+    .json({product});
+    
   } catch (error) {
     return res
       .status(500)
@@ -76,7 +68,7 @@ export const deleteProductByID = async (req, res) => {
   if (!id) {
     return res
       .status(400)
-      .json({ error: `Ett giltigt produkt-ID måste tillhandahållas.` });
+      .json({ error: `Det saknas en giltig produkt. Försök igen.` });
   }
 
   try {
@@ -88,7 +80,7 @@ export const deleteProductByID = async (req, res) => {
     if (deleteError) {
       console.error("Supabase delete error:", deleteError);
       return res.status(400).json({
-        error: "Produkten kunde inte tas bort. Kontrollera att ID är korrekt.",
+        error: "Produkten kunde inte tas bort. Försök igen.",
       });
     }
 
@@ -100,5 +92,20 @@ export const deleteProductByID = async (req, res) => {
     return res
       .status(500)
       .json({ error: "Ett okänt fel uppstod. Försök senare igen" });
+  }
+};
+
+export const categories = async (req, res) => {
+  try {
+    let { data, error } = await supabase.from("categories").select("*");
+
+    if (error) {
+      return res.status(400).json({ error: "Error fetching pizza" });
+    } else {
+      return res.status(200).json({ data });
+    }
+  } catch (error) {
+    console.log(error);
+    return res.status(500).json({ error: "Server error 500" });
   }
 };
