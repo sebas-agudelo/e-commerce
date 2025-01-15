@@ -95,6 +95,32 @@ export const deleteProductByID = async (req, res) => {
   }
 };
 
+export const getThreeProducts = async (req, res) => {
+  try {
+    let { data: products, error: productsError } = await supabase
+      .from("products")
+      .select("*")
+      .limit(4);
+
+      if (productsError) {
+        return res
+        .status(500)
+        .json({ error: "Ett fel uppstod och produkterna är inte tillgängliga just nu."});
+      } 
+
+    if (!products) {
+      return res.status(200).json([]);
+    }
+
+    return res.status(200).json({products});
+
+  } catch (error) {
+    return res
+      .status(500)
+      .json({ error: "Ett okänt fel uppstod. Försök igen senare." });
+  }
+};
+
 export const categories = async (req, res) => {
   try {
     let { data, error } = await supabase.from("categories").select("*");
