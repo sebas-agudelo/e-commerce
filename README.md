@@ -1,1 +1,1 @@
-För att köra denna projekt behöver du köra npm i / npm install samt ställa in .env filen
+För att köra denna projekt behöver du köra npm i / npm install samt ställa in .env filen. Jag har kört supabase för auth, databas och storage där jag lagrar produkt bilder. 
