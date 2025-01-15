@@ -13,6 +13,7 @@ export default function UpdateProduct() {
   const {id} = useParams();
 
  useEffect(() => {
+  console.log("ID från URL:", id);
     fetchProductById(id);
   }, [id]);
 
@@ -28,8 +29,8 @@ export default function UpdateProduct() {
       const formData = createFormData();
       
       try{
-        const response = await fetch(`http://localhost:3030/api/product/update`, {
-          method: "POST",
+        const response = await fetch(`http://localhost:3030/api/product/update/${id}`, {
+          method: "PUT",
           credentials: "include",
           body: formData,
         });
