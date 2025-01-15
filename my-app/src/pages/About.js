@@ -19,7 +19,7 @@ export default function About() {
         Om du har några frågor eller behöver hjälp med att välja rätt hörlurar, tveka inte att kontakta oss!
       </p>
       <div className="contact-info">
-        <p><strong>Kontakt:</strong> info@musikbutiken.se</p>
+        <p><strong>Kontakt:</strong> sound1example.com</p>
         <p><strong>Telefon:</strong> 012-3456789</p>
       </div>
     </div>

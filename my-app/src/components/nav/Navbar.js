@@ -7,14 +7,18 @@
   import { RxHamburgerMenu } from "react-icons/rx";
   import { CartContext } from "../../Context/CartContext";
 
+
   export default function Navbar() {
     const { pathname } = useLocation();
-    const { session, admin } = useContext(AuthSessionContext);
+    const { session } = useContext(AuthSessionContext);
+
     const { cartItems, setCartItems, setQuantity } = useContext(CartContext);
     const [isClicked, setIsClicked] = useState(false);
     const [isScrolled, setIsScrolled] = useState(false);
-    // const totalQuantity = cartItems.reduce((total, item) => total + item.quantity, 0);
+    const totalQuantity = cartItems.reduce((total, item) => total + item.quantity, 0);
     
+
+
     useEffect(() => {
       window.scrollTo(0, 0);
 
@@ -47,7 +51,7 @@
 
           <>
           <div className="cart">
-          {/* <p className="view-qty">{totalQuantity}</p> */}
+          <p className="view-qty">{totalQuantity}</p>
           
             <Link to={`/cart`}>
               <PiShoppingCartThin />
@@ -64,21 +68,21 @@
         <nav className={isClicked ? "active-menu" : ""}>
           <ul onClick={isClose}>
             <li>
-              <Link to={`/`}>Start</Link>
+              <Link to={`/`}>Hem</Link>
             </li>
             <li>
-              <Link to={`/products`}>Products</Link>
+              <Link to={`/products`}>Produkter</Link>
             </li>
             <li>
-              <Link to={`/contact`}>Contact</Link>
+              <Link to={`/contact`}>Kontakta oss</Link>
             </li>
             <li>
-              <Link to={`/about`}>About us</Link>
+              <Link to={`/about`}>Om oss</Link>
             </li>
             {session ? (
               <>
                 <li>
-                  <Link to={`/profile`}>Profile</Link>
+                  <Link to={`/profile`}>Mina sidor</Link>
                 </li>
                 <li>
                   <SignOut />
@@ -87,10 +91,10 @@
             ) : (
               <>
                 <li>
-                  <Link to={`/signin`}>Sign in</Link>
+                  <Link to={`/signin`}>Logga in</Link>
                 </li>
                 <li>
-                  <Link to={`/signup`}>Sign up</Link>
+                  <Link to={`/signup`}>Registrera dig</Link>
                 </li>
               </>
             )}

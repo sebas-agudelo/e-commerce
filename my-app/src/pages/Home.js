@@ -1,7 +1,26 @@
-import React from "react";
-import {Link} from 'react-router-dom'
+import React, { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 
 export default function Home() {
+  const [selectedProducts, setSelectedProducts] = useState([]);
+
+  useEffect(() => {
+    const fetSelectedProducts = async () => {
+      const response = await fetch(
+        "http://localhost:3030/api/selected/products",
+        {
+          method: "GET",
+          credentials: "include",
+          headers: { "Content-Type": "application/json" },
+        }
+      );
+
+      const data = await response.json();
+      setSelectedProducts(data.products);
+    };
+    fetSelectedProducts();
+  }, []);
+
   return (
     <main className="home-main">
       <article className="hero-video">
@@ -9,9 +28,45 @@ export default function Home() {
           <source src="/124869-732319039_small.mp4" />
         </video>
       </article>
-      <article className="buy-btn">
-          <Link to={'/products'}>Utforska</Link>
-      </article>
+      {/* <article className="buy-btn">
+        <Link to={"/products"}>Utforska</Link>
+      </article> */}
+
+      <h2 className="fav-products">Favoriter</h2>
+
+    <section style={{padding: "0"}} className="Products-main">
+        <article className="products-container">
+          {selectedProducts.map((product) => (
+            <div className="product-wrapper">
+              <Link to={`/product/${product.id}`}>
+                <div className="product-img-wrapper">
+                <div className="product-img">
+                  <img src={product.img} />
+                  </div>
+                </div>
+
+                <div className="product-details">
+                  <p id="title">{product.title}</p>
+                  <p id="price">{product.price}.-</p>
+                </div>
+              </Link>
+            </div>
+          ))}
+        </article>
+        </section>
+
+        <section className="more-section">
+          <article className="caption-img">
+            <img src="/pexels-tnarg-2932804.jpg" />
+          </article>
+          <article className="about-sound">
+            <h1 className="SOUND1">SOUND1</h1>
+            <p>
+            Välkommen till vår butik, där vi erbjuder ett brett sortiment av hörlurar för alla smakriktningar och behov. Oavsett om du är en audiofil som söker kristallklart ljud, en träningsentusiast i behov av ett par svett- och vattentåliga hörlurar eller någon som bara vill koppla av med en bra podcast eller musik – vi har något för dig.
+            </p>
+            <button><Link to={`/products`}>Produkter</Link></button>
+          </article>
+        </section>
     </main>
   );
 }

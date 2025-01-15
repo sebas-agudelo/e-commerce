@@ -27,7 +27,7 @@ export default function SignOut() {
   }
   return (
     <div>
-      <button onClick={signOut}>Logout</button>
+      <button onClick={signOut}>Logga ut</button>
     </div>
   )
 }
