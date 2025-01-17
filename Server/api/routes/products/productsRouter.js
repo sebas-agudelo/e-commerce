@@ -3,6 +3,8 @@ import { categories, deleteProductByID, getProductByID, getProducts, getThreePro
 import { newProduct, upload } from '../../controllers/products/newProduct.js';
 import { authenticateAdmin, authenticateUser } from '../../controllers/auth/middlewares/AuthMiddlewares.js';
 import { updateProduct } from '../../controllers/products/updateProduct.js';
+import { searchProduct } from '../../controllers/products/searchCtrl.js';
+import { productByCategory } from '../../controllers/products/productByCategory.js';
 
 
 
@@ -16,6 +18,9 @@ productsRouter.delete('/api/product/delete/:id', authenticateUser, authenticateA
 productsRouter.get('/api/categori/get', categories)
 productsRouter.get('/api/selected/products', getThreeProducts)
 productsRouter.put('/api/product/update/:id', upload.single('img'), authenticateUser, authenticateAdmin, updateProduct)
+productsRouter.get('/search', searchProduct);
+productsRouter.get('/api/product/categori/:categoryID', productByCategory);
+
 
 
 

@@ -56,7 +56,7 @@ export const signIn = async (req, res) => {
       const { data: sessionData, error: sessionError } = await supabase.auth.getSession()
   
       if(sessionError || !sessionData.session){
-        console.log('Det finns ingen session');
+  
         
         return res.status(200).json({ isLoggedIn: false })
       };
@@ -77,7 +77,6 @@ export const signIn = async (req, res) => {
         const { data: user, error: userError } = await supabase.auth.getUser();
   
         if (userError || !user || !user.user) {
-            console.log("Användaren kunde inte hämtas från session");
             return res.status(200).json({ error: "Användaren kunde inte hämtas från session" , isAdmin: false});
         }
         const userID = user.user.id;
@@ -89,14 +88,14 @@ export const signIn = async (req, res) => {
             .eq("role", "Admin");
   
         if (!user_roles || user_roles.length === 0) {
-            console.log("Användaren är inte admin");
+          
             return res.status(200).json({isAdmin: false});
         }
   
-        console.log("Användaren är autentiserad admin från verifyAdminSession:", user_roles);
+     
         return res.status(200).json({ isAdmin: true });
     } catch (error) {
-        console.error("Ett fel uppstod:", error);
+      
         return res.status(500).json({ error: "An error occurred while verifying session", isAdmin: false });
     }
   };
