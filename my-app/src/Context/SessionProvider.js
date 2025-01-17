@@ -3,59 +3,57 @@ import { createContext, useEffect, useState } from "react";
 export const AuthSessionContext = createContext();
 
 export const SessionProvider = ({ children }) => {
-  const [session, setSession] = useState(false);
+  const [session, setSession] = useState(null); 
   const [admin, setAdmin] = useState(false);
+  const [loading, setLoading] = useState(true);  // Loading state for async operations
 
   useEffect(() => {
-    verifySession();
-    verifyAdmin();
+    const fetchSessionData = async () => {
+      await verifySession();
+      await verifyAdmin();
+      setLoading(false); 
+    };
+    fetchSessionData();
   }, [session, admin]);
-    
+
   const verifySession = async () => {
-    
     try {
-        const response = await fetch('http://localhost:3030/auth/sessionAuthCheck', {
-            method: "GET",
-            credentials: "include",
-            headers: { "Content-Type": "application/json" }
-        })
+      const response = await fetch('http://localhost:3030/auth/sessionAuthCheck', {
+        method: "GET",
+        credentials: "include",
+        headers: { "Content-Type": "application/json" }
+      });
 
-        const data = await response.json();
-        if(response.ok && data.isLoggedIn){
-            setSession(true)             
-        }
-        
-        else if(!response.ok && data.isLoggedIn){
-            
-            setSession(false)
-
-          }
+      const data = await response.json();
+      if (response.ok && data.isLoggedIn) {
+        setSession(true); // User is logged in
+      } else {
+        setSession(false); // User is not logged in
+      }
     } catch (error) {
-      console.error("Ett fel uppstod vid admin-verifiering:", error);
+      console.error("Error during session verification:", error);
+      setSession(false); // Default to not logged in on error
     }
   };
 
-  const verifyAdmin= async () => {
+  const verifyAdmin = async () => {
     try {
-        const response = await fetch('http://localhost:3030/auth/validateAdminRole', {
-            method: "GET",
-            credentials: 'include',
-            headers: { "Content-Type": "application/json" },
-        });
+      const response = await fetch('http://localhost:3030/auth/validateAdminRole', {
+        method: "GET",
+        credentials: 'include',
+        headers: { "Content-Type": "application/json" }
+      });
 
-        const data = await response.json();
-
-        if (response.ok && data.isAdmin) {
-            setAdmin(true);
-
-        } else if(!response.ok && data.isAdmin) {
-            setAdmin(false);
-
-        }
+      const data = await response.json();
+      if (response.ok && data.isAdmin) {
+        setAdmin(true); // User is an admin
+      } else {
+        setAdmin(false); // User is not an admin
+      }
     } catch (error) {
-        console.error("Ett fel uppstod vid admin-verifiering:", error);
+      console.error("Error during admin verification:", error);
     }
-};
+  };
 
   return (
     <AuthSessionContext.Provider
@@ -63,7 +61,11 @@ export const SessionProvider = ({ children }) => {
         session,
         setSession,
         admin,
-        setAdmin
+        setAdmin,
+        loading,
+        verifySession,
+        verifyAdmin,
+        setLoading
       }}
     >
       {children}

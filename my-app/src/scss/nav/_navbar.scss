@@ -9,7 +9,6 @@ header{
     transition:  background-color 550ms ease-in-out;
     z-index: 1000;
 
-
     
     .icons{
         width: 100%;
@@ -20,22 +19,34 @@ header{
         cursor: pointer;
         color: #000000;
         display: flex;
-        justify-content: end;
-
+        justify-content: space-between;
+        align-items: center;
         
-        svg{
-            fill: #000000;
-            font-size: 28px;
-            margin-left: 15px;
-            display: flex;
-            align-items: center;
+        .nav-logo-img{
+            width: 145px;
+            z-index: 999;
+            padding: 0 12px;
+            
+        
+            img{
+                width: 100%;
+            }
         }
-        .cart{
-            position: relative;
-
-            .view-qty{
+            
+            svg{
+                fill: #000000;
+                font-size: 28px;
+                margin-left: 15px;
+                display: flex;
+                align-items: center;
+            }
+            .cart{
+                position: relative;
+                display: flex;
+                
+                .view-qty{
                 position: absolute;
-                left: 70%;
+                left: 32%;
                 top: 50%;
                 background-color: #efdd54;
                 height: 24px;
@@ -46,6 +57,10 @@ header{
                 border-radius: 50%;
                 color: #000;
 
+            }
+
+            .cart-icon{
+                // z-index: 999;
             }
     
         }
@@ -75,7 +90,7 @@ header{
     }
     
     nav{
-        width: 55%;
+        width: 100%;
         display: flex;
         flex-direction: column;
         align-items: center;
@@ -97,12 +112,23 @@ header{
        
             
             li{
-                // margin-right: 1rem;
-                font-size: 35px;
+                margin: 10px 0;
+
+                .categories-link{
+                    display: flex;
+                    flex-direction: column;
+                    border-bottom: 1px solid rgb(132, 132, 132);
+                    padding: 5px 0;
+
+                }
+
+              
                 
                 a{
+                    font-size: 24px;
                     text-decoration: none;
                     color: #000000;
+
                 }
             }
         }
@@ -116,12 +142,36 @@ header{
 }
 
 .active-menu{
-    // z-index: 998;
     opacity: 1;
-    // height: 100vh;
-    // top: 0;
     right: 0;
-    // border-radius: 20px;
     background-color: #dbdbdb;
 
+}
+
+@media screen and (min-width: 768px) {
+    header{
+        nav{
+            width: 45%;
+           
+            ul{
+    
+                li{
+                    
+                    a{
+                        font-size: 24px;
+                        text-decoration: none;
+                        color: #000000;
+    
+                    }
+                }
+            }
+        }
+    
+        &.scrolled {
+            background-color: #ffffff;
+            color: rgb(0, 0, 0);
+            
+          }
+    }
+    
 }

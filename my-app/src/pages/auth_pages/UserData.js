@@ -1,4 +1,5 @@
-import React, { useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
+import { AuthSessionContext } from '../../Context/SessionProvider';
 
 export default function UserData() {
     const [userData, setUserData] = useState({
@@ -9,6 +10,17 @@ export default function UserData() {
         address: "",
         postal: "",
     })
+
+    const {verifySession, setLoading} = useContext(AuthSessionContext);
+
+    useEffect(() => {
+        const fetch = async () => {
+            await verifySession()
+            setLoading(false)
+        }
+
+        fetch()
+    }, [verifySession])
 
 
     const fetchInserUserData = async () => {

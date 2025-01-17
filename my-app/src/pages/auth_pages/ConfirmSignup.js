@@ -28,12 +28,12 @@ const ConfirmSignup = () => {
     };
 
     return (
-        <div style={{paddingTop: "55px"}}>
+        <div style={{paddingTop: "500px"}}>
             <h2>Confirm your signup</h2>
             <button onClick={handleConfirm}>
-             
+                mckcmksksksksk
             </button>
-            {confirmationStatus && <p>{confirmationStatus}</p>}
+          
         </div>
     );
 };

@@ -23,7 +23,7 @@ export const ProductProvider = ({ children }) => {
   });
 
   useEffect(() => {
-    getCategories();
+    // getCategories();
     setErrorMessage("");
     setOkMessage("");
   }, [location]);
@@ -77,6 +77,7 @@ export const ProductProvider = ({ children }) => {
         setOkMessage,
         getCategories,
         fetchProductById,
+        setCategories
       
       }}
     >

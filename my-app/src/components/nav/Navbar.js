@@ -6,24 +6,27 @@
   import { VscChromeClose } from "react-icons/vsc";
   import { RxHamburgerMenu } from "react-icons/rx";
   import { CartContext } from "../../Context/CartContext";
+import ProductSearch from "../../pages/product_pages/Search";
+import { ProductContext } from "../../Context/ProductContext";
 
 
   export default function Navbar() {
     const { pathname } = useLocation();
-    const { session } = useContext(AuthSessionContext);
+      const { session } = useContext(AuthSessionContext);
+      const { cartItems } = useContext(CartContext);
+    const {categories, getCategories} = useContext(ProductContext);
 
-    const { cartItems, setCartItems, setQuantity } = useContext(CartContext);
     const [isClicked, setIsClicked] = useState(false);
     const [isScrolled, setIsScrolled] = useState(false);
     const totalQuantity = cartItems.reduce((total, item) => total + item.quantity, 0);
     
 
-
+    
     useEffect(() => {
-      window.scrollTo(0, 0);
+      getCategories()
 
       const handleScroll = () => {
-        if (window.scrollY > 190) {
+        if (window.scrollY > 180) {
           setIsScrolled(true);
         } else {
           setIsScrolled(false);
@@ -34,7 +37,8 @@
       return () => {
         window.removeEventListener("scroll", handleScroll);
       };
-    }, [pathname]);
+
+    }, []);
 
     const isOpen = () => {
       setIsClicked(true);
@@ -46,32 +50,42 @@
     
     return (
       <header className={`${isScrolled ? "scrolled" : ""}`}>
+        
         <div className="icons">
 
+          <div className="nav-logo-img">
+            <img src="/sound.png"/>
+          </div>
 
-          <>
           <div className="cart">
+            {isClicked ? "" : 
+            <>
           <p className="view-qty">{totalQuantity}</p>
-          
-            <Link to={`/cart`}>
+            <Link className="cart-icon" to={`/cart`}>
               <PiShoppingCartThin />
             </Link>
-            </div>
-          </>
-
+            </>
+            }
+        
           {isClicked ? (
             <VscChromeClose className="close" onClick={isClose} />
           ) : (
             <RxHamburgerMenu className="open" onClick={isOpen} />
           )}
+          </div>
         </div>
         <nav className={isClicked ? "active-menu" : ""}>
           <ul onClick={isClose}>
             <li>
               <Link to={`/`}>Hem</Link>
             </li>
+            <li className="products-link" >
+              <Link to={`/products`}>Alla produkter</Link>
+            </li>
             <li>
-              <Link to={`/products`}>Produkter</Link>
+              {categories.map((cat) => 
+                <Link className="categories-link" to={`/products/${cat.id}/cat/${cat.category}`}>{cat.category}</Link>
+              )}
             </li>
             <li>
               <Link to={`/contact`}>Kontakta oss</Link>
@@ -96,6 +110,7 @@
                 <li>
                   <Link to={`/signup`}>Registrera dig</Link>
                 </li>
+               
               </>
             )}
           </ul>

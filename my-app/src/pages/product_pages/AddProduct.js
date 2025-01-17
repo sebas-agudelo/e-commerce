@@ -5,8 +5,12 @@ import { ProductContext } from "../../Context/ProductContext";
 import { CreateAndUpdateProduct } from "../../hooks/CreateAndUpdateProduct";
 
 export default function AddProduct() {
-  const { productData, setOkMessage, setErrorMessage } = useContext(ProductContext) 
+  const { productData, setProductData, setOkMessage, setErrorMessage, getCategories } = useContext(ProductContext) 
   const { createFormData } = CreateAndUpdateProduct();
+
+  useEffect(() => {
+    getCategories()
+  }, [])
 
   const createProduct = async () => {
 
@@ -31,6 +35,8 @@ export default function AddProduct() {
       if (response.ok) {
         setOkMessage(data.success);
         setErrorMessage("");
+        setProductData("");
+  
       }
       
       if (!response.ok) {

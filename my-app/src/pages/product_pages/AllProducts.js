@@ -5,6 +5,7 @@ import { AuthSessionContext } from "../../Context/SessionProvider";
 import { CiEdit } from "react-icons/ci";
 import { GoTrash } from "react-icons/go";
 import ProductsMessages from "../../components/ShowProducts/ProductsMessages";
+import Footer from "../Footer";
 
 export default function Products() {
   const [products, setProducts] = useState([]);
@@ -13,7 +14,12 @@ export default function Products() {
   const { session, admin } = useContext(AuthSessionContext);
 
   useEffect(() => {
-    fetchAllProducts();
+    const fetch = async () => {
+
+      await fetchAllProducts();
+    }
+
+    fetch()
   }, []);
 
   const fetchAllProducts = async () => {
@@ -69,9 +75,10 @@ export default function Products() {
     <main className="Products-main">
       <section className="products-container">
        {/* <ProductsMessages /> */}
+       <h1>Alla produkter</h1>
         {products.map((product) => (
           <>
-              <article key={product.id} className="product-wrapper">
+              <article key={product.id}  className="product-wrapper">
             <Link to={`/product/${product.id}`}>
                 <div className="product-img-wrapper">
                   <div className="product-img">
@@ -102,6 +109,7 @@ export default function Products() {
           </>
         ))}
       </section>
+      <Footer />
     </main>
   );
 }

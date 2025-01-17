@@ -30,27 +30,26 @@ export default function Cart() {
 
   const incruseQty = (item) => {
     if (!item) {
-      console.log(item);
       return;
     }
 
     const newQty = item.quantity + 1;
+    const totalPrice = item.unit_price * newQty;
 
     const updatedCart = cartItems.map((items) =>
       items.product_id === item.product_id
-        ? { ...items, quantity: newQty }
+        ? { ...items, quantity: newQty, total_price: totalPrice }
         : items
     );
 
-    setCartItems(updatedCart);
-
+    
     let newTotal = 0;
     updatedCart.forEach((p) => {
       newTotal += p.quantity * p.unit_price;
     });
-
-    console.log("New total", newTotal);
+    
     setTotal(newTotal);
+    setCartItems(updatedCart);
 
     if(!session){
       localStorage.setItem("cart", JSON.stringify(updatedCart));
@@ -66,10 +65,11 @@ export default function Cart() {
       return;
     }
     const newQty = item.quantity - 1;
+    const totalPrice = item.unit_price * newQty;
 
     const updatedCart = cartItems.map((items) =>
       items.product_id === item.product_id
-        ? { ...items, quantity: newQty }
+        ? { ...items, quantity: newQty, total_price: totalPrice }
         : items
     );
 

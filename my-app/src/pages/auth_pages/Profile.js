@@ -26,17 +26,19 @@ export default function Profile() {
       setUserData(data.users_info)
 
     } else{
-      alert(data.error)
+      // alert(data.error)
     }
    
   }
 
   return (
-    <div>
+    <div className='my-page-container'>
       <h1>Mina sidor</h1>
       
       {userData.length > 0 ? userData.map((user) => 
-        <div>
+        <div className='user-metadata'>
+          <h3>Du är behörig admin</h3>
+
           <p>Förnamn: {user.firstname}</p>
           <p>Efternamn: {user.lastname}</p>
           <p>Mobil: {user.phone}</p>
@@ -48,22 +50,13 @@ export default function Profile() {
     
     : <Link to="/register/information">Lägg till dina uppgifter</Link>
   }
-      <div>
+      <div className='admin-actions'>
         { session && admin ? 
         <>
-
-          <p>Du är behörig administratör</p>
-          
-          <p>Du kan uppdatera, lägga till och ta bort produkter</p>
-          <p>Produkter</p>
-          <ul>
-            <li>
+         
               <Link to={`/product/create`}><IoAddOutline />Lägga till</Link>
-            </li>
-            <li>
               <Link to={`/products`}><CiEdit />Ändra / ta bort</Link>
-            </li>
-          </ul>
+         
         </>
 
       :

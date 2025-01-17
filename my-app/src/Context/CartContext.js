@@ -73,19 +73,18 @@ export const CartProvider = ({ children }) => {
       alert("Produkten är ogiltig och kan inte läggas till i varukorgen.");
       return;
     }
-
-    //Läger till produkter i vaurokorgen för utloggade användare
+  
+    // Lägg till produkten i localStorage om inte inloggad
     if (!session) {
       setCartItems((prevCart) => {
-        const existingProduct = prevCart.findIndex(
+        const existingProductIndex = prevCart.findIndex(
           (item) => item.product_id === product.id
         );
-    
         let updatedCart;
-    
-        if (existingProduct !== -1) {
+  
+        if (existingProductIndex !== -1) {
           updatedCart = prevCart.map((item, index) =>
-            index === existingProduct
+            index === existingProductIndex
               ? {
                   ...item,
                   quantity: item.quantity + quantity,
@@ -94,7 +93,6 @@ export const CartProvider = ({ children }) => {
               : item
           );
         } else {
-          // Lägg till den nya produkten
           const productToAdd = {
             product_id: product.id,
             product_title: product.title,
@@ -103,16 +101,15 @@ export const CartProvider = ({ children }) => {
             total_price: product.price * quantity,
             quantity: quantity,
           };
-    
+  
           updatedCart = [...prevCart, productToAdd];
         }
-    
-        // Uppdatera localStorage med den nya varukorgen
+  
         localStorage.setItem("cart", JSON.stringify(updatedCart));
         return updatedCart;
       });
-    }
-    //Läger till produkter i vaurokorgen för inloggade användare
+    } 
+    // Lägg till produkter för inloggade användare
     else if (session) {
       try {
         const response = await fetch(
@@ -124,12 +121,11 @@ export const CartProvider = ({ children }) => {
             body: JSON.stringify({ product_id, quantity }),
           }
         );
-
         const data = await response.json();
-
+  
         if (response.ok) {
-          await showCart();
           console.log(data.success);
+          await showCart()
         } else {
           console.error(data.error);
           alert(data.error);
@@ -139,6 +135,7 @@ export const CartProvider = ({ children }) => {
       }
     }
   };
+  
 
   //Lägger till produkter från LocalStorage i databsen vid inloggning
   const checkLocalStorage = async () => {

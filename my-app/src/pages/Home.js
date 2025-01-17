@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import Footer from "./Footer";
 
 export default function Home() {
   const [selectedProducts, setSelectedProducts] = useState([]);
@@ -37,7 +38,7 @@ export default function Home() {
     <section style={{padding: "0"}} className="Products-main">
         <article className="products-container">
           {selectedProducts.map((product) => (
-            <div className="product-wrapper">
+            <div key={product.id} className="product-wrapper">
               <Link to={`/product/${product.id}`}>
                 <div className="product-img-wrapper">
                 <div className="product-img">
@@ -67,6 +68,7 @@ export default function Home() {
             <button><Link to={`/products`}>Produkter</Link></button>
           </article>
         </section>
+        <Footer />
     </main>
   );
 }

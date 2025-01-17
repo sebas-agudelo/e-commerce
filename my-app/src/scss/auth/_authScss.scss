@@ -80,10 +80,29 @@
 
     }
 
+    
 }
 
 @media screen and (min-width: 768px) {
     .user-data-container{
         padding: 75px 0 0;
+    }
+}
+
+.signout-btn-container{
+    .signout-btn{
+        padding: 8px 12px;
+        background-color: #efdd54;
+        border: none;
+    }
+
+}
+
+@media screen and (min-width: 768px) {
+    .signout-btn-container{
+        .signout-btn{
+          cursor: pointer;
+        }
+    
     }
 }

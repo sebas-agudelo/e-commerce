@@ -6,14 +6,13 @@ import { CreateAndUpdateProduct } from '../../hooks/CreateAndUpdateProduct';
 import { ValidateProductData } from './ValidateProductData';
 
 export default function UpdateProduct() {
-    const { fetchProductById, productData, setOkMessage, setErrorMessage } = useContext(ProductContext);
+    const { fetchProductById, setProductData, productData, setOkMessage, setErrorMessage } = useContext(ProductContext);
     const { createFormData } = CreateAndUpdateProduct();
   
 
   const {id} = useParams();
 
  useEffect(() => {
-  console.log("ID från URL:", id);
     fetchProductById(id);
   }, [id]);
 
@@ -40,6 +39,7 @@ export default function UpdateProduct() {
         if (response.ok) {
           setOkMessage(data.success);
           setErrorMessage("");
+          setProductData("");
         }
         
         if (!response.ok) {

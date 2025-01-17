@@ -21,13 +21,13 @@ export default function SignOut() {
       alert(data.successfully);
       setSession(false)
       setAdmin(false)
-      nav('/signin')
+      nav('/')
  
     }
   }
   return (
-    <div>
-      <button onClick={signOut}>Logga ut</button>
+    <div className='signout-btn-container'>
+      <button className='signout-btn' onClick={signOut}>Logga ut</button>
     </div>
   )
 }

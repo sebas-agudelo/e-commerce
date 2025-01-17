@@ -1,16 +1,24 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import SignInForm from "../../components/auth_form/SignInForm";
 import { useNavigate } from "react-router-dom";
 import { AuthSessionContext } from "../../Context/SessionProvider";
 
 export default function SignIn() {
-  const {setAdmin, setSession, admin} = useContext(AuthSessionContext);
+  const {setAdmin, setSession, admin, session, verifySession, verifyAdmin, setLoading} = useContext(AuthSessionContext);
   const [email, setEmail] = useState();
   const [password, setPassword] = useState();
   const [errorMessage, setErrorMessage] = useState("");
   const nav = useNavigate();
 
+  console.log(`Login user session ${session}`);
+  
+
+  useEffect(() => {
+
+  }, [])
+
   const fetchSignIn = async () => {
+    
     try{
         if(!email || !password){
           setErrorMessage("Email samt lösenord får inte vara tomma")
@@ -26,8 +34,8 @@ export default function SignIn() {
       const data = await response.json();
   
       if (response.ok) {
-        nav("/profile");
         setSession(true)
+        nav("/");
 
         if(admin){
           setAdmin(true)
