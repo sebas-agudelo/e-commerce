@@ -40,7 +40,7 @@ function App() {
         <ProductProvider>
           <CartProvider>
             <Navbar />
-            <Suspense fallback={<div>Loading...</div>}>
+            <Suspense fallback={<div style={{padding: "100px 0 0", fontWeight: "400", textAlign: "center", fontSize: "44px"}}>Loading....</div>}>
               <Routes>
                 <Route path="/" element={<Home />} />
                 <Route path="/about" element={<About />} />
