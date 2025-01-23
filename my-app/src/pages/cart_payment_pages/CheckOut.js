@@ -4,6 +4,7 @@ import { loadStripe } from "@stripe/stripe-js";
 import { Elements } from "@stripe/react-stripe-js";
 import CheckoutForm from "../../components/CheckoutForm ";
 import { CartContext } from "../../Context/CartContext";
+import Spinners from "../../components/spinners/Spinners";
 
 export default function CheckOut() {
   const stripePromise = loadStripe("pk_test_51QcxyBC8xBDEyq1IR3JDFzfgJGgjFiZZAhiodN7TVq5ruc0xyohbyDMWhnfQoYp87rwM6nfskIhkFZE1rBAmhF6K00MyGgTfj9");
@@ -44,7 +45,7 @@ export default function CheckOut() {
       <CheckoutForm />
     </Elements>
   ) : (
-    <div style={{textAlign: "center", paddingTop: "100px", fontSize: "42px"}}>Varukorgen är tom..... Du har inga pågående betalningar</div>
+    <Spinners />
   );
   
 }

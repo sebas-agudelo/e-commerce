@@ -19,6 +19,8 @@ import UserData from "./pages/auth_pages/UserData";
 import ProductSearch from "./pages/product_pages/Search";
 import ProtectedRoutes from "./protected/ProtectedRoutes";
 import RedirectedRoutes from "./protected/RedirectedRoutes";
+import Spinners from "./components/spinners/Spinners";
+import Success from "./pages/Success";
 
 const Home = React.lazy(() => import("./pages/Home"));
 const AllProducts = React.lazy(() =>
@@ -40,7 +42,7 @@ function App() {
         <ProductProvider>
           <CartProvider>
             <Navbar />
-            <Suspense fallback={<div style={{padding: "100px 0 0", fontWeight: "400", textAlign: "center", fontSize: "44px"}}>Loading....</div>}>
+            <Suspense fallback={<Spinners />}>
               <Routes>
                 <Route path="/" element={<Home />} />
                 <Route path="/about" element={<About />} />
@@ -115,6 +117,7 @@ function App() {
                           path="/resetpwd/:tokenHash"
                           element={<ResetPassword />}
                         />
+                      <Route path="/payment-success" element={<Success />}/>
               </Routes>
             </Suspense>
           </CartProvider>

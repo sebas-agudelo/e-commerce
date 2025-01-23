@@ -1,0 +1,418 @@
+$letterSize: 16px;
+
+.checkout-container {
+    max-width: 768px;
+    height: 100vh;
+    margin: 0 auto;
+    position: relative;
+
+    .checkout-section-wrapper {
+        max-width: 100%;
+        height: auto;
+        padding: 100px 12px 70px;
+
+        h1{
+            font-weight: 400;
+        }
+
+        // Knappen som visar orderöversitt om man vill gå tillbaka
+        .checkout-show-order {
+            width: 100%;
+            padding: 12px 28px;
+            box-shadow: #63636333 0px 2px 8px 0px;
+            background-color: #f8f8f8;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            
+            p{
+                cursor: pointer;
+                transition: color 250ms linear;
+
+                &:hover{
+                    color: #efdd54;
+                }
+            }
+        }
+
+        // Wrapper för att visa produkterna som finns i kassan
+        .ckeckout-order-items-wrapper {
+            max-width: 100%;
+            height: auto;
+            background-color: #f8f8f8;
+            padding: 12px 28px;
+        
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        
+            .checkout-items {
+                max-width: 100%;
+                display: flex;
+                // flex-wrap: wrap;
+                border-bottom: 1px solid #d2d2d2;
+                padding: 22px 0;
+                height: 100px;
+                font-weight: 400;
+
+
+                .checkout-items-img {
+                    width: 17%;
+                    min-width: 62px;
+                    max-width: 62px;
+                    height: 100%;
+                    margin-right: 16px;
+                    
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+
+                    img {
+                        width: 100%;
+                    }
+                }
+
+                .checkout-items-details {
+                    width: 83%;
+                    max-width: 634px;
+                    p {
+                        font-size: $letterSize;
+                    }
+                    
+                    .checkout-items-title-price {
+                        display: flex;
+                        justify-content: space-between;
+                    }
+
+                    #checkout-unit_price {
+                        color: #dd0101;
+                    }
+                }
+            }
+
+            .checkout-total-price {
+                font-weight: 500;
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                padding: 16px 0 0;
+                position: relative;
+
+                p {
+                    font-size: $letterSize;
+                }
+
+                #checkout-price {
+                    color: #dd0101;
+                }
+            }
+
+             //Knappen för att gå vidare till kunduppgifter
+             .checkout-to-costumer-info-btn {
+                display: flex;
+                justify-content: end;
+                padding: 16px 0;
+
+                p {
+                    width: 170px;
+                    text-align: center;
+                    background-color: #efdd54;
+                    cursor: pointer;
+                    font-size: 14px;
+                    padding: 8px 0;
+                }
+            }
+        }
+
+        .checkout-form {
+            max-width: 100%;
+            height: auto;
+            font-size: $letterSize;
+            margin: 20px 0 0;
+        
+            .checkout-costumer-info {
+                width: 100%;
+                padding: 12px 28px;
+                box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+
+                background-color: #f8f8f8;
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+
+            }
+
+            .checkout-user-form {
+                display: flex;
+                flex-direction: column;
+                padding: 38px 28px;
+                box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+
+                h1 {
+                    text-align: start;
+                    padding: 0 0 38px;
+                }
+
+                input {
+                    border: 1px solid transparent;
+                    border-bottom: 1px solid #efdd54;
+                    padding: 8px 0;
+
+
+                    &:focus {
+                        outline: none;
+                        border: 1px solid #efdd54;
+                    }
+                }
+
+                .peronnr-email-wrapper {              
+                    input{
+                        width: 100%;
+                        margin: 10px 0;
+                    }
+
+                }
+
+                .firstname-lastname-wrapper {
+                    input {
+                        width: 100%;
+                        margin: 10px 0;
+                    }
+                }
+
+                .phonenumber-wrapper {
+                    input {
+                        margin: 10px 0;
+                        width: 100%;
+                    }
+                }
+
+                .address-postalcode-wrapper {
+                    #address {
+                        margin: 10px 0;
+                        width: 100%;
+                    }
+
+                    #postalcode {
+                        margin: 10px 0;
+                        width: 100%;
+                    }
+                }
+
+                .checkout-to-payment-btn {
+                    display: flex;
+                    justify-content: end;
+                    padding: 28px 0 0;
+
+                    .checkout-btn {
+                        width: 170px;
+                        text-align: center;
+                        background-color: #efdd54;
+                        cursor: pointer;
+                        font-size: 14px;
+                        padding: 8px 0;
+                    }
+                }
+            }
+        }
+    }
+
+    .checkout-payment-wrapper {
+        display: flex;
+        flex-direction: column;
+        border: 1px solid #efdd54;
+        padding: 38px 28px;
+        margin: 20px 0 0;
+
+        .checkout-pay-btn-wrapper {
+            display: flex;
+            justify-content: center;
+            padding: 28px 0 0;
+
+            .pay-btn {
+                width: 170px;
+                text-align: center;
+                background-color: #efdd54;
+                cursor: pointer;
+                font-size: 14px;
+                padding: 8px 0;
+                border: none;
+
+            }
+        }
+
+    }
+
+    .checkout-show-payment {
+        width: 100%;
+        padding: 12px 28px;
+        box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+        background-color: #f8f8f8;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-top: 20px;
+    }
+
+}
+
+@media screen and (min-width: 768px) {
+    .checkout-container {
+        max-width: 768px;
+        height: 100vh;
+        margin: 0 auto;
+        position: relative;
+
+        .checkout-section-wrapper {
+            width: 100%;
+            height: auto;
+            padding: 100px 0 70px;
+
+            h1{
+                font-weight: 400;
+            }
+
+
+            // Knappen som visar orderöversitt om man vill gå tillbaka
+            .checkout-show-order {
+                width: 100%;
+                padding: 12px 28px;
+                box-shadow: #63636333 0px 2px 8px 0px;
+                background-color: #f8f8f8;
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                
+                p{
+                    cursor: pointer;
+                    transition: color 250ms linear;
+
+                    &:hover{
+                        color: #efdd54;
+                    }
+                }
+            }
+
+            // Wrapper för att visa produkterna som finns i kassan
+            .ckeckout-order-items-wrapper {
+                width: 100%;
+                height: auto;
+                background-color: #f8f8f8;
+                padding: 12px 28px;
+            
+                display: flex;
+                flex-direction: column;
+                justify-content: space-between;
+            
+                .checkout-items {
+                    display: flex;
+                    flex-wrap: wrap;
+                    border-bottom: 1px solid #d2d2d2;
+                    padding: 22px 0;
+                    height: 100px;
+                    font-weight: 400;
+
+
+                    .checkout-items-img {
+                        width: 62px;
+                        // height: 100%;
+                        margin-right: 16px;
+
+                        display: flex;
+                        justify-content: center;
+                        align-items: center;
+
+                        img {
+                            width: 100%;
+                        }
+                    }
+
+                    .checkout-items-details {
+                        width: 634px;
+
+                        p {
+                            font-size: $letterSize;
+                        }
+
+                        .checkout-items-title-price {
+                            display: flex;
+                            justify-content: space-between;
+                        }
+
+                        #checkout-unit_price {
+                            color: #dd0101;
+                        }
+                    }
+                }
+
+                .checkout-total-price {
+                    font-weight: 500;
+                    display: flex;
+                    justify-content: space-between;
+                    align-items: center;
+                    padding: 16px 0 0;
+                    position: relative;
+
+                    p {
+                        font-size: $letterSize;
+                    }
+
+                    #checkout-price {
+                        color: #dd0101;
+                    }
+                }
+            }
+
+            .checkout-form {
+                .checkout-user-form {  
+
+                    h1 {
+                        margin: 0 9px;
+                    }
+
+                    .peronnr-email-wrapper {
+                        padding: 12px 0;
+
+                        input {
+                            margin: 0 9px;
+                            width: calc(50% - 18px);
+                        }
+
+                    }
+
+                    .firstname-lastname-wrapper {
+                        padding: 12px 0;
+
+                        input {
+                            margin: 0 9px;
+                            width: calc(50% - 18px);
+                        }
+                    }
+
+                    .phonenumber-wrapper {
+                        padding: 12px 0;
+
+                        input {
+                            margin: 0 9px;
+                            width: calc(50% - 18px);
+                        }
+                    }
+
+                    .address-postalcode-wrapper {
+                        padding: 12px 0;
+
+                        #address {
+                            margin: 0 9px;
+                            width: calc(65% - 18px);
+                        }
+
+                        #postalcode {
+                            margin: 0 9px;
+                            width: calc(35% - 18px);
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
