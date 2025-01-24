@@ -201,14 +201,19 @@ $letterSize: 16px;
 
                 .checkout-to-payment-btn {
                     display: flex;
-                    justify-content: end;
+                    flex-direction: column;
+                    justify-content: space-between;
+                    align-items: center;
                     padding: 28px 0 0;
+
+                    .change-auth-user-info-btn{
+                        margin-bottom: 18px;
+                    }
 
                     .checkout-btn {
                         width: 170px;
                         text-align: center;
                         background-color: #efdd54;
-                        cursor: pointer;
                         font-size: 14px;
                         padding: 8px 0;
                     }
@@ -409,6 +414,27 @@ $letterSize: 16px;
                         #postalcode {
                             margin: 0 9px;
                             width: calc(35% - 18px);
+                        }
+                    }
+
+                    .checkout-to-payment-btn {
+                        display: flex;
+                        flex-direction: row;
+                        justify-content: space-between;     
+    
+                        .change-auth-user-info-btn{
+                            margin-bottom: 0;
+                            border-bottom: 1px solid transparent;
+
+                            cursor: pointer;
+
+                            &:hover{ 
+                                border-bottom: 1px solid #efdd54;
+                            }
+                        }
+    
+                        .checkout-btn {
+                            cursor: pointer;
                         }
                     }
                 }

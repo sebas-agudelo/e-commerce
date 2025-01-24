@@ -14,6 +14,8 @@ const CheckoutForm = () => {
   const { session } = useContext(AuthSessionContext);
   const { clearCart, cartItems, total } = useContext(CartContext);
 
+  const [isFormEditable, setIsFormEditable] = useState(false);
+
   const [errorMessage, setErrorMessage] = useState(null);
   const [isCheckedItem, setIsCheckedItem] = useState(false);
   const [toThePayment, setToThePayment] = useState(false);
@@ -33,25 +35,45 @@ const CheckoutForm = () => {
   useEffect(() => {
     if (session) {
       fetchCostumerById();
+      setIsFormEditable(true);
+
+      
     }
   }, []);
 
   const fetchCostumerById = async () => {
-    const response = await fetch(`http://localhost:3030/auth/profile`, {
-      method: "GET",
-      credentials: "include",
-      headers: { "Content-Type": "application/json" },
-    });
+    try {
+      const response = await fetch(`http://localhost:3030/auth/profile`, {
+        method: "GET",
+        credentials: "include",
+        headers: { "Content-Type": "application/json" },
+      });
 
-    const data = await response.json();
-    // console.log(data.users_info);
+      const data = await response.json();
 
-    if (response.ok) {
-      alert(data.success);
-      setTheUser(data.users_info);
-    } else {
-      alert(data.error);
+      if (Array.isArray(data.users_info)) {
+        if (response.ok) {
+          const user = data.users_info[0];
+          console.log(user);
+
+          setPayUserData({
+            birthday: user.birthday || "",
+            email: user.email || "",
+            firstname: user.firstname || "",
+            lastname: user.lastname || "",
+            phone: user.phone || "",
+            address: user.address || "",
+            postal: user.postal || "",
+          });
+        }
+      }
+    } catch (error) {
+      console.log(error);
     }
+  };
+
+  const handleChangeUserInfo = () => {
+    setIsFormEditable(false);
   };
 
   //Funktionen är för att gå vidare till användarinformationen
@@ -67,7 +89,7 @@ const CheckoutForm = () => {
     setIsCompleted(false);
   };
 
-//Funktionen för att gå vidare till betalning
+  //Funktionen för att gå vidare till betalning
   const goToPayment = () => {
     if (
       !payUserData.email ||
@@ -84,6 +106,7 @@ const CheckoutForm = () => {
     setIsCompleted(true);
     setToThePayment(false);
     setIsClicked(false);
+
   };
 
   //Funktionen för att gå tillbaka till kunduppgifter
@@ -140,7 +163,6 @@ const CheckoutForm = () => {
   return (
     <main className="checkout-container">
       <section className="checkout-section-wrapper">
-   
         {isCheckedItem ? (
           <div className="checkout-show-order">
             <h1>Orderöversitt</h1>
@@ -158,8 +180,8 @@ const CheckoutForm = () => {
 
                   <div className="checkout-items-details">
                     <div className="checkout-items-title-price">
-                    <p>{item.product_title}</p>
-                    <p id="checkout-unit_price">{item.unit_price}.-</p>
+                      <p>{item.product_title}</p>
+                      <p id="checkout-unit_price">{item.unit_price}.-</p>
                     </div>
                     <p>Antal: {item.quantity}</p>
                   </div>
@@ -192,7 +214,9 @@ const CheckoutForm = () => {
                       placeholder="Personnummer"
                       required
                       name="birthday"
+                      value={payUserData.birthday}
                       onChange={handleChange}
+                      disabled={isFormEditable}
                     />
                     <input
                       id="email"
@@ -200,7 +224,9 @@ const CheckoutForm = () => {
                       placeholder="Email"
                       required
                       name="email"
+                      value={payUserData.email}
                       onChange={handleChange}
+                      disabled={isFormEditable}
                     />
                   </div>
 
@@ -210,14 +236,18 @@ const CheckoutForm = () => {
                       placeholder="Förnamn"
                       required
                       name="firstname"
+                      value={payUserData.firstname}
                       onChange={handleChange}
+                      disabled={isFormEditable}
                     />
                     <input
                       type="text"
                       placeholder="Efternamn"
                       required
                       name="lastname"
+                      value={payUserData.lastname}
                       onChange={handleChange}
+                      disabled={isFormEditable}
                     />
                   </div>
 
@@ -227,7 +257,9 @@ const CheckoutForm = () => {
                       placeholder="Telefonnummer"
                       required
                       name="phone"
+                      value={payUserData.phone}
                       onChange={handleChange}
+                      disabled={isFormEditable}
                     />
                   </div>
 
@@ -238,7 +270,9 @@ const CheckoutForm = () => {
                       placeholder="Address"
                       required
                       name="address"
+                      value={payUserData.address}
                       onChange={handleChange}
+                      disabled={isFormEditable}
                     />
                     <input
                       id="postalcode"
@@ -246,11 +280,17 @@ const CheckoutForm = () => {
                       placeholder="Postnummer"
                       required
                       name="postal"
+                      value={payUserData.postal}
                       onChange={handleChange}
+                      disabled={isFormEditable}
                     />
                   </div>
 
                   <div className="checkout-to-payment-btn">
+           
+                    <p className="change-auth-user-info-btn" onClick={handleChangeUserInfo}>{isFormEditable ? "Ändra uppgifter" : ""}</p>
+               
+
                     <p className="checkout-btn" onClick={goToPayment}>
                       Fortsätt - Betalning
                     </p>
