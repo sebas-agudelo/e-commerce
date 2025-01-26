@@ -92,8 +92,11 @@ export default function Cart() {
       updateCartQty(item.product_id, newQty);
 
     }
+
+    
     
   };
+  console.log("Cart items",cartItems);
 
   return (
     <main className="cart-container">

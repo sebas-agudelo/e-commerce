@@ -18,10 +18,10 @@ export default function Navbar() {
   const [isClicked, setIsClicked] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
   const [isCheckOut, setIsCheckOut] = useState(false);
-  const totalQuantity = cartItems.reduce(
-    (total, item) => total + item.quantity,
-    0
-  );
+  // const totalQuantity = cartItems.reduce(
+  //   (total, item) => total + item.quantity,
+  //   0
+  // );
 
   useEffect(() => {
     getCategories();
@@ -70,7 +70,7 @@ export default function Navbar() {
                 ""
               ) : (
                 <>
-                  <p className="view-qty">{totalQuantity}</p>
+                  {/* <p className="view-qty">{totalQuantity}</p> */}
                   <Link className="cart-icon" to={`/cart`}>
                     <PiShoppingCartThin />
                   </Link>

@@ -15,13 +15,12 @@ const CheckoutForm = () => {
   const { clearCart, cartItems, total } = useContext(CartContext);
 
   const [isFormEditable, setIsFormEditable] = useState(false);
-
   const [errorMessage, setErrorMessage] = useState(null);
   const [isCheckedItem, setIsCheckedItem] = useState(false);
   const [toThePayment, setToThePayment] = useState(false);
   const [isCompleted, setIsCompleted] = useState(false);
   const [isClicked, setIsClicked] = useState(true);
-  const [theUser, setTheUser] = useState([]);
+
   const [payUserData, setPayUserData] = useState({
     email: "",
     birthday: "",
@@ -35,12 +34,10 @@ const CheckoutForm = () => {
   useEffect(() => {
     if (session) {
       fetchCostumerById();
-      setIsFormEditable(true);
-
-      
     }
   }, []);
 
+  //Funktionen för att hämta användarens data
   const fetchCostumerById = async () => {
     try {
       const response = await fetch(`http://localhost:3030/auth/profile`, {
@@ -53,18 +50,25 @@ const CheckoutForm = () => {
 
       if (Array.isArray(data.users_info)) {
         if (response.ok) {
-          const user = data.users_info[0];
-          console.log(user);
+          const userData = data.users_info[0];
 
-          setPayUserData({
-            birthday: user.birthday || "",
-            email: user.email || "",
-            firstname: user.firstname || "",
-            lastname: user.lastname || "",
-            phone: user.phone || "",
-            address: user.address || "",
-            postal: user.postal || "",
-          });
+          /*Här kollar man om användaren har registrerat data i databasen annars får 
+            man ange sina uppgidter själv i kassan*/
+          if (userData) {
+            setPayUserData({
+              birthday: userData.birthday || "",
+              email: userData.email || "",
+              firstname: userData.firstname || "",
+              lastname: userData.lastname || "",
+              phone: userData.phone || "",
+              address: userData.address || "",
+              postal: userData.postal || "",
+            });
+
+            setIsFormEditable(true);
+          } else {
+            setIsFormEditable(false);
+          }
         }
       }
     } catch (error) {
@@ -106,7 +110,6 @@ const CheckoutForm = () => {
     setIsCompleted(true);
     setToThePayment(false);
     setIsClicked(false);
-
   };
 
   //Funktionen för att gå tillbaka till kunduppgifter
@@ -125,14 +128,48 @@ const CheckoutForm = () => {
     }));
   };
 
+  //Funktionen för att skicka produkter som användaren köper till orders och items_order tabellen när en användare är inloggad
+  const submitOrder = async () => {
+    const ItemsToSend = cartItems.map((p) => ({
+      product_id: p.product_id,
+      product_title: p.product_title,
+      quantity: p.quantity,
+      unit_price: p.unit_price,
+      total_price: p.total_price,
+    }));
+
+    try {
+      const response = await fetch(`http://localhost:3030/api/order/insert`, {
+        method: "POST",
+        credentials: "include",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ ItemsToSend, email: payUserData.email }),
+      });
+
+      const data = await response.json();
+
+      if (response.ok) {
+        alert(data.success);
+      }
+      if (!response.ok) {
+        alert(data.error);
+        return;
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   const handleSubmit = async (event) => {
     // We don't want to let default form submission happen here,
     // which would refresh the page.
     event.preventDefault();
     localStorage.removeItem("cart");
-    if (session) {
-      clearCart();
-    }
+
+      await submitOrder();
+
+      // await clearCart();
+    
 
     if (!stripe || !elements) {
       // Stripe.js hasn't yet loaded.
@@ -287,9 +324,12 @@ const CheckoutForm = () => {
                   </div>
 
                   <div className="checkout-to-payment-btn">
-           
-                    <p className="change-auth-user-info-btn" onClick={handleChangeUserInfo}>{isFormEditable ? "Ändra uppgifter" : ""}</p>
-               
+                    <p
+                      className="change-auth-user-info-btn"
+                      onClick={handleChangeUserInfo}
+                    >
+                      {isFormEditable ? "Ändra uppgifter" : ""}
+                    </p>
 
                     <p className="checkout-btn" onClick={goToPayment}>
                       Fortsätt - Betalning
