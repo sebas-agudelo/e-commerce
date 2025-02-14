@@ -118,6 +118,7 @@ function App() {
                           element={<ResetPassword />}
                         />
                       <Route path="/payment-success" element={<Success />}/>
+                      <Route path="/search?query"/>
               </Routes>
             </Suspense>
           </CartProvider>

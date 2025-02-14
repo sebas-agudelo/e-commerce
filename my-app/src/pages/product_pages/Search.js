@@ -53,14 +53,7 @@ const ProductSearch = () => {
   return (
     <div style={{ padding: "20px" }}>
       <h1>Produktsökning</h1>
-      <input
-        type="text"
-        value={searchQuery}
-        onChange={(e) => setSearchQuery(e.target.value)}
-        placeholder="Sök efter produkter..."
-      />
-      <button onClick={handleSearch}>Sök</button>
-
+      
       {error && <p style={{ color: 'red' }}>{error}</p>}
 
       <ul>

@@ -37,6 +37,15 @@ const CheckoutForm = () => {
     }
   }, []);
 
+  //Egenskaperna till produkterna som ska skickas till min backend i både submitAuthUserOrder och submitGuestOrder
+  const ItemsToSend = cartItems.map((p) => ({
+    product_id: p.product_id,
+    product_title: p.product_title,
+    quantity: p.quantity,
+    unit_price: p.unit_price,
+    total_price: p.total_price,
+  }));
+
   //Funktionen för att hämta användarens data
   const fetchCostumerById = async () => {
     try {
@@ -94,7 +103,7 @@ const CheckoutForm = () => {
   };
 
   //Funktionen för att gå vidare till betalning
-  const goToPayment = () => {
+  const goToPayment = async () => {
     if (
       !payUserData.email ||
       !payUserData.firstname ||
@@ -110,6 +119,7 @@ const CheckoutForm = () => {
     setIsCompleted(true);
     setToThePayment(false);
     setIsClicked(false);
+
   };
 
   //Funktionen för att gå tillbaka till kunduppgifter
@@ -129,15 +139,7 @@ const CheckoutForm = () => {
   };
 
   //Funktionen för att skicka produkter som användaren köper till orders och items_order tabellen när en användare är inloggad
-  const submitOrder = async () => {
-    const ItemsToSend = cartItems.map((p) => ({
-      product_id: p.product_id,
-      product_title: p.product_title,
-      quantity: p.quantity,
-      unit_price: p.unit_price,
-      total_price: p.total_price,
-    }));
-
+  const submitAuthUserOrder = async () => {
     try {
       const response = await fetch(`http://localhost:3030/api/order/insert`, {
         method: "POST",
@@ -160,17 +162,45 @@ const CheckoutForm = () => {
     }
   };
 
+   //Funktionen för att skicka produkter som användaren köper till orders och items_order tabellen när en användare är utloggad
+  const submitGuestOrder = async () => {
+    try{
+      const response = await fetch('http://localhost:3030/api/order/guestorder', {
+        method: "POST",
+        credentials: "include",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ ItemsToSend, email: payUserData.email }),
+      })
+
+      const data = await response.json();
+
+      if(!response.ok){
+        alert(data.error)
+      }
+
+    }catch(error){
+      console.error(error);
+      
+    }
+  };
+
   const handleSubmit = async (event) => {
     // We don't want to let default form submission happen here,
     // which would refresh the page.
     event.preventDefault();
     localStorage.removeItem("cart");
 
-      await submitOrder();
+    if(session){
+      await submitAuthUserOrder();
+
+    } 
+    else{
+      await submitGuestOrder();
+
+    }
 
       // await clearCart();
     
-
     if (!stripe || !elements) {
       // Stripe.js hasn't yet loaded.
       // Make sure to disable form submission until Stripe.js has loaded.

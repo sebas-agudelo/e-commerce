@@ -1,27 +1,28 @@
 import React, { useContext, useState, useEffect } from "react";
-import SignOut from "../SignOut";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { PiShoppingCartThin } from "react-icons/pi";
 import { AuthSessionContext } from "../../Context/SessionProvider";
 import { VscChromeClose } from "react-icons/vsc";
 import { RxHamburgerMenu } from "react-icons/rx";
-import { CartContext } from "../../Context/CartContext";
-import ProductSearch from "../../pages/product_pages/Search";
 import { ProductContext } from "../../Context/ProductContext";
+import { IoSearchOutline } from "react-icons/io5";
+import { GoPerson } from "react-icons/go";
 
 export default function Navbar() {
   const { pathname } = useLocation();
   const { session } = useContext(AuthSessionContext);
-  const { cartItems } = useContext(CartContext);
   const { categories, getCategories } = useContext(ProductContext);
-
+  const [query, setQuery] = useState("");
+  const [isSearchClicked, setIsSearchClicked] = useState(false);
+  
   const [isClicked, setIsClicked] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
   const [isCheckOut, setIsCheckOut] = useState(false);
-  // const totalQuantity = cartItems.reduce(
-  //   (total, item) => total + item.quantity,
-  //   0
-  // );
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  
+  const nav = useNavigate();
+
+  console.log(categories);
 
   useEffect(() => {
     getCategories();
@@ -52,85 +53,145 @@ export default function Navbar() {
 
   const isClose = () => {
     setIsClicked(false);
+    setIsSearchClicked(false);
+  };
+
+  const openSearchInput = () => {
+    setIsSearchClicked(true);
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    if (query) {
+      nav(`/search?query=${query}`);
+    }
+  };
+
+  const toggleDropdown = (state) => {
+    setIsDropdownOpen(state);
   };
 
   return (
     <header className={`${isScrolled ? "scrolled" : ""}`}>
-      <div className="icons">
-        <div className="nav-logo-img">
-          <img src="/sound.png" />
+      <div className="navbar-container">
+
+        <div className="navbar-content-wrapper">
+
+          <div className="nav-logo-img">
+            <Link to={`/`}>
+              <img src="/sound.png" />
+            </Link>
+          </div>
+
+          <nav className={isClicked ? "active-menu" : ""}>
+            <ul onClick={isClose}>
+              <li
+                className="headphones-link-container"
+                onMouseEnter={() => toggleDropdown(true)}
+                onMouseLeave={() => toggleDropdown(false)}
+              >
+                <Link className="headphones-link" to="">
+                  Hörlurar
+                </Link>
+
+                <ul
+                  className={`dropdown-links ${
+                    isDropdownOpen ? "visible" : ""
+                  }`}
+                >
+                  <li>
+                    <Link
+                      to={`/products`}
+                      onClick={() => toggleDropdown(false)}
+                    >
+                      Alla hörlurar
+                    </Link>
+                  </li>
+                  {categories.map((item) => (
+                    <li key={item.id}>
+                      <Link
+                        to={`/products/${item.id}/cat/${item.category}`}
+                        onClick={() => toggleDropdown(false)}
+                      >
+                        {item.category}
+                      </Link>
+                    </li>
+                  ))}
+                </ul>
+              </li>
+            </ul>
+          </nav>
         </div>
 
-        <div className="cart">
-          {isCheckOut ? (
-            ""
+        <div className="navbar-icons-wrapper">
+          {isSearchClicked ? (
+            <>
+              <div
+                className={isSearchClicked ? "search-input-container" : ""}
+                style={{ zIndex: "999" }}
+              >
+                <form onSubmit={handleSubmit}>
+                  <input
+                    type="text"
+                    placeholder="Sök"
+                    value={query}
+                    onChange={(e) => setQuery(e.target.value)}
+                  />
+                  <VscChromeClose
+                    className="close-search-input-icon"
+                    onClick={isClose}
+                  />
+                </form>
+              </div>
+            </>
           ) : (
             <>
-              {isClicked ? (
+              {isCheckOut ? (
                 ""
               ) : (
                 <>
-                  {/* <p className="view-qty">{totalQuantity}</p> */}
-                  <Link className="cart-icon" to={`/cart`}>
-                    <PiShoppingCartThin />
-                  </Link>
+                  {isClicked ? (
+                    ""
+                  ) : (
+                    <>
+                      <div className="grapper">
+                        <IoSearchOutline
+                          className="search-icon"
+                          onClick={openSearchInput}
+                        />
+                        {session ? (
+                          <div>
+                            <Link to={`/profile`}>
+                              <GoPerson />
+                            </Link>
+                          </div>
+                        ) : (
+                          <div>
+                            <Link to={`/signin`}>
+                              <GoPerson />
+                            </Link>
+                          </div>
+                        )}
+                        <Link className="cart-icon" to={`/cart`}>
+                          <PiShoppingCartThin />
+                        </Link>
+                  </div>
+                    </>
+                  )}
                 </>
+              )}
+
+              {isClicked ? (
+                <VscChromeClose className="close" onClick={isClose} />
+              ) : (
+                <RxHamburgerMenu className="open" onClick={isOpen} />
               )}
             </>
           )}
 
-          {isClicked ? (
-            <VscChromeClose className="close" onClick={isClose} />
-          ) : (
-            <RxHamburgerMenu className="open" onClick={isOpen} />
-          )}
         </div>
-      </div>
-      <nav className={isClicked ? "active-menu" : ""}>
-        <ul onClick={isClose}>
-          <li>
-            <Link to={`/`}>Hem</Link>
-          </li>
-          <li className="products-link">
-            <Link to={`/products`}>Alla produkter</Link>
-          </li>
-          <li>
-            {categories.map((cat) => (
-              <Link
-                className="categories-link"
-                to={`/products/${cat.id}/cat/${cat.category}`}
-              >
-                {cat.category}
-              </Link>
-            ))}
-          </li>
-          <li>
-            <Link to={`/contact`}>Kontakta oss</Link>
-          </li>
-          <li>
-            <Link to={`/about`}>Om oss</Link>
-          </li>
-          {session ? (
-            <>
-              <li>
-                <Link to={`/profile`}>Mina sidor</Link>
-              </li>
-              <li>
-                <SignOut />
-              </li>
-            </>
-          ) : (
-            <>
-              <li>
-                <Link to={`/signin`}>Logga in</Link>
-              </li>
-              <li>
-                <Link to={`/signup`}>Registrera dig</Link>
-              </li>
-            </>
-          )}
-        </ul>
-      </nav>
+
+</div>
     </header>
   );
 }
