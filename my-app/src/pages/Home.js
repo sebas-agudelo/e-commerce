@@ -26,7 +26,7 @@ export default function Home() {
     <main className="home-main">
       <article className="hero-video">
         <video autoPlay loop muted>
-          <source src="/3196427-uhd_3840_2160_25fps.mp4" />
+          <source src="/3946077-uhd_4096_2160_25fps.mp4" />
         </video>
       </article>
       {/* <article className="buy-btn">
