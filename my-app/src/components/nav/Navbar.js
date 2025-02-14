@@ -65,6 +65,8 @@ export default function Navbar() {
     if (query) {
       nav(`/search?query=${query}`);
     }
+
+    setIsSearchClicked(false)
   };
 
   const toggleDropdown = (state) => {

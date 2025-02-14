@@ -3,16 +3,16 @@ header {
     max-height: 75px;
     width: 100%;
     background-color: #ffffff;
-    position: fixed;
+    // position: fixed;
     display: flex;
     justify-content: space-between;
     align-items: center;
     z-index: 1000;
 
-    .navbar-container{
+    .navbar-container {
         width: 100%;
         z-index: 999;
-        position: fixed;
+        // position: fixed;
         text-align: right;
         padding: 0 15px;
         color: #000000;
@@ -20,7 +20,7 @@ header {
         justify-content: space-between;
         align-items: center;
 
-        .navbar-content-wrapper{
+        .navbar-content-wrapper {
             width: auto;
             height: auto;
             max-width: 68px;
@@ -106,30 +106,73 @@ header {
                     }
                 }
             }
-            
+
             .active-menu {
                 opacity: 1;
                 right: 0;
                 background-color: #dbdbdb;
             }
         }
-            
-            .navbar-icons-wrapper{
+
+        .navbar-icons-wrapper {
+         
+            display: flex;
+            z-index: 998;
+
+            .search-input-container {
+                width: 100%;
+                height: 75px;
+                max-height: 75px;
+                background-color: #ffffff;
+             
+                position: fixed;
+                top: 0;
+                right: 0;
                 display: flex;
-                z-index: 998;
-            
+                justify-content: center;
+                align-items: center;
+
+                form {
+                    display: flex;
+                    justify-content: space-between;
+                    align-items: end;
+                    width: 100%;
+                    padding: 0 18px;
+
+                    input {
+                        width: 85%;
+                        padding: 0 0 6px;  
+                        border-style: none;
+                        border-bottom: 2px solid #efdd54;
+
+                        &:focus {
+                            outline: none;
+                        }
+
+                    }
+
+                    .close-search-input-icon {
+                        font-size: 26px;
+                    }
+                }
+            }
+
+            .grapper {
+                display: flex;
+
                 svg {
-                    margin: 0 0 0 25px;
+                    margin: 0 0 0 35px;
                     font-size: 25px;
                     color: #000;
                 }
-                
-                .grapper {
-                    display: flex;
-                }
             }
-    }
 
+            .open {
+                font-size: 25px;
+                margin: 0 0 0 35px;
+            }
+        }
+    }
 }
 
 @media screen and (min-width: 768px) {
@@ -145,8 +188,9 @@ header {
             display: flex;
             justify-content: space-between;
             align-items: center;
+            // width: calc(100% / 2);
 
-            .navbar-content-wrapper{
+            .navbar-content-wrapper {
                 width: auto;
                 max-width: 500px;
                 height: auto;
@@ -231,26 +275,11 @@ header {
                 align-items: center;
             }
 
-            .navbar-icons-wrapper{
+            .navbar-icons-wrapper {
                 position: relative;
                 display: flex;
                 justify-content: end;
-                width: calc(100% / 2);
-
-                .view-qty {
-                    position: absolute;
-                    left: 32%;
-                    top: 50%;
-                    background-color: #efdd54;
-                    height: 24px;
-                    width: 24px;
-                    display: flex;
-                    align-items: center;
-                    justify-content: center;
-                    border-radius: 50%;
-                    color: #000;
-
-                }
+                
 
                 .close {
                     display: none;
@@ -265,7 +294,7 @@ header {
                 }
 
                 .search-input-container {
-                    width: 100%;
+                    width: 50%;
 
                     .close-search-input-icon {
                         margin: 0 0 0 10px;
