@@ -25,9 +25,10 @@ export default function Home() {
   return (
     <main className="home-main">
       <article className="hero-video">
-        <video autoPlay loop muted>
-          <source src="/3946077-uhd_4096_2160_25fps.mp4" />
-        </video>
+        <img  src="pexels-lorenciusls-7417547.jpg"/>
+        {/* <video autoPlay loop muted>
+          <source src="/4982734-hd_1920_1080_25fps.mp4" />
+        </video> */}
       </article>
       {/* <article className="buy-btn">
         <Link to={"/products"}>Utforska</Link>
