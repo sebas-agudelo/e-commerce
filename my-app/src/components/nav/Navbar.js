@@ -1,4 +1,4 @@
-import React, { useContext, useState, useEffect } from "react";
+import React, { useContext, useState, useEffect, useRef  } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { PiShoppingCartThin } from "react-icons/pi";
 import { AuthSessionContext } from "../../Context/SessionProvider";
@@ -19,11 +19,16 @@ export default function Navbar() {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isCheckOut, setIsCheckOut] = useState(false);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const searchInputRef = useRef(null);
   
   const nav = useNavigate();
 
   useEffect(() => {
     getCategories();
+
+    if(isSearchClicked){
+      searchInputRef.current?.focus();
+    }
 
     if (window.location.pathname === "/checkout") {
       setIsCheckOut(true);
@@ -43,7 +48,7 @@ export default function Navbar() {
     return () => {
       window.removeEventListener("scroll", handleScroll);
     };
-  }, [window.location.pathname]);
+  }, [window.location.pathname, isSearchClicked]);
 
   const isOpen = () => {
     setIsClicked(true);
@@ -136,6 +141,7 @@ export default function Navbar() {
                     placeholder="Sök"
                     value={query}
                     onChange={(e) => setQuery(e.target.value)}
+                    ref={searchInputRef}
                   />
                   <VscChromeClose
                     className="close-search-input-icon"
