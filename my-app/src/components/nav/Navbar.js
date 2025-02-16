@@ -22,8 +22,6 @@ export default function Navbar() {
   
   const nav = useNavigate();
 
-  console.log(categories);
-
   useEffect(() => {
     getCategories();
 
@@ -134,7 +132,7 @@ export default function Navbar() {
               >
                 <form onSubmit={handleSubmit}>
                   <input
-                    type="text"
+                    type="search"
                     placeholder="Sök"
                     value={query}
                     onChange={(e) => setQuery(e.target.value)}

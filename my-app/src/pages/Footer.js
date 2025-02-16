@@ -27,10 +27,6 @@ export default function Footer() {
           </p>
         </div>
 
-        <div className="auth-links">
-          <button><Link to={`/signin`}>Logga in</Link></button>
-          <button><Link to={`/signin`}>Registrera dig</Link></button>
-        </div>
       </article>
 
       <article className="about-section">

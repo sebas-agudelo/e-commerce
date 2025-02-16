@@ -15,25 +15,39 @@
             // object-fit: cover;
             // transform: scale(1.9);
         }
+    }    
+
+    .Products-main{
+            
+        .home-categories-container{
+            padding: 26px;
+            display: flex;
+            justify-content: space-between;
+            overflow-x: auto;
+            scroll-behavior: smooth;
+
+
+            .home-categories{
+                border: 1px solid #efdd54;
+                border-radius: 5px;
+                margin: 0 13px 0 13px;
+                flex: 0 0 auto; 
+
+                border-radius: 10px;
+                
+                p{
+                    padding: 13px;
+                    cursor: pointer;   
+                    a{
+                        text-decoration: none;
+                        color: #000;
+                        font-weight: 400;
+                        font-size: 19px;
+                    }
+                }
+            }
+        }
     }
-
-    // .buy-btn{
-    //     position: absolute;
-    //     top: 50%;
-    //     left: 50%;
-    //     transform: translate(-50%, -50%);
-
-    //     a{
-    //         text-decoration: none;
-    //         color: #fff;
-    //         font-weight: bold;
-    //         background-color: rgb(189, 185, 117);
-    //         padding: 12px 24px;
-    //         border-radius: 12px;
-    //     }
-        
-    // }
-    
 
         
        .fav-products{
@@ -94,7 +108,34 @@
 
 
 @media screen and (min-width: 768px) {
-    .home-main{    
+    .home-main{   
+        
+        .Products-main{
+            
+            .home-categories-container{
+                padding: 26px;
+                display: flex;
+                justify-content: center;
+
+
+                .home-categories{
+                    border: 1px solid #efdd54;
+                    border-radius: 5px;
+                    margin: 0 0 0 26px;
+                    
+                    p{
+                        padding: 13px;
+                        cursor: pointer;   
+                        a{
+                            text-decoration: none;
+                            color: #000;
+                            font-weight: 400;
+                            font-size: 19px;
+                        }
+                    }
+                }
+            }
+        }
            .more-section{
             .caption-img{
                 width: 50%;

@@ -74,8 +74,9 @@ export default function Products() {
   return (
     <main className="Products-main">
       <section className="products-container">
-       {/* <ProductsMessages /> */}
-       <h1>Alla produkter</h1>
+   
+       <h1>VISA ALLA</h1>
+       
         {products.map((product) => (
           <>
               <article key={product.id}  className="product-wrapper">
