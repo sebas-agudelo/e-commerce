@@ -55,7 +55,10 @@ const ProductSearch = () => {
   return (
     <main className="Products-main">
 
-        <h1>Sökord: {searchQuery}</h1>
+        <div className='search-word'>
+          <h1>Sökord:</h1>
+          <h1 className='searched'>{`${searchQuery}`}</h1>
+        </div>
         
         <ShowProdcuts 
             setProducts={setProducts}

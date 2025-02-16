@@ -1,13 +1,28 @@
 .Products-main {
     padding-top: 70px;
-    h1{
-        padding: 16px 12px;
-        width: 100%;
-        font-size: 19px;
-        font-weight: 500;
-        text-align: center;
-        background-color: #efdd54;  
-        color: #090e20;
+   
+
+        .search-word{
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 100%;
+            height: auto;
+            background-color: #efdd54;  
+            padding: 16px 12px;
+        
+            h1, .searched{
+                font-size: 19px;
+                font-weight: 500;
+                text-align: center;
+                color: #090e20;
+            }
+            
+            .searched{
+                color: #c42424;
+                margin: 0 0 0 8px;
+        }
+
     }
     
     .products-container {
