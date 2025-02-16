@@ -1,6 +1,8 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { Link, useNavigate, useParams, useSearchParams } from 'react-router-dom';
 import { ProductContext } from '../../Context/ProductContext';
+import ShowProdcuts from '../../components/ProductComponents/ShowProdcuts';
+import Footer from '../Footer';
 
 const ProductSearch = () => {
   const [searchParams, setSearchParams] = useSearchParams();
@@ -51,24 +53,16 @@ const ProductSearch = () => {
   };
 
   return (
-    <div style={{ padding: "20px" }}>
-      <h1>Produktsökning</h1>
-      
-      {error && <p style={{ color: 'red' }}>{error}</p>}
+    <main className="Products-main">
 
-      <ul>
-        {products.map((product) => (
-            <>
-          <li key={product.id}>
-            {product.title} - {product.price} kr
-          </li>
-          <li>
-            <Link to={`/product/${product.id}`}>Kolla produkten</Link>
-          </li>
-          </>
-        ))}
-      </ul>
-    </div>
+        <h1>Sökord: {searchQuery}</h1>
+        
+        <ShowProdcuts 
+            setProducts={setProducts}
+            products={products}
+            />
+            <Footer />
+    </main>
   );
 };
 

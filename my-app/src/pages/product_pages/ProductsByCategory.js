@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useParams, Link } from "react-router-dom";
 import Footer from "../Footer";
+import ShowProdcuts from "../../components/ProductComponents/ShowProdcuts";
 
 export default function ProductsByCategory() {
   const [products, setProducts] = useState([]);
@@ -36,32 +37,12 @@ export default function ProductsByCategory() {
 
   return (
     <main className="Products-main">
-      <section className="products-container">
-        <h1 style={{width: "100%"}}>{category}</h1>
-        {/* <ProductsMessages /> */}
-        {products.map((product) => (
-          <>
-            <article key={product.id} className="product-wrapper">
-              <Link to={`/product/${product.id}`}>
-                <div className="product-img-wrapper">
-                  <div className="product-img">
-                    <img src={product.img} alt={product.title} />
-                  </div>
-                </div>
 
-                <div className="product-details">
-                  <p id="title">{product.title}</p>
-                  <p id="price">{product.price}.-</p>
-                </div>
-              </Link>
-              <article className="admin-actions-btn"></article>
-            </article>
-          </>
-        ))}
+      <h1>{category}</h1>
 
-        
-
-      </section>
+      <ShowProdcuts 
+        products={products}
+      />
       <Footer />
     </main>
   );

@@ -1,11 +1,8 @@
 import React, { useContext, useEffect, useState } from "react";
-import { Link } from "react-router-dom";
 import { ProductContext } from "../../Context/ProductContext";
 import { AuthSessionContext } from "../../Context/SessionProvider";
-import { CiEdit } from "react-icons/ci";
-import { GoTrash } from "react-icons/go";
-import ProductsMessages from "../../components/ShowProducts/ProductsMessages";
 import Footer from "../Footer";
+import ShowProdcuts from "../../components/ProductComponents/ShowProdcuts";
 
 export default function Products() {
   const [products, setProducts] = useState([]);
@@ -73,43 +70,14 @@ export default function Products() {
 
   return (
     <main className="Products-main">
-      <section className="products-container">
-   
-       <h1>VISA ALLA</h1>
-       
-        {products.map((product) => (
-          <>
-              <article key={product.id}  className="product-wrapper">
-            <Link to={`/product/${product.id}`}>
-                <div className="product-img-wrapper">
-                  <div className="product-img">
-                    <img src={product.img} alt={product.title} />
-                  </div>
-                </div>
 
-                <div className="product-details">
-                  <p id="title">{product.title}</p>
-                  <p id="price">{product.price}.-</p>
-                </div>
-            </Link>
-            <article className="admin-actions-btn">
-            {session && admin ? (
-              <>
-                <button><Link to={`/product/update/${product.id}`}>
-                  <CiEdit />
-                </Link>
-                </button>
-                <GoTrash onClick={() => deleteProductByID(product.id)} />
-              </>
-            ) : (
-              ""
-            )}
-        </article>
-              </article>
+      <h1>Visa alla</h1>
 
-          </>
-        ))}
-      </section>
+      <ShowProdcuts 
+      deleteProductByID={deleteProductByID}
+      setProducts={setProducts}
+      products={products}
+      />
       <Footer />
     </main>
   );
