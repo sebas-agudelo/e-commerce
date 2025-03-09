@@ -21,6 +21,7 @@ import ProtectedRoutes from "./protected/ProtectedRoutes";
 import RedirectedRoutes from "./protected/RedirectedRoutes";
 import Spinners from "./components/spinners/Spinners";
 import Success from "./pages/Success";
+import MyData from "./pages/auth_pages/MyData";
 
 const Home = React.lazy(() => import("./pages/Home"));
 const AllProducts = React.lazy(() =>
@@ -110,6 +111,13 @@ function App() {
                             <Profile />
                           </ProtectedRoutes>
                         }
+                      />
+                      <Route 
+                      path="/mydata"
+                      element={
+                      <ProtectedRoutes>
+                        <MyData />
+                      </ProtectedRoutes>}
                       />
                         <Route path="/confirm/:tokenHash" element={<ConfirmSignup />} />
                         <Route path="/resetpwdlink" element={<ResetPasswordLink />} />

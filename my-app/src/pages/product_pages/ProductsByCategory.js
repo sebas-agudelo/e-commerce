@@ -38,7 +38,9 @@ export default function ProductsByCategory() {
   return (
     <main className="Products-main">
 
-      <h1>{category}</h1>
+      <div className='search-word'>
+          <h1>{category}</h1>
+      </div>
 
       <ShowProdcuts 
         products={products}

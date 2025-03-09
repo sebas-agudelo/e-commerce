@@ -1,5 +1,6 @@
 .cart-container {
     width: 100%;
+    // max-width: 768px;
     height: 100vh;
     
     section {
@@ -130,7 +131,7 @@
     .cart-container {
         width: 100%;
         height: 100vh;
-        padding: 70px 0 0;
+        padding: 0px 0 0;
 
         
         section {
@@ -140,24 +141,24 @@
             display: flex;
             
             .cart-content {
-                overflow-y: scroll;
-                height: 100%;
+                overflow: scroll;
+                height: 100vh;
                 padding-top: 88px;
                 width: 75%;
                 scrollbar-width: none; 
+                padding-right: 24px;
 
-              
-    
                 .empty-cart-container{
-                    text-align: center;
+                    text-align: start;
     
                     h1{
-                        font-size: 38px;
+                        font-size: 30px;
+                        font-weight: 500;
                     }
     
                     a{
                         text-decoration: none;
-                        font-size: 28px;
+                        font-size: 23px;
                         color: #000;
                         border-bottom: 1px solid;
                         margin-top: 12px;
@@ -233,9 +234,12 @@
             }
     
             .checkout-container {
-                height: 100%;
-                padding: 0 0 0 12px;
+                height: 100vh;
+                padding: 88px 0 0 24px;
                 width: 25%;
+                display: flex;
+
+                justify-content: start;
     
                 .checkout-btn {
                     width: 100%;
@@ -244,8 +248,9 @@
                     padding: 12px 24px;
     
                     a {
-                        color: #000;
+                        color: #000000;
                         text-decoration: none;
+                        
                     }
     
                 }

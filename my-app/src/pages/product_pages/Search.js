@@ -56,8 +56,8 @@ const ProductSearch = () => {
     <main className="Products-main">
 
         <div className='search-word'>
-          <h1>Sökord:</h1>
-          <h1 className='searched'>{`${searchQuery}`}</h1>
+          <h1>Sökresultat:</h1>
+          <h1 className='searched'>{`"${searchQuery}"`}</h1>
         </div>
         
         <ShowProdcuts 

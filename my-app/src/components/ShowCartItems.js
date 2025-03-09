@@ -61,6 +61,9 @@ export default function ShowCartItems({reduceQty, incruseQty}) {
             <button className="checkout-btn">
               <Link to={`/checkout`}>Till kassan</Link>
             </button>
+            <p style={{fontSize: "12px", fontWeight: "100", padding: "12px 0 0"}}>
+            Godkänn endast betalningar om du själv har gjort beställningen. Acceptera aldrig en betalning om någon ringer och ber dig godkänna den digitalt.
+            </p>
           </>
         ) : (
           ""

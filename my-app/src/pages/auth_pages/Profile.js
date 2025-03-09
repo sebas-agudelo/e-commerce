@@ -33,22 +33,23 @@ export default function Profile() {
 
   return (
     <div className='my-page-container'>
-      <h1>Mina sidor</h1>
+      <h1>Min sida</h1>
       
       {userData.length > 0 ? userData.map((user) => 
         <div className='user-metadata'>
-          <h3>Du är behörig admin</h3>
-
-          <p>Förnamn: {user.firstname}</p>
-          <p>Efternamn: {user.lastname}</p>
-          <p>Mobil: {user.phone}</p>
-          <p>Födelsedatum: {user.birthday}</p>
-          <p>Adress: {user.address}</p>
-          <p>Postnummer: {user.postal}</p>
+      <p><Link to={`/mydata`}>Mina uppgifter</Link></p>
+      <p><Link to={`/orders`}>Mina beställningar</Link></p>
         </div>
     )
     
-    : <Link to="/register/information">Lägg till dina uppgifter</Link>
+    : 
+    <div className='registration-reminder'>
+    <p>
+      Du har ännu inte registrerat dina uppgifter. Genom att göra det kan du snabba upp ditt köp och få en smidigare betalningsprocess
+    </p>
+    <p><Link to="/register/information">Lägg till dina uppgifter</Link></p>
+    
+    </div>
   }
       <div className='admin-actions'>
         { session && admin ? 

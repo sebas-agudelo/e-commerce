@@ -5,8 +5,8 @@ export default function ShowFilters() {
   return (
     <div>
       <button>
-        <IoFilterSharp />
         Filter
+        <IoFilterSharp />
         </button>
     </div>
   )

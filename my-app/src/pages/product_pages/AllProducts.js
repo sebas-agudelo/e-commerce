@@ -71,7 +71,9 @@ export default function Products() {
   return (
     <main className="Products-main">
 
-      <h1>Visa alla</h1>
+        <div className='search-word'>
+          <h1>Visa alla</h1>
+        </div>
 
       <ShowProdcuts 
       deleteProductByID={deleteProductByID}

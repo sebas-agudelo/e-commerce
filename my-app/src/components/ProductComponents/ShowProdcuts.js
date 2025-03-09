@@ -2,6 +2,7 @@ import React from 'react'
 import { Link } from "react-router-dom";
 import ShowFilters from './ShowFilters';
 
+
 export default function ShowProdcuts({products, deleteProductByID}) {
   return (
     <section className="products-container">
