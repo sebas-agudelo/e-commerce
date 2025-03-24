@@ -12,6 +12,7 @@ export default function Home() {
         method: "GET",
         credentials: "include",
         headers: { "Content-Type": "application/json" },
+        mode: "no-cors",
       });
 
       const data = await response.json();
