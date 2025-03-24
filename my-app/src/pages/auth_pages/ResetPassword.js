@@ -13,63 +13,63 @@ const ResetPassword = () => {
   const nav = useNavigate();
 
   const handleConfirm = async () => {
-    // try {
-    //   if (repetPassword !== newPassword) {
-    //     setErrorMessage("PLösenorden matchar inte. Försök igen");
-    //     return;
-    //   };
+    try {
+      if (repetPassword !== newPassword) {
+        setErrorMessage("PLösenorden matchar inte. Försök igen");
+        return;
+      };
 
-    //   const response = await fetch(
-    //     `http://localhost:3030/auth/resetpassword/${tokenHash}`,
-    //     {
-    //       method: "POST",
-    //       headers: { "Content-Type": "application/json" },
-    //       body: JSON.stringify({
-    //         password: newPassword,
-    //         repetpassword: repetPassword,
-    //       }),
-    //     }
-    //   );
+      const response = await fetch(
+        `http://localhost:3030/auth/resetpassword/${tokenHash}`,
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            password: newPassword,
+            repetpassword: repetPassword,
+          }),
+        }
+      );
 
-    //   const data = await response.json();
+      const data = await response.json();
 
-    //   if (response.ok) {
-    //     setOkMessage(data.success);
-    //     setErrorMessage("");
-    //     nav("/signin");
-    //   } 
+      if (response.ok) {
+        setOkMessage(data.success);
+        setErrorMessage("");
+        nav("/signin");
+      } 
       
-    //   else if(!response.ok) {
-    //     setErrorMessage(data.error);
-    //     setOkMessage("");
+      else if(!response.ok) {
+        setErrorMessage(data.error);
+        setOkMessage("");
 
-    //   }
-    // } catch (error) {
-    //   console.error(error);
-    // }
+      }
+    } catch (error) {
+      console.error(error);
+    }
   };
 
-  // const handleChangePassword = (e) => {
-  //   const {name, value } = e.target;
+  const handleChangePassword = (e) => {
+    const {name, value } = e.target;
 
-  //   if(errorMessage){
-  //     setErrorMessage("")
-  //   }
+    if(errorMessage){
+      setErrorMessage("")
+    }
 
-  //   if(name === "newPassword"){
-  //     setNewPassword(value);
+    if(name === "newPassword"){
+      setNewPassword(value);
 
-  //     validatePassword(value);
+      validatePassword(value);
   
-  //   } else if(name === "repetPassword"){
-  //     setRepetPassword(value);
-  //   }
-  // }
+    } else if(name === "repetPassword"){
+      setRepetPassword(value);
+    }
+  }
 
-  // const handleSubmit = (e) => {
-  //   e.preventDefault();
-  //   handleConfirm();
-  // };
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    handleConfirm();
+  };
 
   return (
     <main className="reset-password-main">

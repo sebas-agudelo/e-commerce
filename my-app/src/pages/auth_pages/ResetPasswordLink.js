@@ -7,32 +7,32 @@ export default function ResetPasswordLink() {
   const [okMessage, setOkMessage] = useState("");
   const [email, setEmail] = useState('');
 
-  // const sendRecoveryEmail = async () => {
-  //   const response = await fetch(
-  //     "http://localhost:3030/auth/passwordresetlink",
-  //     {
-  //       method: "POST",
-  //       credentials: "include",
-  //       headers: { "Content-Type": "application/json" },
-  //       body: JSON.stringify({ email }),
-  //     }
-  //   );
+  const sendRecoveryEmail = async () => {
+    const response = await fetch(
+      "http://localhost:3030/auth/passwordresetlink",
+      {
+        method: "POST",
+        credentials: "include",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email }),
+      }
+    );
 
-  //   const data = await response.json();
+    const data = await response.json();
 
-  //   if (response.ok) {
-  //     setOkMessage(data.success);
-  //   } else {
-  //     setErrorMessage(data.error);
-  //   }
-  //   setIsLoading(false);
-  // };
+    if (response.ok) {
+      setOkMessage(data.success);
+    } else {
+      setErrorMessage(data.error);
+    }
+    setIsLoading(false);
+  };
 
-  // const handleSubmit = (e) => {
-  //   e.preventDefault();
-  //   sendRecoveryEmail();
-  //   setIsLoading(true);
-  // };
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    sendRecoveryEmail();
+    setIsLoading(true);
+  };
 
   return (
     <main className="reset-password-main">

@@ -9,53 +9,53 @@ export default function SignUp() {
   const [errorMessage, setErrorMessage] = useState("");
   const { validatePassword, validationMessage } = PasswordValidation();
 
-  // const fetchSignUp = async () => {
-  //   try {
-  //     if (!email || !password) {
-  //       setErrorMessage("Email samt lösenord får inte vara tomma");
-  //       return;
-  //     }
+  const fetchSignUp = async () => {
+    try {
+      if (!email || !password) {
+        setErrorMessage("Email samt lösenord får inte vara tomma");
+        return;
+      }
 
-  //     const response = await fetch(`http://localhost:3030/auth/signup`, {
-  //       method: "POST",
-  //       headers: { "Content-Type": "application/json" },
-  //       body: JSON.stringify({ email, password: password }),
-  //     });
+      const response = await fetch(`http://localhost:3030/auth/signup`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email, password: password }),
+      });
 
-  //     const data = await response.json();
+      const data = await response.json();
 
-  //     if (response.ok) {
-  //       setOkMessage(data.success);
-  //       setErrorMessage("");
-  //     } else {
-  //       setErrorMessage(data.error);
-  //       setOkMessage("");
-  //     }
-  //   } catch (error) {
-  //     setErrorMessage("Något gick fel. vänligen försök igen.");
-  //   }
-  // };
+      if (response.ok) {
+        setOkMessage(data.success);
+        setErrorMessage("");
+      } else {
+        setErrorMessage(data.error);
+        setOkMessage("");
+      }
+    } catch (error) {
+      setErrorMessage("Något gick fel. vänligen försök igen.");
+    }
+  };
 
-  // const handlePassword = (e) => {
-  //   const { name, value } = e.target;
+  const handlePassword = (e) => {
+    const { name, value } = e.target;
 
-  //   if (errorMessage) {
-  //     setErrorMessage("");
-  //   }
+    if (errorMessage) {
+      setErrorMessage("");
+    }
 
-  //   if (name === "password") {
-  //     console.log("Password",value);
+    if (name === "password") {
+      console.log("Password",value);
 
-  //     setPassword(value);
+      setPassword(value);
 
-  //     validatePassword(value);
-  //   }
-  // };
+      validatePassword(value);
+    }
+  };
 
-  // const handleSubmit = (e) => {
-  //   e.preventDefault();
-  //   fetchSignUp();
-  // };
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    fetchSignUp();
+  };
 
   return (
     <main className="user-data-container">
