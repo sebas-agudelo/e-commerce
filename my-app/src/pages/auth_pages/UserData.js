@@ -25,7 +25,7 @@ export default function UserData() {
 
     const fetchInserUserData = async () => {
         try {
-            const response = await fetch(`http://localhost:3030/auth/register/information`, {
+            const response = await fetch(`https://examensarbeten.vercel.app/auth/register/information`, {
               method: "POST",
               credentials: "include",
               headers: { "Content-Type": "application/json" },

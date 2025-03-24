@@ -5,27 +5,27 @@ const ConfirmSignup = () => {
     const { tokenHash } = useParams(); 
     const [confirmationStatus, setConfirmationStatus] = useState(null);
 
-    const handleConfirm = async () => {
+    // const handleConfirm = async () => {
     
-        try {
-            const response = await fetch(`http://localhost:3030/confirm/${tokenHash}`, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({tokenHash})
-            });
+    //     try {
+    //         const response = await fetch(`http://localhost:3030/confirm/${tokenHash}`, {
+    //             method: 'POST',
+    //             headers: { 'Content-Type': 'application/json' },
+    //             body: JSON.stringify({tokenHash})
+    //         });
 
-            const data = await response.json();
+    //         const data = await response.json();
 
-            if (response.ok) {
-                setConfirmationStatus('E-post bekräftad framgångsrikt');
+    //         if (response.ok) {
+    //             setConfirmationStatus('E-post bekräftad framgångsrikt');
          
-            } else {
-                setConfirmationStatus(data.error || 'Error confirming email');
-            }
-        } catch (error) {
-            setConfirmationStatus('Error: ' + error.message);
-        }
-    };
+    //         } else {
+    //             setConfirmationStatus(data.error || 'Error confirming email');
+    //         }
+    //     } catch (error) {
+    //         setConfirmationStatus('Error: ' + error.message);
+    //     }
+    // };
 
     return (
         <div style={{paddingTop: "500px"}}>
