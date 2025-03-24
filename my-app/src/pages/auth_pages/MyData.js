@@ -28,12 +28,15 @@ export default function MyData() {
     e.preventDefault(); // Förhindrar omladdning
   };
 
-  const handleSave = () => {
+  const handleSave = (e) => {
     const confirmSave = window.confirm("Vill du spara ändringarna?");
+    e.preventDefault(); 
+    
     if (confirmSave) {
       window.location.reload();
       console.log("Ändringar sparade!");
-    } else if (!confirmSave) {
+    } 
+    else {
       console.log("Ändringar sparades inte");
       return;
     }
@@ -41,7 +44,7 @@ export default function MyData() {
 
   return (
     <div className="my-information-container">
-      <h1>Mina uppgifter</h1>
+      <h1>{isFormEditable ? "Mina uppgifter" : "Ändra mina uppgifter"}</h1>
       {userData &&
         userData.map((user) => (
           <div className="user-information">
@@ -95,9 +98,7 @@ export default function MyData() {
               ) : (
                 <div className="save-user-info-btn-wrapper">
                   <button
-                    onClick={() => {
-                      handleSave();
-                    }}
+                    onClick={handleSave}
                   >
                     Spara
                   </button>

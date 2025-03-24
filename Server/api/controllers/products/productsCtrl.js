@@ -6,7 +6,7 @@ export const getProducts = async (req, res) => {
   try {
     let { data: products, error: productsError } = await supabase
       .from("products")
-      .select("*");
+      .select("id, title, price, img");
 
       if (productsError) {
         return res
@@ -14,11 +14,11 @@ export const getProducts = async (req, res) => {
         .json({ error: "Ett fel uppstod och produkterna är inte tillgängliga just nu."});
       } 
 
-    if (!products) {
-      return res.status(200).json([]);
-    }
-
-    return res.status(200).json({products});
+      if (!products) {
+        return res.status(200).json([]);
+      };
+      
+      return res.status(200).json({products});
 
   } catch (error) {
     return res
@@ -34,7 +34,7 @@ export const getProductByID = async (req, res) => {
   if (!id) {
     return res
       .status(400)
-      .json({ error: `Det saknas en giltig produkt. Försök igen.` });
+      .json({ error: `Produkten är inte giltig. Försök igen`});
   }
 
   try {

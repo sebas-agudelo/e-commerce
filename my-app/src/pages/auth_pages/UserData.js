@@ -88,7 +88,7 @@ export default function UserData() {
                         placeholder='Telefonnummer' 
                     />
                     <input 
-                        type='text' 
+                        type='date' 
                         name='birthday' 
                         value={userData.birthday} 
                         onChange={handleChange} 

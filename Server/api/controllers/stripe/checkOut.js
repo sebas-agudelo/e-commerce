@@ -39,8 +39,6 @@ export const stripeCheckOut = async (req, res) => {
         metadata: { orderDetails: metadata },
       });
 
-      console.log(items);
-
       return res
         .status(200)
         .json({ client_secret: paymentIntent.client_secret });
