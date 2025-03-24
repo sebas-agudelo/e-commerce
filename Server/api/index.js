@@ -10,10 +10,15 @@ import { cartRouter } from "./routes/cartRouter/CartRouter.js";
 dotenv.config();
 
 const app = express();
+
 app.use(cors({
-  origin: ["https://examensarbeten.vercel.app", "http://localhost:3000"],
-  credentials: true, 
+  origin: ["https://examensarbeten.vercel.app", 
+    "http://localhost:3000"],
+  credentials: true,
 }));
+
+app.options('*', cors());
+
 app.use(cookieParser())
 app.use(express.json());
 
