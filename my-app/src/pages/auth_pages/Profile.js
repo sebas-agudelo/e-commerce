@@ -37,7 +37,7 @@ export default function Profile() {
       
       {userData.length > 0 ? userData.map((user) => 
         <div className='user-metadata'>
-      <p><Link to={`/mydata`}>Mina uppgifter</Link></p>
+      <p><Link to={`/mydata`}>Mina uppgifterr</Link></p>
       <p><Link to={`/orders`}>Mina beställningar</Link></p>
         </div>
     )
