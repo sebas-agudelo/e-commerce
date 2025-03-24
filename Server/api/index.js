@@ -11,7 +11,7 @@ dotenv.config();
 
 const app = express();
 app.use(cors({
-  origin: ["https://examensarbeten.vercel.app/", "http://localhost:3000"],
+  origin: ["https://examensarbeten.vercel.app", "http://localhost:3000"],
   credentials: true, 
 }));
 app.use(cookieParser())
