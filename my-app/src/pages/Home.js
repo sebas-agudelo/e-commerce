@@ -4,12 +4,11 @@ import 'rc-slider/assets/index.css';
 import Footer from "./Footer";
 
 export default function Home() {
-  const [selectedProducts, setSelectedProducts] = useState([]);
   const [categories, setCategories] = useState([]);
 
   useEffect(() => {
     const getCategories = async () => {
-      const response = await fetch(`https://examensarbeten-r6b7.vercel.app/`, {
+      const response = await fetch(`https://examensarbeten-r6b7.vercel.app/categori/get`, {
         method: "GET",
         credentials: "include",
         headers: { "Content-Type": "application/json" },
@@ -22,23 +21,8 @@ export default function Home() {
         setCategories(data.data);
       }
     };
-
-    const fetSelectedProducts = async () => {
-      const response = await fetch(
-        "http://localhost:3030/api/selected/products",
-        {
-          method: "GET",
-          credentials: "include",
-          headers: { "Content-Type": "application/json" },
-        }
-      );
-
-      const data = await response.json();
-      setSelectedProducts(data.products);
-    };
-
+    
     getCategories();
-    fetSelectedProducts();
   }, []);
 
   return (
