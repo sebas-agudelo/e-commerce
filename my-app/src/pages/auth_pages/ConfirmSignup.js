@@ -8,7 +8,7 @@ const ConfirmSignup = () => {
     const handleConfirm = async () => {
     
         try {
-            const response = await fetch(`http://localhost:3030/confirm/${tokenHash}`, {
+            const response = await fetch(``, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({tokenHash})

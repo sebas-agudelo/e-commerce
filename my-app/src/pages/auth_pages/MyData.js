@@ -89,19 +89,19 @@ export default function MyData() {
               />
               {isFormEditable ? (
                 <div className="save-user-info-btn-wrapper">
-                  <button
+                  {/* <button
                     onClick={editTheForm}
                   >
                     Ändra
-                  </button>
+                  </button> */}
                 </div>
               ) : (
                 <div className="save-user-info-btn-wrapper">
-                  <button
+                  {/* <button
                     onClick={handleSave}
                   >
                     Spara
-                  </button>
+                  </button> */}
                 </div>
               )}
             </form>

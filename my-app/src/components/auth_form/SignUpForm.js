@@ -43,7 +43,7 @@ export default function SignUpForm({
           <button type="submit">Sign up</button>
         </form>
         <div>
-          <a href="/signup">Sign up</a>
+          <a href="/signin">Sign in</a>
         </div>
       </article>
     </>

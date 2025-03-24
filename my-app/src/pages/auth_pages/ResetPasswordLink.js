@@ -9,7 +9,7 @@ export default function ResetPasswordLink() {
 
   const sendRecoveryEmail = async () => {
     const response = await fetch(
-      "http://localhost:3030/auth/passwordresetlink",
+      "",
       {
         method: "POST",
         credentials: "include",
