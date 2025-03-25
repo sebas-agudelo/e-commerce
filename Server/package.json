@@ -2,10 +2,10 @@
   "name": "server",
   "version": "1.0.0",
   "description": "Examensarbeten",
-  "main": "index.js",
+  "main": "api/index.js",
   "type": "module",
   "scripts": {
-    "dev": "nodemon index.js"
+    "dev": "nodemon api/index.js"
   },
   "author": "Sebastian Agudelo",
   "license": "ISC",
