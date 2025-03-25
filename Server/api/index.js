@@ -1,30 +1,6 @@
-import express from "express";
-import cors from "cors";
-import dotenv from "dotenv";
-import cookieParser from 'cookie-parser';
-import { authRouter } from "./routes/auth/usersRoutes.js";
-import { productsRouter } from "./routes/products/productsRouter.js";
-import { paymentRouter } from "./routes/payment/paymentRouter.js";
-import { cartRouter } from "./routes/cartRouter/CartRouter.js";
-
-dotenv.config();
-
+import express from 'express';
 const app = express();
 
-app.use(cors({
-  origin: ["https://examensarbeten.vercel.app", 
-    "http://localhost:3000"],
-  credentials: true,
-}));
+app.get("/", (req, res) => res.send("Express on Vercel"));
 
-app.options('*', cors());
-
-app.use(express.json());
-
-app.get("/", (req, res) => {
-  return res.send("Hello word")
-})
-
-app.listen(process.env.PORT, () => {
-  console.log(`Server is running on port ${process.env.PORT}`);
-});
+app.listen(3000, () => console.log("Server ready on port 3000."));
