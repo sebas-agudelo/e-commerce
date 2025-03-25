@@ -19,18 +19,11 @@ app.use(cors({
 
 app.options('*', cors());
 
-app.use(cookieParser())
 app.use(express.json());
 
 app.get("/", (req, res) => {
   return res.send("Hello word")
 })
-
-// app.use(authRouter);
-// app.use(productsRouter);
-// app.use(paymentRouter);
-// app.use(cartRouter);
-
 
 app.listen(process.env.PORT, () => {
   console.log(`Server is running on port ${process.env.PORT}`);
