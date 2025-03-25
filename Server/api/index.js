@@ -12,7 +12,8 @@ dotenv.config();
 const app = express();
 
 app.use(cors({
-  origin: "http://localhost:3000",
+  origin: ["https://examensarbeten.vercel.app", 
+    "http://localhost:3000"],
   credentials: true,
 }));
 
@@ -25,10 +26,10 @@ app.get("/", (req, res) => {
   return res.send("Hello word")
 })
 
-app.use(authRouter);
-app.use(productsRouter);
-app.use(paymentRouter);
-app.use(cartRouter);
+// app.use(authRouter);
+// app.use(productsRouter);
+// app.use(paymentRouter);
+// app.use(cartRouter);
 
 
 app.listen(process.env.PORT, () => {
