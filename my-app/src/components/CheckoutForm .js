@@ -49,7 +49,7 @@ const CheckoutForm = () => {
   //Funktionen för att hämta användarens data
   const fetchCostumerById = async () => {
     try {
-      const response = await fetch(`http://localhost:3030/auth/profile`, {
+      const response = await fetch(`https://examensarbeten.vercel.app/auth/profile`, {
         method: "GET",
         credentials: "include",
         headers: { "Content-Type": "application/json" },
@@ -141,7 +141,7 @@ const CheckoutForm = () => {
   //Funktionen för att skicka produkter som användaren köper till orders och items_order tabellen när en användare är inloggad
   const submitAuthUserOrder = async () => {
     try {
-      const response = await fetch(`http://localhost:3030/api/order/insert`, {
+      const response = await fetch(`https://examensarbeten.vercel.app/api/order/insert`, {
         method: "POST",
         credentials: "include",
         headers: { "Content-Type": "application/json" },
@@ -165,7 +165,7 @@ const CheckoutForm = () => {
    //Funktionen för att skicka produkter som användaren köper till orders och items_order tabellen när en användare är utloggad
   const submitGuestOrder = async () => {
     try{
-      const response = await fetch('http://localhost:3030/api/order/guestorder', {
+      const response = await fetch('https://examensarbeten.vercel.app/api/order/guestorder', {
         method: "POST",
         credentials: "include",
         headers: { "Content-Type": "application/json" },
@@ -211,7 +211,7 @@ const CheckoutForm = () => {
       //`Elements` instance that was used to create the Payment Element
       elements,
       confirmParams: {
-        return_url: "http://localhost:3000/payment-success",
+        return_url: "https://examensarbeten.vercel.app/payment-success",
       },
     });
 
