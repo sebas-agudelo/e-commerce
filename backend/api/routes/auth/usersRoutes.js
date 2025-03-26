@@ -12,9 +12,3 @@ authRouter.get('/auth/profile', authenticateUser, profile);
 authRouter.get('/auth/sessionAuthCheck', sessionAuthCheck);
 authRouter.get('/auth/validateAdminRole', validateAdminRole);
 authRouter.post('/auth/register/information', authenticateUser, insertUserData);
-
-
-
-
-
-
