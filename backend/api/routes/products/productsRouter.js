@@ -1,5 +1,5 @@
 import express from 'express';
-import { categories, deleteProductByID, getProductByID, getProducts, getThreeProducts } from '../../controllers/products/productsCtrl.js';
+import { categories, getProductByID, getProducts, getThreeProducts } from '../../controllers/products/productsCtrl.js';
 import { searchProduct } from '../../controllers/products/searchCtrl.js';
 import { productByCategory } from '../../controllers/products/productByCategory.js';
 
