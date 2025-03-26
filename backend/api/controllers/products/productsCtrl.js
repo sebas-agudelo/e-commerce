@@ -101,3 +101,51 @@ export const categories = async (req, res) => {
     return res.status(500).json({ error: "Server error 500" });
   }
 };
+
+export const searchProduct = async (req, res) => {
+    try{
+         const { query } = req.query;
+
+  if (!query) {
+    return res.status(400).json({ error: 'Sökterm saknas.' });
+  }
+
+    const { data, error } = await supabase
+      .from('products')
+      .select('*')
+      .ilike('title', `%${query}%`); // Matchar case-insensitivt
+
+    if (error) {
+      throw error;
+    }
+
+    res.status(200).json(data);
+
+    }catch(error){
+        console.error(error);
+        
+    }
+}
+
+export const productByCategory = async (req, res) => {
+    const { categoryID } = req.params;
+    try{
+
+        let { data: products, error } = await supabase
+        .from('products')
+        .select('*')
+        .eq('category_id', categoryID)
+    
+
+        if(error){
+            return status(500).json({error: "Något gick fel kunde inte hämta kategorierna", error})
+        }
+        console.log(products);
+        
+        return res.status(200).json(products)
+                
+    }catch(error){
+        console.error(error);
+        
+    }
+}

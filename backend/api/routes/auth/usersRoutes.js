@@ -1,7 +1,5 @@
 import express from 'express';
-import { sessionAuthCheck, validateAdminRole, signIn, signOut } from '../../controllers/auth/sessionManagement/sessionManagement.js';
-import { insertUserData, profile } from '../../controllers/auth/profile.js';
-import { authenticateUser } from '../../controllers/auth/middlewares/AuthMiddlewares.js';
+import { sessionAuthCheck, validateAdminRole, signIn, signOut, authenticateUser, profile, insertUserData } from '../../controllers/auth/sessionManagement/sessionManagement.js';
 
 export const authRouter = express.Router();
 

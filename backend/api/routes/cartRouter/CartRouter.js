@@ -1,7 +1,6 @@
 import express from 'express';
-import { addToCart, updateCartQty } from '../../controllers/cart/addToCartCtrl.js';
-import { authenticateUser } from '../../controllers/auth/middlewares/AuthMiddlewares.js';
-import { deleteCart, showCart } from '../../controllers/cart/showAndDeleteCart.js';
+import { addToCart, updateCartQty, deleteCart, showCart } from '../../controllers/cart/addToCartCtrl.js';
+import { authenticateUser } from '../../controllers/auth/sessionManagement/sessionManagement.js';
 import { customerAuthOrders, customerOrders } from '../../controllers/orders/ordersCtrl.js';
 
 export const cartRouter = express.Router();

@@ -1,7 +1,6 @@
 import express from 'express';
-import { categories, getProductByID, getProducts, getThreeProducts } from '../../controllers/products/productsCtrl.js';
-import { searchProduct } from '../../controllers/products/searchCtrl.js';
-import { productByCategory } from '../../controllers/products/productByCategory.js';
+import { categories, getProductByID, getProducts, getThreeProducts, searchProduct, productByCategory } from '../../controllers/products/productsCtrl.js';
+
 
 export const productsRouter = express.Router();
 
