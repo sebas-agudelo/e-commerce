@@ -6,15 +6,8 @@ import Contact from "./pages/Contact";
 import About from "./pages/About";
 import { ProductProvider } from "./Context/ProductContext";
 import { CartProvider } from "./Context/CartContext";
-
-import SignUp from "./pages/auth_pages/SignUp";
-import ConfirmSignup from "./pages/auth_pages/ConfirmSignup";
 import SignIn from "./pages/auth_pages/SignIn";
-import ResetPassword from "./pages/auth_pages/ResetPassword";
-import ResetPasswordLink from "./pages/auth_pages/ResetPasswordLink";
 import ProductDetails from "./pages/product_pages/ProductDetails";
-import AddProduct from "./pages/product_pages/AddProduct";
-import UpdateProduct from "./pages/product_pages/UpdateProduct";
 import UserData from "./pages/auth_pages/UserData";
 import ProductSearch from "./pages/product_pages/Search";
 import ProtectedRoutes from "./protected/ProtectedRoutes";
@@ -61,32 +54,10 @@ function App() {
        {/* PRODUCT PAGES */}
        <Route path="/products" element={<AllProducts />} />
        <Route path="/product/:id" element={<ProductDetails />} />
-                <Route
-                  path="/product/update/:id"
-                  element={
-                    <ProtectedRoutes>
-                      <UpdateProduct />
-                    </ProtectedRoutes>
-                  }
-                />
-                  <Route
-                    path="/product/create"
-                    element={
-                      <ProtectedRoutes>
-                        <AddProduct />
-                      </ProtectedRoutes>
-                    }
-                  />
+            
+          
 
                 {/* AUTH PAGES */}
-                <Route
-                  path="/signup"
-                  element={
-                    <RedirectedRoutes>
-                      <SignUp />
-                    </RedirectedRoutes>
-                  }
-                />
                 <Route
                   path="/signin"
                   element={
@@ -111,12 +82,6 @@ function App() {
                           </ProtectedRoutes>
                         }
                       />
-                        <Route path="/confirm/:tokenHash" element={<ConfirmSignup />} />
-                        <Route path="/resetpwdlink" element={<ResetPasswordLink />} />
-                        <Route
-                          path="/resetpwd/:tokenHash"
-                          element={<ResetPassword />}
-                        />
                       <Route path="/payment-success" element={<Success />}/>
                       <Route path="/search?query"/>
               </Routes>
