@@ -21,9 +21,7 @@ export default function SignInForm({ handleSubmit, setEmail, setPassword, errorM
           />
         <button type="submit">Sign in</button>
         </form>
-        <div>
-            <a href="/resetpwdlink">Forgot password</a>
-          </div>
+       
         </article>
    
     </>
