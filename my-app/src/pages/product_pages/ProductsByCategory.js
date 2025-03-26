@@ -14,7 +14,7 @@ export default function ProductsByCategory() {
   const fetchProductByCategory = async () => {
     try {
       const response = await fetch(
-        `http://localhost:3030/api/product/categori/${categoryID}`,
+        `https://examensarbeten-luzs.vercel.app/api/product/categori/${categoryID}`,
         {
           method: "GET",
           credentials: "include",
