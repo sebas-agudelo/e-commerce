@@ -18,7 +18,7 @@ export const SessionProvider = ({ children }) => {
 
   const verifySession = async () => {
     try {
-      const response = await fetch('http://localhost:3030/auth/sessionAuthCheck', {
+      const response = await fetch('https://examensarbeten-luzs.vercel.app/auth/sessionAuthCheck', {
         method: "GET",
         credentials: "include",
         headers: { "Content-Type": "application/json" }
@@ -38,7 +38,7 @@ export const SessionProvider = ({ children }) => {
 
   const verifyAdmin = async () => {
     try {
-      const response = await fetch('http://localhost:3030/auth/validateAdminRole', {
+      const response = await fetch('https://examensarbeten-luzs.vercel.app/auth/validateAdminRole', {
         method: "GET",
         credentials: 'include',
         headers: { "Content-Type": "application/json" }
