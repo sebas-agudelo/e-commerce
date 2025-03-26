@@ -24,7 +24,7 @@ const ProductSearch = () => {
 
   const fetchProducts = async (query) => {
     try {
-      const response = await fetch(`http://localhost:3030/search?query=${query}`);
+      const response = await fetch(`https://examensarbeten-luzs.vercel.app/search?query=${query}`);
       const data = await response.json();
 
       if (!response.ok) {
