@@ -14,7 +14,7 @@ export default function Profile() {
   },[])
 
   const getUserData = async () => {
-    const response = await fetch(`https://examensarbeten-luzs.vercel.app/auth/profile`,{
+    const response = await fetch(`https://examensarbeten.vercel.app/auth/profile`,{
       method: "GET", 
       credentials: "include",
       headers: { "Content-Type": "application/json" },
