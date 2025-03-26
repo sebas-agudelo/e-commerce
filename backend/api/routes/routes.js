@@ -15,6 +15,14 @@ routes.get('/auth/sessionAuthCheck', sessionAuthCheck);
 routes.get('/auth/validateAdminRole', validateAdminRole);
 routes.post('/auth/register/information', authenticateUser, insertUserData);
 
+/* ALL PRODUCTS ROUTES */
+routes.get('/api/products/show', getProducts);
+routes.get('/api/product/get/:id', getProductByID);
+routes.get('/api/categori/get', categories)
+routes.get('/api/selected/products', getThreeProducts)
+routes.get('/search', searchProduct);
+routes.get('/api/product/categori/:categoryID', productByCategory);
+
 /* ALL CART ROUTES */
 routes.post('/api/cart/addtocart', authenticateUser, addToCart);
 routes.put('/api/cart/update', authenticateUser, updateCartQty);
@@ -25,11 +33,3 @@ routes.post('/api/order/guestorder', customerOrders);
 
 /* STRIPE ROUTE */
 routes.post('/create-payment-intent', stripeCheckOut);
-
-/* ALL PRODUCTS ROUTES */
-routes.get('/api/products/show', getProducts);
-routes.get('/api/product/get/:id', getProductByID);
-routes.get('/api/categori/get', categories)
-routes.get('/api/selected/products', getThreeProducts)
-routes.get('/search', searchProduct);
-routes.get('/api/product/categori/:categoryID', productByCategory);
