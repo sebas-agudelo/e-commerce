@@ -1,5 +1,5 @@
 import express from 'express';
-import { sessionAuthCheck, validateAdminRole, signIn, signOut } from '../../controllers/auth/sessionManagement/sessionManagement .js';
+import { sessionAuthCheck, validateAdminRole, signIn, signOut } from '../../controllers/auth/sessionManagement/sessionManagement.js';
 import { passwordResetLink, resetPassword } from '../../controllers/auth/passwordReset/passwordReset.js';
 import { signUpUser, verifyEmail } from '../../controllers/auth/userRegistration/userRegistration.js';
 import { insertUserData, profile } from '../../controllers/auth/profile.js';
