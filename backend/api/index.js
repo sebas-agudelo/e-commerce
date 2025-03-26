@@ -19,7 +19,7 @@ app.use(cookieParser())
 app.use(express.json());
 
 
-app.get("/", (req, res) => res.send("Express och vercel är bäst"));
+app.get("/", (req, res) => res.send("Express och vercel är bästtt"));
 
 app.use(authRouter);
 app.use(productsRouter);
