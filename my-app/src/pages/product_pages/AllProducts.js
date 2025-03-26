@@ -21,7 +21,7 @@ export default function Products() {
 
   const fetchAllProducts = async () => {
     try {
-      const response = await fetch("http://localhost:3030/api/products/show", {
+      const response = await fetch("https://examensarbeten.vercel.app/api/products/show", {
         method: "GET",
         credentials: "include",
         headers: { "Content-Type": "application/json" },
