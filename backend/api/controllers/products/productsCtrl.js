@@ -61,40 +61,6 @@ export const getProductByID = async (req, res) => {
   }
 };
 
-//Tar bort en produkt från databasen baserad ID
-export const deleteProductByID = async (req, res) => {
-  const { id } = req.params;
-
-  if (!id) {
-    return res
-      .status(400)
-      .json({ error: `Det saknas en giltig produkt. Försök igen.` });
-  }
-
-  try {
-    const { error: deleteError } = await supabase
-      .from("products")
-      .delete()
-      .eq("id", id);
-
-    if (deleteError) {
-      console.error("Supabase delete error:", deleteError);
-      return res.status(400).json({
-        error: "Produkten kunde inte tas bort. Försök igen.",
-      });
-    }
-
-    return res.status(200).json({
-      success: `Produkten med ID: ${id} har tagits bort från databasen`,
-    });
-  } catch (error) {
-    console.error("(Delete product by ID) Server error:", error);
-    return res
-      .status(500)
-      .json({ error: "Ett okänt fel uppstod. Försök senare igen" });
-  }
-};
-
 export const getThreeProducts = async (req, res) => {
   try {
     let { data: products, error: productsError } = await supabase
