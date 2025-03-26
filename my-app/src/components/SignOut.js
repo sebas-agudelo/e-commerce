@@ -7,7 +7,7 @@ export default function SignOut() {
   const nav = useNavigate();
 
   const signOut = async () => {
-    const response = await fetch(`http://localhost:3030/auth/signout`, {
+    const response = await fetch(`https://examensarbeten.vercel.app/auth/signout`, {
       method: "POST",
       credentials: "include",
       headers: { "Content-Type": "application/json" }
