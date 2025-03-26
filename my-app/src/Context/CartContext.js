@@ -41,7 +41,7 @@ export const CartProvider = ({ children }) => {
       //Visar varukorgen för inloggade anvämdare
     } else {
       try {
-        const response = await fetch("http://localhost:3030/api/cart/show", {
+        const response = await fetch("https://examensarbeten.vercel.app/api/cart/show", {
           method: "GET",
           credentials: "include",
           headers: { "Content-Type": "application/json" },
@@ -113,7 +113,7 @@ export const CartProvider = ({ children }) => {
     else if (session) {
       try {
         const response = await fetch(
-          "http://localhost:3030/api/cart/addtocart",
+          "https://examensarbeten.vercel.app/api/cart/addtocart",
           {
             method: "POST",
             credentials: "include",
@@ -146,7 +146,7 @@ export const CartProvider = ({ children }) => {
 
         try {
           const response = await fetch(
-            "http://localhost:3030/api/cart/addtocart",
+            "https://examensarbeten.vercel.app/api/cart/addtocart",
             {
               method: "POST",
               credentials: "include",
@@ -170,7 +170,7 @@ export const CartProvider = ({ children }) => {
 
   const updateCartQty = async (product_id, newQty) => {
     try {
-      const response = await fetch("http://localhost:3030/api/cart/update", {
+      const response = await fetch("https://examensarbeten.vercel.app/api/cart/update", {
         method: "PUT",
         credentials: "include",
         headers: { "Content-Type": "application/json" },
@@ -191,7 +191,7 @@ export const CartProvider = ({ children }) => {
   const clearCart = async () => {
   
       try {
-        const response = await fetch("http://localhost:3030/api/cart/delete", {
+        const response = await fetch("https://examensarbeten.vercel.app/api/cart/delete", {
           method: "DELETE",
           credentials: "include",
           headers: { "Content-Type": "application/json" },

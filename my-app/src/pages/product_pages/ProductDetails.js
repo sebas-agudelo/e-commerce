@@ -14,7 +14,7 @@ export default function ProductDetails() {
   const fetchProductById = async (id) => {
     try {
       const response = await fetch(
-        `http://localhost:3030/api/product/get/${id}`,
+        `https://examensarbeten.vercel.app/api/product/get/${id}`,
         {
           method: "GET",
           credentials: "include",
