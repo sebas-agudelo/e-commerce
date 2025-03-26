@@ -42,7 +42,7 @@ export default function Products() {
   const deleteProductByID = async (id) => {
     try {
       const response = await fetch(
-        `http://localhost:3030/api/product/delete/${id}`,
+        `https://examensarbeten.vercel.app/api/product/delete/${id}`,
         {
           method: "DELETE",
           credentials: "include",
