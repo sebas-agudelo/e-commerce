@@ -50,19 +50,7 @@ export default function Profile() {
     
     : <Link to="/register/information">Lägg till dina uppgifter</Link>
   }
-      <div className='admin-actions'>
-        { session && admin ? 
-        <>
-         
-              <Link to={`/product/create`}><IoAddOutline />Lägga till</Link>
-              <Link to={`/products`}><CiEdit />Ändra / ta bort</Link>
-         
-        </>
 
-      :
-      ""
-      }
-      </div>
   <SignOut />
     </div>
   )

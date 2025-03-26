@@ -1,5 +1,7 @@
 .Products-main {
     padding-top: 70px;
+    // padding-left: 8px;
+    // padding-right: 8px;
    
 
         .search-word{
@@ -32,7 +34,8 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin: 0 24px 8px;
+            // margin: 0 24px 8px;
+            padding: 0 16px;
 
             h2{
                 font-size: 19px;
