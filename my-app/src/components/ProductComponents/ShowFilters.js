@@ -18,13 +18,11 @@ export default function ShowFilters({
   const { categories } = useContext(ProductContext);
 
   const handleClick = () => {
-   setIsClicked(true)
+    {isClicked ? setIsClicked(false) : setIsClicked(true)}
+   
 
   };
-  const handleClose = () => {
-    setIsClicked(false)
-    
-   };
+
 
   const removeFilters = () => {
     setPrice(0);
@@ -46,7 +44,7 @@ export default function ShowFilters({
         <div className="products-filters-wrapper">
           <div className="close-filter-menu">
             <h3>Filter</h3>
-            <VscChromeClose onClick={handleClose} />
+            <VscChromeClose onClick={handleClick} />
           </div>
           <div className="price-range">
             <h3>
