@@ -13,15 +13,18 @@ export default function ShowFilters({
   setCategoryID,
   category,
 }) {
-  const [isClicked, setIsClicked] = useState();
+  const [isClicked, setIsClicked] = useState(false);
   const [isSelected, setIsSelected] = useState(true);
   const { categories } = useContext(ProductContext);
 
   const handleClick = () => {
-    {
-      isClicked ? setIsClicked(false) : setIsClicked(true);
-    }
+   setIsClicked(true)
+
   };
+  const handleClose = () => {
+    setIsClicked(false)
+    
+   };
 
   const removeFilters = () => {
     setPrice(0);
@@ -39,69 +42,67 @@ export default function ShowFilters({
 
   return (
     <div>
+      <div className={isClicked ? "products-filter-container" : "filter-container"}>
+        <div className="products-filters-wrapper">
+          <div className="close-filter-menu">
+            <h3>Filter</h3>
+            <VscChromeClose onClick={handleClose} />
+          </div>
+          <div className="price-range">
+            <h3>
+              Pris: <span>{price}:-</span>
+            </h3>
+            <input
+              type="range"
+              min={0}
+              max={2000}
+              value={price}
+              className="slider"
+              id="myRange"
+              onChange={(e) => {
+                setPrice(parseInt(e.target.value));
+              }}
+            />
+          </div>
+
+          <div className="categories-checkboxes">
+            {isSelected ? (
+              <>
+                <h3>kategori</h3>
+                <select name="category_id" onChange={handle}>
+                  <option selected disabled>
+                    Välj kategori
+                  </option>
+                  {categories.map((category) => (
+                    <option key={category.id} value={category.id}>
+                      {category.category}
+                    </option>
+                  ))}
+                </select>
+              </>
+            ) : (
+              <h3>
+                Kategori - <span>{category}</span>
+              </h3>
+            )}
+          </div>
+        </div>
+
+        <div className="filter-actions">
+          <button className="filter-buttons" onClick={removeFilters}>
+            Ta bort allt
+          </button>
+          <button className="filter-buttons" onClick={handleClick}>
+            Filtrera <span>{products.length}</span>
+          </button>
+        </div>
+      </div>
+
       <div>
-        {isClicked ? (
-          <div className={`products-filter-container`}>
-            <div className="products-filters-wrapper">
-              <div className="close-filter-menu">
-                <h3>Filter</h3>
-                <VscChromeClose onClick={handleClick} />
-              </div>
-              <div className="price-range">
-                <h3>
-                  Pris: <span>{price}:-</span>
-                </h3>
-                <input
-                  type="range"
-                  min={0}
-                  max={2000}
-                  value={price}
-                  className="slider"
-                  id="myRange"
-                  onChange={(e) => {
-                    setPrice(parseInt(e.target.value));
-                  }}
-                />
-              </div>
-
-              <div className="categories-checkboxes">
-                {isSelected ? (
-                  <>
-                  <h3>kategori</h3>
-                    <select name="category_id" onChange={handle}>
-                      <option selected disabled>
-                        Välj kategori
-                      </option>
-                      {categories.map((category) => (
-                        <option key={category.id} value={category.id}>
-                          {category.category}
-                        </option>
-                      ))}
-                    </select>
-                  </>
-                ) : (
-                  <h3>Kategori - <span>{category}</span></h3>
-                )}
-              </div>
-            </div>
-
-            <div className="filter-actions">
-              <button className="filter-buttons" onClick={removeFilters}>
-                Ta bort allt
-              </button>
-              <button className="filter-buttons" onClick={handleClick}>
-                Filtrera <span>{products.length}</span>
-              </button>
-            </div>
-          </div>
-        ) : (
-          <div>
-            <button className="filter-btn" onClick={handleClick}>
-              Filter
-              <IoFilterSharp />
-            </button>
-          </div>
-        )}
+        <button className="filter-btn" onClick={handleClick}>
+          Filter
+          <IoFilterSharp />
+        </button>
       </div>
     </div>
   );

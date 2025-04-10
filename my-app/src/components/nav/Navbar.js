@@ -87,7 +87,7 @@ export default function Navbar() {
               <img src="/sound.png" />
             </Link>
           </div>
-
+          
           <nav className={isClicked ? "active-menu" : ""}>
             <ul onClick={isClose}>
               <li
