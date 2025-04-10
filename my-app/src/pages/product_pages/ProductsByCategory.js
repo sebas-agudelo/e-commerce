@@ -5,16 +5,35 @@ import ShowProdcuts from "../../components/ProductComponents/ShowProdcuts";
 
 export default function ProductsByCategory() {
   const [products, setProducts] = useState([]);
-  const { categoryID, category } = useParams();
+    const [price, setPrice] = useState(0);
+  const { categoryId, category } = useParams();
+  const[categoryID, setCategoryID] = useState();
 
   useEffect(() => {
     fetchProductByCategory();
-  }, [categoryID]);
+  }, [categoryId, price]);
 
   const fetchProductByCategory = async () => {
     try {
+      // `https://examensarbeten.vercel.app/api/product/categori/${categoryID}`
+      // `http://localhost:3030/api/product/categori/${categoryId}`
+
+      let url = `https://examensarbeten.vercel.app/api/product/categori/${categoryID}`
+
+      if(price && categoryID){
+        url += `?price=${price}&categoryID=${categoryID}`;
+      }
+
+      else if(price){
+        url += `?price=${price}`;
+      }
+
+      else if(categoryID){
+        url += `?categoryID=${categoryID}`;
+      }
+
       const response = await fetch(
-        `https://examensarbeten.vercel.app/api/product/categori/${categoryID}`,
+        url,
         {
           method: "GET",
           credentials: "include",
@@ -44,6 +63,13 @@ export default function ProductsByCategory() {
 
       <ShowProdcuts 
         products={products}
+        setProducts={setProducts}
+        price={price}
+        setPrice={setPrice}
+        categoryID={categoryID}
+        setCategoryID={setCategoryID}
+        categoryId={categoryId}
+        category={category}
       />
       <Footer />
     </main>

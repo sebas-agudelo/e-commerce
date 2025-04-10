@@ -5,6 +5,7 @@
   "dependencies": {
     "@stripe/react-stripe-js": "^3.1.1",
     "@stripe/stripe-js": "^5.5.0",
+    "axios": "^1.8.4",
     "cra-template": "1.2.0",
     "icons": "^1.0.0",
     "rc-slider": "^11.1.8",

@@ -6,6 +6,9 @@ import ShowProdcuts from "../../components/ProductComponents/ShowProdcuts";
 
 export default function Products() {
   const [products, setProducts] = useState([]);
+  const [price, setPrice] = useState(0);
+  const[categoryID, setCategoryID] = useState()
+
   const { setErrorMessage, setOkMessage } =
     useContext(ProductContext);
   const { session, admin } = useContext(AuthSessionContext);
@@ -17,11 +20,28 @@ export default function Products() {
     }
 
     fetch()
-  }, []);
+  }, [price, categoryID]);
 
   const fetchAllProducts = async () => {
+    // `https://examensarbeten.vercel.app/api/products/show`
+    // `http://localhost:3030/api/products/show`
     try {
-      const response = await fetch("https://examensarbeten.vercel.app/api/products/show", {
+      let url = `https://examensarbeten.vercel.app/api/products/show`
+      
+      if(price && categoryID){
+        url += `?price=${price}&categoryID=${categoryID}`
+      }
+
+      else if(price){
+        url += `?price=${price}`
+      }
+
+      else if(categoryID){
+        url += `?categoryID=${categoryID}`
+      }
+
+
+      const response = await fetch(url, {
         method: "GET",
         credentials: "include",
         headers: { "Content-Type": "application/json" },
@@ -39,35 +59,6 @@ export default function Products() {
     }
   };
 
-  const deleteProductByID = async (id) => {
-    try {
-      const response = await fetch(
-        `https://examensarbeten.vercel.app/api/product/delete/${id}`,
-        {
-          method: "DELETE",
-          credentials: "include",
-          headers: { "Content-Type": "application/json" },
-        }
-      );
-
-      const delProduct = products.filter((item) => item.id !== id);
-
-      if (delProduct) {
-        setProducts(delProduct);
-      }
-
-      const data = await response.json();
-
-      if (response.ok) {
-        setOkMessage(data.success);
-      } else {
-        setErrorMessage(data.error);
-      }
-    } catch (error) {
-      console.error(error);
-    }
-  };
-
   return (
     <main className="Products-main">
 
@@ -76,9 +67,12 @@ export default function Products() {
         </div>
 
       <ShowProdcuts 
-      deleteProductByID={deleteProductByID}
       setProducts={setProducts}
       products={products}
+      price={price}
+      setPrice={setPrice}
+      categoryID={categoryID}
+      setCategoryID={setCategoryID}
       />
       <Footer />
     </main>

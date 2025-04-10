@@ -65,10 +65,11 @@ header {
 
                         .headphones-link {
                             color: #000;
-                            font-size: 19px;
+                            font-size: 18px;
                             font-weight: 400;
                             display: none;
                             text-decoration: none;
+                            border-bottom: 2px solid transparent;
 
                             &:hover {
                                 border-bottom: 2px solid #efdd54;
@@ -92,7 +93,7 @@ header {
 
                             a {
                                 text-decoration: none;
-                                font-size: 22px;
+                                font-size: 18px;
                                 color: #000;
                                 font-weight: 400;
 
@@ -115,7 +116,7 @@ header {
         }
 
         .navbar-icons-wrapper {
-         
+
             display: flex;
             z-index: 998;
 
@@ -124,7 +125,7 @@ header {
                 height: 75px;
                 max-height: 75px;
                 background-color: #ffffff;
-             
+
                 position: fixed;
                 top: 0;
                 right: 0;
@@ -141,7 +142,7 @@ header {
 
                     input {
                         width: 85%;
-                        padding: 0 0 6px;  
+                        padding: 0 0 6px;
                         border-style: none;
                         border-bottom: 2px solid #efdd54;
 
@@ -279,7 +280,7 @@ header {
                 position: relative;
                 display: flex;
                 justify-content: end;
-                
+
 
                 .close {
                     display: none;

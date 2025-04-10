@@ -11,6 +11,7 @@ const ProductSearch = () => {
   const queryFromURL = searchParams.get('query') || '';
   const [searchQuery, setSearchQuery] = useState(queryFromURL);
   const [products, setProducts] = useState([]);
+  const [price, setPrice] = useState(0);
   const [error, setError] = useState(null);
   const {fetchProductById} = useContext(ProductContext);
   const {id} = useParams()
@@ -20,11 +21,19 @@ const ProductSearch = () => {
       fetchProducts(queryFromURL);
     }
     fetchProductById(id)
-  }, [queryFromURL]);
+  }, [queryFromURL, price]);
 
   const fetchProducts = async (query) => {
+    // `https://examensarbeten.vercel.app/search?query=${query}`
+    // `http://localhost:3030/search?query=${query}`
     try {
-      const response = await fetch(`https://examensarbeten.vercel.app/search?query=${query}`);
+      let url = `https://examensarbeten.vercel.app/search?query=${query}`
+
+      if(price){
+        url += `?price=${price}`
+      }
+
+      const response = await fetch(url);
       const data = await response.json();
 
       if (!response.ok) {
@@ -45,10 +54,8 @@ const ProductSearch = () => {
       return;
     }
 
-    // Uppdatera URL:en med sökfrågan
     setSearchParams({ query: searchQuery });
 
-    // Navigera användaren till sökresultat (URL uppdateras)
     navigate(`/search?query=${searchQuery}`);
   };
 
@@ -63,6 +70,8 @@ const ProductSearch = () => {
         <ShowProdcuts 
             setProducts={setProducts}
             products={products}
+            price={price}
+            setPrice={setPrice}
             />
             <Footer />
     </main>

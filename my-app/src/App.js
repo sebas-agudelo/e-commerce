@@ -41,7 +41,7 @@ function App() {
                 <Route path="/about" element={<About />} />
                 <Route path="/contact" element={<Contact />} />
                 <Route
-                  path="/products/:categoryID/cat/:category"
+                  path="/products/:categoryId/cat/:category"
                   element={<ProductsByCategory />}
                 />
                 <Route path="/search" element={<ProductSearch />} />
@@ -83,7 +83,8 @@ function App() {
                         }
                       />
                       <Route path="/payment-success" element={<Success />}/>
-                      <Route path="/search?query"/>
+                      {/* <Route path="/search?query"/> */}
+                      <Route path="/filtred/byPrice?query"/>
               </Routes>
             </Suspense>
           </CartProvider>
