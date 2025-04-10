@@ -15,10 +15,10 @@ export default function ProductsByCategory() {
 
   const fetchProductByCategory = async () => {
     try {
-      // `https://examensarbeten.vercel.app/api/product/categori/${categoryID}`
+      // `https://examensarbeten.vercel.app/api/product/categori/${categoryId}`
       // `http://localhost:3030/api/product/categori/${categoryId}`
 
-      let url = `https://examensarbeten.vercel.app/api/product/categori/${categoryID}`
+      let url = `https://examensarbeten.vercel.app/api/product/categori/${categoryId}`
 
       if(price && categoryID){
         url += `?price=${price}&categoryID=${categoryID}`;
