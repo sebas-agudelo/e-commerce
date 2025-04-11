@@ -67,7 +67,7 @@ export const productByCategory = async (req, res) => {
 
     if (price || categoryID) {
       products = await filtredProductsByPrice(price, categoryID);
-    } else {
+    }  else {
       let { data, error } = await supabase
         .from("products")
         .select("id, title, price, img")
