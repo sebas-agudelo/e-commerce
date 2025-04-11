@@ -103,18 +103,20 @@ export const searchProduct = async (req, res) => {
     if (price || categoryID) {
       products = await filtredProductsByPrice(price, categoryID);
     } else {
+      const { data, error } = await supabase
+        .from("products")
+        .select("*")
+        .ilike("title", `%${query}%`);
+  
+      if (error) {
+        throw error;
+      }
+
+      products = data;
     }
 
-    const { data, error } = await supabase
-      .from("products")
-      .select("*")
-      .ilike("title", `%${query}%`);
 
-    if (error) {
-      throw error;
-    }
-
-    res.status(200).json(data);
+    res.status(200).json(products);
   } catch (error) {
     console.error(error);
   }
