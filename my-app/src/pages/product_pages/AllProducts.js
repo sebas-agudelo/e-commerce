@@ -29,7 +29,7 @@ export default function Products() {
     // `https://examensarbeten.vercel.app/api/products/show`
     // `http://localhost:3030/api/products/show`
     try {
-      let url = `http://localhost:3030/api/products/show?page=${currenPage}`;
+      let url = `https://examensarbeten.vercel.app/api/products/show?page=${currenPage}`;
 
       if (price && categoryID) {
         url += `&price=${price}&categoryID=${categoryID}`;

@@ -23,7 +23,7 @@ export default function ProductsByCategory() {
       // `https://examensarbeten.vercel.app/api/product/categori/${categoryId}`
       // `http://localhost:3030/api/product/categori/${categoryId}`
 
-      let url =  `http://localhost:3030/api/product/categori/${categoryId}?page=${currenPage}`
+      let url =  `https://examensarbeten.vercel.app/api/product/categori/${categoryId}?page=${currenPage}`
 
       if(price && categoryID){
         url += `&price=${price}&categoryID=${categoryID}`;
