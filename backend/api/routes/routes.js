@@ -21,6 +21,7 @@ routes.get('/api/product/get/:id', getProductByID);
 routes.get('/api/categori/get', categories)
 routes.get('/search', searchProduct);
 routes.get('/api/product/categori/:categoryId', productByCategory);
+// routes.get('/api/pagination', productPagination)
 // routes.get('/filtred/byPrice', filtredProductsByPrice);
 
 /* ALL CART ROUTES */

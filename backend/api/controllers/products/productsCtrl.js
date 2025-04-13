@@ -27,30 +27,65 @@ export const filtredProductsByPrice = async (
     );
   }
 
-  return filtredProducts
+  return {
+    products: filtredProducts,
+    currenPage: 1,
+    totalPages: 1,
+    count: 0,
+    error: null
+  };
+};
+
+export const pagination = async (page, pageSize, offset, categoryId) => {
+  let products;
+  let Thecount;
+  let total;
+  let err;
+
+  let query = supabase
+  .from("products")
+  .select("id, title, price, img", { count: 'exact' })
+  .range(offset, offset + pageSize - 1)
+
+  if(categoryId){
+    query = query.eq("category_id", categoryId);
+  }
+  
+  const { data, count, error } = await query;
+  
+  products = data;
+  Thecount = count
+  const totalPages = Math.ceil(count / pageSize)
+  total = totalPages
+  err = error
+     
+  return {
+    currenPage: page,
+    totalPages: total,
+    products: products,
+    count: Thecount,
+    error: err,
+  };
 };
 
 export const getProducts = async (req, res) => {
-  const { price, categoryID } = req.query;
+  const { price, categoryID, page = 1, pageSize = 8} = req.query;
+   const offset = (page - 1) * parseInt(pageSize);
+
   try {
     let products;
 
     if (price || categoryID) {
       products = await filtredProductsByPrice(price, categoryID);
-    } 
-    else {
-      const { data, error } = await supabase
-        .from("products")
-        .select("id, title, price, img");
+    } else{
+      products = await pagination(page, pageSize, offset)
 
-      if (error) {
-        throw error;
-      }
-
-      products = data;
     }
 
-    return res.status(200).json({ products });
+    console.log(price);
+    
+
+    return res.status(200).json( products );
   } catch (error) {
     return res.status(500).json({
       error: "Ett oväntat fel har inträffat",
@@ -61,28 +96,32 @@ export const getProducts = async (req, res) => {
 
 export const productByCategory = async (req, res) => {
   const { categoryId } = req.params;
-  const { price, categoryID } = req.query;
+  const { price, categoryID, page = 1, pageSize = 8} = req.query;
+   const offset = (page - 1) * parseInt(pageSize);
+
   try {
     let products;
 
     if (price || categoryID) {
       products = await filtredProductsByPrice(price, categoryID);
-    }  else {
-      let { data, error } = await supabase
-        .from("products")
-        .select("id, title, price, img")
-        .eq("category_id", categoryId);
+    } else{
+      products = await pagination(page, pageSize, offset, categoryId)
+      // let { data, error } = await supabase
+      //   .from("products")
+      //   .select("id, title, price, img")
+      //   .eq("category_id", categoryId);
 
-      if (error) {
-        return res
-          .status(404)
-          .json(`Produkterna till kategorin kunde inte hämtas`, error);
-      }
+      // if (error) {
+      //   return res
+      //     .status(404)
+      //     .json(`Produkterna till kategorin kunde inte hämtas`, error);
+      // }
 
-      products = data;
+      // products = data;
     }
 
-    return res.status(200).json(products);
+    return res.status(200).json( products );
+
   } catch (error) {
     return res.status(500).json({
       error: "Ett oväntat fel har inträffat",
@@ -107,14 +146,13 @@ export const searchProduct = async (req, res) => {
         .from("products")
         .select("*")
         .ilike("title", `%${query}%`);
-  
+
       if (error) {
         throw error;
       }
 
       products = data;
     }
-
 
     res.status(200).json(products);
   } catch (error) {
@@ -167,3 +205,4 @@ export const categories = async (req, res) => {
     return res.status(500).json({ error: "Server error 500" });
   }
 };
+

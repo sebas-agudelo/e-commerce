@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import ShowFilters from "./ShowFilters";
 import { Link } from "react-router-dom";
+import ShowPagination from "./ShowPagination";
 
 export default function ShowProdcuts({
   products,
@@ -10,7 +11,11 @@ export default function ShowProdcuts({
   categoryID,
   categoryId,
   setCategoryID,
-  category
+  category,
+  currenPage,
+  setCurrentPage,
+  pages,
+  setPages
 }) {
   return (
     <section className="products-container">
@@ -25,11 +30,12 @@ export default function ShowProdcuts({
         setCategoryID={setCategoryID}
         categoryId={categoryId}
         category={category}
+        
         />
 
       </div>
 
-      {products.map((product) => (
+      {products?.map((product) => (
         <>
           <article key={product.id} className="product-wrapper">
             <Link to={`/product/${product.id}`}>
@@ -48,6 +54,14 @@ export default function ShowProdcuts({
           </article>
         </>
       ))}
+
+      <ShowPagination 
+            currenPage={currenPage}
+            setCurrentPage={setCurrentPage}
+            pages={pages}
+            setPages={setPages}
+            products={products}
+      />
     </section>
   );
 }
