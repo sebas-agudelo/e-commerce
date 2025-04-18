@@ -3,7 +3,7 @@ import { sessionAuthCheck, validateAdminRole, signIn, signOut, authenticateUser,
 import { addToCart, updateCartQty, deleteCart, showCart } from '../controllers/cart/addToCartCtrl.js';
 import { customerAuthOrders, customerOrders } from '../controllers/orders/ordersCtrl.js';
 import { stripeCheckOut } from '../controllers/stripe/checkOut.js';
-import { categories, getProductByID, getProducts, searchProduct, productByCategory, filtredProductsByPrice } from '../controllers/products/productsCtrl.js';
+import { categories, getProductByID, getProducts, searchProduct, productByCategory } from '../controllers/products/productsCtrl.js';
 
 export const routes = express.Router();
 
@@ -21,9 +21,6 @@ routes.get('/api/product/get/:id', getProductByID);
 routes.get('/api/categori/get', categories)
 routes.get('/search', searchProduct);
 routes.get('/api/product/categori/:categoryId', productByCategory);
-// routes.get('/api/pagination', productPagination)
-// routes.get('/filtred/byPrice', filtredProductsByPrice);
-
 /* ALL CART ROUTES */
 routes.post('/api/cart/addtocart', authenticateUser, addToCart);
 routes.put('/api/cart/update', authenticateUser, updateCartQty);
