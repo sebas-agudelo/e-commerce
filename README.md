@@ -1,2 +1,2 @@
-Projektet finns på Vercel
+Vercel - 
 https://examensarbeten-luzs.vercel.app/
