@@ -1,5 +1,5 @@
 import express from 'express';
-import { sessionAuthCheck, validateAdminRole, signIn, signOut, authenticateUser, profile, insertUserData } from '../controllers/auth/sessionManagement.js'
+import { sessionAuthCheck, signIn, signOut, authenticateUser, profile, insertUserData } from '../controllers/auth/sessionManagement.js'
 import { addToCart, updateCartQty, deleteCart, showCart } from '../controllers/cart/addToCartCtrl.js';
 import { customerAuthOrders, customerOrders } from '../controllers/orders/ordersCtrl.js';
 import { stripeCheckOut } from '../controllers/stripe/checkOut.js';
@@ -12,7 +12,6 @@ routes.post('/auth/signin', signIn);
 routes.post('/auth/signout', signOut);
 routes.get('/auth/profile', authenticateUser, profile); 
 routes.get('/auth/sessionAuthCheck', sessionAuthCheck);
-routes.get('/auth/validateAdminRole', validateAdminRole);
 routes.post('/auth/register/information', authenticateUser, insertUserData);
 
 /* ALL PRODUCTS ROUTES */
