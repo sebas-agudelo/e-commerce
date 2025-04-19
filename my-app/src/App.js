@@ -14,6 +14,7 @@ import ProtectedRoutes from "./protected/ProtectedRoutes";
 import RedirectedRoutes from "./protected/RedirectedRoutes";
 import Spinners from "./components/spinners/Spinners";
 import Success from "./pages/Success";
+import { ProductsProvider } from "./Context/ProductsContext";
 
 const Home = React.lazy(() => import("./pages/Home"));
 const AllProducts = React.lazy(() =>
@@ -34,6 +35,7 @@ function App() {
       <BrowserRouter>
         <ProductProvider>
           <CartProvider>
+            <ProductsProvider>
             <Navbar />
             <Suspense fallback={<Spinners />}>
               <Routes>
@@ -87,6 +89,7 @@ function App() {
                       <Route path="/filtred/byPrice?query"/>
               </Routes>
             </Suspense>
+            </ProductsProvider>
           </CartProvider>
         </ProductProvider>
       </BrowserRouter>

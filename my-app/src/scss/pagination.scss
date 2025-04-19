@@ -1,8 +1,10 @@
 .pagination-container{
     width: 100%;
     display: flex;
-    justify-content: space-between;
+    flex-direction: column;
+    justify-content: center;
     align-items: center;
+    padding: 48px 0 16px;
 
 
     p{
@@ -18,15 +20,30 @@
         align-items: center;
         padding: 16px 0;
 
-        .pgn-action-btn{
-            background: transparent;
+        .pgn-action-btn-prev{
+            background-color: #efdd54;
             border-style: none;
             cursor: pointer;
-            padding: 0 16px;
-            color: #f2d91c;
-            
+            padding: 5px;
+            margin: 0 26px 0 0;
+
             svg{
-                font-size: 26px;
+                font-size: 24px;
+                color: #000;
+
+            }
+        }
+
+        .pgn-action-btn-next{
+            background-color: #efdd54;
+            border-style: none;
+            cursor: pointer;
+            padding: 5px;
+            margin: 0 0 0 26px;
+
+            svg{
+                font-size: 24px;
+
             }
         }
 
@@ -34,9 +51,13 @@
             background: transparent;
             border-style: none;
             cursor: pointer;
-            padding: 0 8px;
-            font-size: 22px;
+            padding: 0 16px;
+            font-size: 19px;
 
+        }
+
+        .current-page{
+            color: #efdd54;
         }
     }
 }

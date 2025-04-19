@@ -1,21 +1,11 @@
 import React, { useContext, useEffect, useState } from "react";
-import { ProductContext } from "../../Context/ProductContext";
-import { AuthSessionContext } from "../../Context/SessionProvider";
 import Footer from "../Footer";
 import ShowProdcuts from "../../components/ProductComponents/ShowProdcuts";
-import { GrNext } from "react-icons/gr";
-import { GrPrevious } from "react-icons/gr";
+import { ProductsApiContext } from "../../Context/ProductsContext";
 
 export default function Products() {
-  const [products, setProducts] = useState([]);
-  const [price, setPrice] = useState(0);
-  const [categoryID, setCategoryID] = useState();
-  const [pages, setPages] = useState([]);
-  const [count, setCount] = useState([]);
-  const [currenPage, setCurrentPage] = useState(1);
-
-  const { setErrorMessage, setOkMessage } = useContext(ProductContext);
-  const { session, admin } = useContext(AuthSessionContext);
+  const { products, count, fetchProducts, price, currenPage, categoryID } =
+    useContext(ProductsApiContext);
 
   useEffect(() => {
     const fetch = async () => {
@@ -39,47 +29,15 @@ export default function Products() {
         url += `&categoryID=${categoryID}`;
       }
 
-      const response = await fetch(url, {
-        method: "GET",
-        credentials: "include",
-        headers: { "Content-Type": "application/json" },
-      });
-
-      const data = await response.json();
-
-      console.log(data);
-
-      if (response.ok) {
-        setProducts(data.products);
-        setPages(data.totalPages);
-        setCount(data.count);
-        // setCurrentPage(data.currenPage)
-      } else {
-        setErrorMessage(data.error);
-      }
+      fetchProducts(url);
     } catch (error) {
-      console.error(error);
+      alert("Ett oväntat fel har inträffat");
     }
   };
 
   return (
     <main className="Products-main">
-      <div className="search-word">
-        <h1>Visa alla</h1>
-      </div>
-
-      <ShowProdcuts
-        setProducts={setProducts}
-        products={products}
-        price={price}
-        setPrice={setPrice}
-        categoryID={categoryID}
-        setCategoryID={setCategoryID}
-        currenPage={currenPage}
-        setCurrentPage={setCurrentPage}
-        pages={pages}
-        setPages={setPages}
-      />
+      <ShowProdcuts />
       <Footer />
     </main>
   );

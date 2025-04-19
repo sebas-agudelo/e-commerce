@@ -1,19 +1,19 @@
-import React from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { GrNext } from "react-icons/gr";
 import { GrPrevious } from "react-icons/gr";
+import { ProductsApiContext } from "../../Context/ProductsContext";
 
-export default function ShowPagination({
-  currenPage,
-  setCurrentPage,
-  pages,
-  setPages,
-  products,
-}) {
+export default function ShowPagination() {
+
+  const { currenPage, categoryID, setCurrentPage, pages, products } =
+    useContext(ProductsApiContext);
+
+    useEffect(() => {},[categoryID])
+
   const pageNumbers = [];
   for (let i = 1; i <= pages; i++) {
     pageNumbers.push(i);
   }
-  console.log(pageNumbers);
 
   const nextPage = async () => {
     if (currenPage < pages) {
@@ -34,20 +34,35 @@ export default function ShowPagination({
   return (
     <div className="pagination-container">
       <p>
-        Produkter: {products.length} - sida: {currenPage}
+        Sida: {currenPage} - Produkter: {products.length}
       </p>
-
       <div className="pagination-btn-wrapper">
-        <button className="pgn-action-btn" onClick={prevPage} disabled={currenPage === 1}>
-          <GrPrevious />
-        </button>
+        {currenPage > 1 && (
+          <button
+            className="pgn-action-btn-prev"
+            onClick={prevPage}
+            disabled={currenPage === 1}
+          >
+            <GrPrevious />
+          </button>
+        )}
+
         {pageNumbers.map((page) => (
-          <button className="pgn-index-btn" onClick={() => handlePageChange(page)}>{page}</button>
+          <button
+            className={`pgn-index-btn ${currenPage === page ? "current-page" : ""}`}
+            onClick={() => handlePageChange(page)}
+          >
+            {page}
+          </button>
         ))}
 
-        <button className="pgn-action-btn" onClick={nextPage} disabled={currenPage === pages}>
-          <GrNext />
-        </button>
+        {currenPage === pages ? (
+          ""
+        ) : (
+          <button className="pgn-action-btn-next" onClick={nextPage}>
+            <GrNext />
+          </button>
+        )}
       </div>
     </div>
   );

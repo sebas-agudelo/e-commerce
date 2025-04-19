@@ -3,26 +3,20 @@ import { IoFilterSharp } from "react-icons/io5";
 import { VscChromeClose } from "react-icons/vsc";
 import ShowProdcuts from "./ShowProdcuts";
 import { ProductContext } from "../../Context/ProductContext";
+import { ProductsApiContext } from "../../Context/ProductsContext";
 
-export default function ShowFilters({
-  price,
-  setPrice,
-  products,
-  categoryID,
-  categoryId,
-  setCategoryID,
-  category,
-}) {
+export default function ShowFilters({ category, categoryId }) {
+  const { price, setPrice, count, setCategoryID } =
+    useContext(ProductsApiContext);
   const [isClicked, setIsClicked] = useState(false);
   const [isSelected, setIsSelected] = useState(true);
   const { categories } = useContext(ProductContext);
 
   const handleClick = () => {
-    {isClicked ? setIsClicked(false) : setIsClicked(true)}
-   
-
+    {
+      isClicked ? setIsClicked(false) : setIsClicked(true);
+    }
   };
-
 
   const removeFilters = () => {
     setPrice(0);
@@ -38,9 +32,12 @@ export default function ShowFilters({
     }
   }, [categoryId]);
 
+
   return (
     <div>
-      <div className={isClicked ? "products-filter-container" : "filter-container"}>
+      <div
+        className={isClicked ? "products-filter-container" : "filter-container"}
+      >
         <div className="products-filters-wrapper">
           <div className="close-filter-menu">
             <h3>Filter</h3>
@@ -91,7 +88,7 @@ export default function ShowFilters({
             Ta bort allt
           </button>
           <button className="filter-buttons" onClick={handleClick}>
-            Filtrera <span>{products.length}</span>
+            Filtrera <span>{count}</span>
           </button>
         </div>
       </div>

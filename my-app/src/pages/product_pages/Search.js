@@ -12,7 +12,7 @@ const ProductSearch = () => {
   const [searchQuery, setSearchQuery] = useState(queryFromURL);
   const [products, setProducts] = useState([]);
   const [price, setPrice] = useState(0);
-  const [ categoryID, setCategoryID] = useState();
+  const [categoryID, setCategoryID] = useState();
   const [error, setError] = useState(null);
   const {fetchProductById} = useContext(ProductContext);
   const {id} = useParams()
@@ -28,7 +28,7 @@ const ProductSearch = () => {
     // `https://examensarbeten.vercel.app/search?query=${query}`
     // `http://localhost:3030/search?query=${query}`
     try {
-      let url = `https://examensarbeten.vercel.app/search?query=${query}`
+      let url = `http://localhost:3030/search?query=${query}`
 
       if(price){
         url += `&price=${price}`
@@ -41,11 +41,15 @@ const ProductSearch = () => {
       const response = await fetch(url);
       const data = await response.json();
 
+      if(response.ok){
+        setProducts(data.products);
+
+      }
+
       if (!response.ok) {
         throw new Error(data.error || 'Fel vid sökning');
       }
 
-      setProducts(data);
       setError(null);
     } catch (err) {
       setError(err.message);
@@ -74,7 +78,7 @@ const ProductSearch = () => {
         
         <ShowProdcuts 
             setProducts={setProducts}
-            products={products}
+            products={products} 
             price={price}
             setPrice={setPrice}
             categoryID={categoryID}
