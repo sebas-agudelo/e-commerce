@@ -10,7 +10,6 @@ export const SessionProvider = ({ children }) => {
   useEffect(() => {
     const fetchSessionData = async () => {
       await verifySession();
-      await verifyAdmin();
       setLoading(false); 
     };
     fetchSessionData();
@@ -36,35 +35,15 @@ export const SessionProvider = ({ children }) => {
     }
   };
 
-  const verifyAdmin = async () => {
-    try {
-      const response = await fetch('https://examensarbeten.vercel.app/auth/validateAdminRole', {
-        method: "GET",
-        credentials: 'include',
-        headers: { "Content-Type": "application/json" }
-      });
-
-      const data = await response.json();
-      if (response.ok && data.isAdmin) {
-        setAdmin(true); 
-      } else {
-        setAdmin(false); 
-      }
-    } catch (error) {
-      console.error("Error during admin verification:", error);
-    }
-  };
+  
 
   return (
     <AuthSessionContext.Provider
       value={{
         session,
         setSession,
-        admin,
-        setAdmin,
         loading,
         verifySession,
-        verifyAdmin,
         setLoading
       }}
     >
