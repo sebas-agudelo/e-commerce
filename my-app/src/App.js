@@ -15,7 +15,7 @@ import RedirectedRoutes from "./protected/RedirectedRoutes";
 import Spinners from "./components/spinners/Spinners";
 import Success from "./pages/Success";
 import { ProductsProvider } from "./Context/ProductsContext";
-
+  
 const Home = React.lazy(() => import("./pages/Home"));
 const AllProducts = React.lazy(() =>
   import("./pages/product_pages/AllProducts")

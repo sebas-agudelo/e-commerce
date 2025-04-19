@@ -5,7 +5,7 @@ export const AuthSessionContext = createContext();
 export const SessionProvider = ({ children }) => {
   const [session, setSession] = useState(null); 
   const [admin, setAdmin] = useState(false);
-  const [loading, setLoading] = useState(true);  // Loading state for async operations
+  const [loading, setLoading] = useState(true); 
 
   useEffect(() => {
     const fetchSessionData = async () => {
@@ -26,13 +26,13 @@ export const SessionProvider = ({ children }) => {
 
       const data = await response.json();
       if (response.ok && data.isLoggedIn) {
-        setSession(true); // User is logged in
+        setSession(true);
       } else {
-        setSession(false); // User is not logged in
+        setSession(false); 
       }
     } catch (error) {
       console.error("Error during session verification:", error);
-      setSession(false); // Default to not logged in on error
+      setSession(false); 
     }
   };
 
@@ -46,9 +46,9 @@ export const SessionProvider = ({ children }) => {
 
       const data = await response.json();
       if (response.ok && data.isAdmin) {
-        setAdmin(true); // User is an admin
+        setAdmin(true); 
       } else {
-        setAdmin(false); // User is not an admin
+        setAdmin(false); 
       }
     } catch (error) {
       console.error("Error during admin verification:", error);
