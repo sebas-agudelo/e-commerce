@@ -1,7 +1,7 @@
 import { supabase_config } from "../../supabase_config/supabase_conlig.js";
 const supabase = supabase_config();
 
-export const filtredProducts = async (price = null, categoryID = null) => {
+export const filtredProducts = async (price = null, categoryID = null, page, pageSize) => {
   let query = supabase.from("products").select("id, title, price, img");
   if (categoryID !== null) {
     query = query.eq("category_id", categoryID);
@@ -20,22 +20,29 @@ export const filtredProducts = async (price = null, categoryID = null) => {
       (product) => product.price >= minPrice && product.price <= maxPrice
     );
   }
+
+  const count = filtredProducts.length;
+  const totalPages = Math.ceil(count / pageSize);
+
+  const offset = (page - 1) * pageSize;
+  const paginatedProducts = filtredProducts.slice(offset, offset + pageSize)
+  
   return {
-    currenPage: 1,
-    totalPages: 1,
-    count: 0,
-    products: filtredProducts,
+    currenPage: page,
+    totalPages: totalPages,
+    count: count,
+    products: paginatedProducts,
     error: error,
   };
 };
 
-export const pagination = async (page, pageSize, offset, categoryId) => {
+export const pagination = async (page, pageSize, offset, categoryID) => {
   let query = supabase
     .from("products")
     .select("id, title, price, img", { count: "exact" })
     .range(offset, offset + pageSize - 1);
-  if (categoryId) {
-    query = query.eq("category_id", categoryId);
+  if (categoryID) {
+    query = query.eq("category_id", categoryID);
   }
   const { data, count, error } = await query;
   if (error || !data) {
@@ -43,11 +50,12 @@ export const pagination = async (page, pageSize, offset, categoryId) => {
       products: [],
     };
   }
+  let products = data;
   const totalPages = Math.ceil(count / pageSize);
   return {
     currenPage: page,
     totalPages: totalPages,
-    products: data,
+    products: products,
     count: count,
     error: error,
   };
@@ -55,14 +63,14 @@ export const pagination = async (page, pageSize, offset, categoryId) => {
 
 //HÄMTAR ALLA PRODUKTER
 export const getProducts = async (req, res) => {
-  const { price, categoryID, page = 1, pageSize = 8 } = req.query;
+  const { price, categoryID, page = 1, pageSize = 6 } = req.query;
   const offset = (page - 1) * parseInt(pageSize);
 
   try {
     let products;
 
     if (price || categoryID) {
-      products = await filtredProducts(price, categoryID);
+      products = await filtredProducts(price, categoryID, +page, +pageSize);
     } else {
       products = await pagination(page, pageSize, offset);
     }
@@ -77,7 +85,7 @@ export const getProducts = async (req, res) => {
 //HÄMTAR PRODUKTER BASERAD PÅ KATEGORY
 export const productByCategory = async (req, res) => {
   const { categoryId } = req.params;
-  const { price, categoryID, page = 1, pageSize = 8 } = req.query;
+  const { price, categoryID, page = 1, pageSize = 6 } = req.query;
   const offset = (page - 1) * parseInt(pageSize);
   try {
     let products;
@@ -85,7 +93,7 @@ export const productByCategory = async (req, res) => {
       return res.status(404).json({error: "Kategorin hittades inte."})
     }
     if (price || categoryID) {
-      products = await filtredProducts(price, categoryID);
+      products = await filtredProducts(price, categoryID, +page, +pageSize);
     } else {
       products = await pagination(page, pageSize, offset, categoryId);
     }
