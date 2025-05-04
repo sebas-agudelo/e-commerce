@@ -94,7 +94,12 @@ export const signOut = async (req, res) => {
         .json({ error: "Vi kunde inte logga ut dig. Försök igen." });
     } else {
       return res
-        .clearCookie("cookie_key")
+      .clearCookie("cookie_key", {
+        httpOnly: true,
+        secure: true,
+        sameSite: "none",
+      })
+      
         .status(200)
         .json({ successfully: "Du är utloggad" });
     }
