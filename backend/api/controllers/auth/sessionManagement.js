@@ -71,10 +71,10 @@ export const signIn = async (req, res) => {
 
     return res
     .cookie("cookie_key", access_token, {
-      httpOnly: true, // fixad: ingen sträng!
-      secure: process.env.NODE_ENV === "production", // krävs för HTTPS på Vercel
-      sameSite: "lax", // så att cookien skickas med fetch
-      maxAge: 7 * 24 * 60 * 60 * 1000, // 7 dagarrrrrr
+      httpOnly: true,
+      secure: true, // OBS! krävs i production/Vercel
+      sameSite: "none", // viktigt för cross-site cookies!
+      maxAge: 7 * 24 * 60 * 60 * 1000,
     })
     .status(200)
     .json({ successfully: "Du är inloggad" });
