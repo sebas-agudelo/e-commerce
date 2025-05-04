@@ -74,7 +74,7 @@ export const signIn = async (req, res) => {
       httpOnly: true, // fixad: ingen sträng!
       secure: process.env.NODE_ENV === "production", // krävs för HTTPS på Vercel
       sameSite: "lax", // så att cookien skickas med fetch
-      maxAge: 7 * 24 * 60 * 60 * 1000, // 7 dagar
+      maxAge: 7 * 24 * 60 * 60 * 1000, // 7 dagarrrrrr
     })
     .status(200)
     .json({ successfully: "Du är inloggad" });
