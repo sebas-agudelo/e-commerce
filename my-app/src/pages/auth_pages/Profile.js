@@ -33,7 +33,7 @@ export default function Profile() {
 
   return (
     <div className='my-page-container'>
-      {/* <h1>Mina sidor</h1>
+      <h1>Mina sidor</h1>
       
       {userData.length > 0 ? userData.map((user) => 
         <div className='user-metadata'>
@@ -49,7 +49,7 @@ export default function Profile() {
     )
     
     : <Link to="/register/information">Lägg till dina uppgifter</Link>
-  } */}
+  }
 
   <SignOut />
     </div>
