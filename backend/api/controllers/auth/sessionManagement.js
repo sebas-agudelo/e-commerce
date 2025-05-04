@@ -70,12 +70,15 @@ export const signIn = async (req, res) => {
     const { access_token } = sessionData.session;
 
     return res
-      .cookie("cookie_key", access_token, {
-        httpOnly: "true",
-        maxAge: 7 * 24 * 60 * 60 * 1000,
-      })
-      .status(200)
-      .json({ successfully: "Du är inloggad" });
+    .cookie("cookie_key", access_token, {
+      httpOnly: true, // fixad: ingen sträng!
+      secure: process.env.NODE_ENV === "production", // krävs för HTTPS på Vercel
+      sameSite: "lax", // så att cookien skickas med fetch
+      maxAge: 7 * 24 * 60 * 60 * 1000, // 7 dagar
+    })
+    .status(200)
+    .json({ successfully: "Du är inloggad" });
+  
   } catch (error) {
     console.log({ error: "Ett oväntat fel inträffade. Försök senare igen." });
   }
