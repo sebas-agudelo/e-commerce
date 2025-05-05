@@ -72,8 +72,8 @@ export const signIn = async (req, res) => {
     return res
     .cookie("cookie_key", access_token, {
       httpOnly: true,
-      secure: true, // OBS! krävs i production/Vercel
-      sameSite: "none", // viktigt för cross-site cookies!
+      secure: true,
+      sameSite: "none", 
       maxAge: 7 * 24 * 60 * 60 * 1000,
     })
     .status(200)
