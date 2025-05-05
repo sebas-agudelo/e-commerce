@@ -32,7 +32,6 @@ export default function UserData() {
         <main className='' >
              {userData.length > 0 ? userData.map((user) => 
         <div className='user-metadata'>
-          <h3>Du är behörig admin</h3>
 
           <p>Förnamn: {user.firstname}</p>
           <p>Efternamn: {user.lastname}</p>

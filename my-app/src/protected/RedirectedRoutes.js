@@ -15,8 +15,10 @@ export default function RedirectedRoutes({ children }) {
       }
   
       if (session) {
+        
         navigate('/', { replace: true });
       }
+      console.log("Du är inloggad");
 
       
     }, [session, loading, navigate]);

@@ -69,6 +69,11 @@ export const signIn = async (req, res) => {
     }
     const { access_token } = sessionData.session;
 
+    console.log(access_token);
+    console.log(email);
+    
+    
+
     return res
     .cookie("cookie_key", access_token, {
       httpOnly: true,
