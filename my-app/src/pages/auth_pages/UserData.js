@@ -1,55 +1,20 @@
-import React, { useContext, useEffect, useState } from 'react'
-import { AuthSessionContext } from '../../Context/SessionProvider';
+import React, { useEffect, useState } from "react";
+import Lala from "../../components/ProfileComponent/Lala";
+import UserInfo from "../../components/ProfileComponent/UserInfo";
 
 export default function UserData() {
- 
-    const {verifySession, setLoading} = useContext(AuthSessionContext);
-      const [userData, setUserData] = useState([]);
-      
-      useEffect(() => {
-        getUserData();
-      },[])
-    
-      const getUserData = async () => {
-        const response = await fetch(`https://examensarbeten.vercel.app/auth/profile`,{
-          method: "GET", 
-          credentials: "include",
-          headers: { "Content-Type": "application/json" },
-        })
-    
-        const data = await response.json();
-    
-        if(response.ok){
-          setUserData(data.users_info)
-    
-        } 
-       
-      }
+    const [width, setWidth] = useState(window.innerWidth >= 768)
 
-
-
-    return (
-        <main className='' >
-             {userData.length > 0 ? userData.map((user) => 
-        <div className='user-metadata'>
-
-          <p>Förnamn: {user.firstname}</p>
-          <p>Efternamn: {user.lastname}</p>
-          <p>Mobil: {user.phone}</p>
-          <p>Födelsedatum: {user.birthday}</p>
-          <p>Adress: {user.address}</p>
-          <p>Postnummer: {user.postal}</p>
-        </div>
-    )
+    useEffect(() => {
+        setWidth(window.innerWidth >= 768);
+    },[width])
     
-    : ""
-  }
-
-  <div>
-    <button>
-        Radera konto
-    </button>
-  </div>
-        </main>
-    );
+   
+  return (
+    <main className="profile-container">
+      <h1>MITT KONTO</h1>
+      {width && <Lala />}
+      <UserInfo />
+    </main>
+  );
 }

@@ -2,19 +2,27 @@ import { supabase_config } from "../../supabase_config/supabase_conlig.js";
 const supabase = supabase_config();
 
 export const sessionAuthCheck = async (req, res) => {
-  try {
-    const { data: sessionData, error: sessionError } =
-      await supabase.auth.getSession();
+  const token = req.cookies.cookie_key;
 
-    if (sessionError || !sessionData.session) {
-      return res.status(200).json({ isLoggedIn: false });
-    }
-
-    return res.status(200).json({ isLoggedIn: true });
-  } catch (error) {
-    console.log({ error: "Ett oväntat fel inträffade. Försök senare igen." });
+  if (!token) {
+    
+    return res.status(200).json({ isLoggedIn: false });
   }
+  
+  const { data, error } = await supabase.auth.getUser(token);
+  const email = data.user.email;
+  
+  console.log(email);
+  console.log("Token från sessionAuthCheck", token);
+  
+
+  if (error || !data?.user) {
+    return res.status(200).json({ isLoggedIn: false });
+  }
+
+  return res.status(200).json({ isLoggedIn: true, email: data.user.email });
 };
+
 
 export const authenticateUser = async (req, res, next) => {
   try {
@@ -54,11 +62,9 @@ export const signIn = async (req, res) => {
     });
 
     if (error) {
-      return res
-        .status(400)
-        .json({
-          error: "Felaktig e-postadress eller lösenord. Vänligen försök igen.",
-        });
+      return res.status(400).json({
+        error: "Felaktig e-postadress eller lösenord. Vänligen försök igen.",
+      });
     }
 
     const { data: sessionData, error: sessionError } =
@@ -69,21 +75,15 @@ export const signIn = async (req, res) => {
     }
     const { access_token } = sessionData.session;
 
-    console.log(access_token);
-    console.log(email);
-    
-    
-
     return res
-    .cookie("cookie_key", access_token, {
-      httpOnly: true,
-      secure: true,
-      sameSite: "none", 
-      maxAge: 7 * 24 * 60 * 60 * 1000,
-    })
-    .status(200)
-    .json({ successfully: "Du är inloggad" });
-  
+      .cookie("cookie_key", access_token, {
+        httpOnly: true,
+        secure: false,
+        sameSite: "lax",
+        maxAge: 7 * 24 * 60 * 60 * 1000,
+      })
+      .status(200)
+      .json({ successfully: "Du är inloggad" });
   } catch (error) {
     console.log({ error: "Ett oväntat fel inträffade. Försök senare igen." });
   }
@@ -99,12 +99,12 @@ export const signOut = async (req, res) => {
         .json({ error: "Vi kunde inte logga ut dig. Försök igen." });
     } else {
       return res
-      .clearCookie("cookie_key", {
-        httpOnly: true,
-        secure: true,
-        sameSite: "none",
-      })
-      
+        .clearCookie("cookie_key", {
+          httpOnly: true,
+          secure: false,
+          // sameSite: "none",
+        })
+
         .status(200)
         .json({ successfully: "Du är utloggad" });
     }

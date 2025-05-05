@@ -4,6 +4,7 @@ export const AuthSessionContext = createContext();
 
 export const SessionProvider = ({ children }) => {
   const [session, setSession] = useState(null); 
+  const [email, setEmail] = useState()
   const [admin, setAdmin] = useState(false);
   const [loading, setLoading] = useState(true); 
 
@@ -17,7 +18,7 @@ export const SessionProvider = ({ children }) => {
 
   const verifySession = async () => {
     try {
-      const response = await fetch('https://examensarbeten.vercel.app/auth/sessionAuthCheck', {
+      const response = await fetch('http://localhost:3030/auth/sessionAuthCheck', {
         method: "GET",
         credentials: "include",
         headers: { "Content-Type": "application/json" }
@@ -26,6 +27,7 @@ export const SessionProvider = ({ children }) => {
       const data = await response.json();
       if (response.ok && data.isLoggedIn) {
         setSession(true);
+        setEmail(data.email)
       } else {
         setSession(false); 
       }
@@ -44,7 +46,8 @@ export const SessionProvider = ({ children }) => {
         setSession,
         loading,
         verifySession,
-        setLoading
+        setLoading,
+        email
       }}
     >
       {children}

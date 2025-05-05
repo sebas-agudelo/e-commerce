@@ -16,6 +16,8 @@ export default function ProtectedRoutes({ children }) {
     }
     
     if (!session) {
+      console.log("Du är utloggad");
+      
       navigate('/signin', { replace: true });
     }
   

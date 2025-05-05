@@ -1,133 +1,142 @@
-.profile-container{
-    padding: 70px 12px 0;
+.profile-container {
+    padding: 70px 20px 70px;
 
-    h1{
+    h1 {
+        width: 100%;
         font-size: 18px;
         text-align: center;
-        
     }
 
-    .action-btns{
-        padding-top: 38px;
+    .profile-actions {
+        width: 100%;
 
-        p{
-            margin-bottom: 12px;
-            a{
-                text-decoration: none;
-                color: black;
+        .welcome {
+            padding: 28px 0;
+            border-bottom: 1px solid #dfded7;
+
+            p {
                 font-size: 18px;
-                border-bottom: 1px solid transparent;
                 font-weight: 300;
-                
-                &:hover{
-                    border-bottom: 1px solid #efdd54;;
+
+            }
+        }
+
+        .action-btns {
+            padding-top: 28px;
+
+            p {
+                margin-bottom: 18px;
+
+                svg {
+                    font-size: 18px;
                 }
-            
+
+                a {
+                    text-decoration: none;
+                    color: black;
+                    font-size: 18px;
+                    border-bottom: 1px solid transparent;
+                    font-weight: 300;
+
+                    &:hover {
+                        border-bottom: 1px solid #efdd54;
+                        ;
+                    }
+                }
+            }
+        }
+
+        .signout-btn-container {
+            margin-top: 58px;
+        }
+    }
+
+    .user-info-container {
+        padding: 19px 0 0;
+        width: 100%;
+
+
+        form {
+            display: flex;
+            flex-direction: column;
+
+            label {
+                padding: 10px 0;
+                font-weight: 300;
+            }
+
+            input {
+                padding: 12px 0;
+                border: none;
+                border-bottom: 1px solid #efdd54;
+                transition: padding 350ms linear;
+
+                &:focus {
+                    outline: none;
+                    border: 1px solid #efdd54;
+                    padding: 12px 6px;
+                }
             }
 
         }
 
-    }
+        .remove-account {
+            margin-top: 58px;
 
-    .user-metadata{
+            button {
+                background: transparent;
+                border: none;
+                padding: 0 0 8px;
+                border-bottom: 1px solid #e0dfd9;
+                cursor: pointer;
 
-        h3{
-            font-size: 24px;
-            padding: 16px 0;
-        }
-        
-        p{
-            font-size: 24px;
-            margin: 12px 0;
-
+            }
         }
     }
-
-    .admin-actions{
-
-        p{
-
-        }
-
-        a{
-            text-decoration: none;
-            color: black;
-            font-size: 24px;
-            margin-right: 34px;
-            margin-bottom: 24px;
-            
-
-
-        }
-
-    }
-    
 }
 
 @media screen and (min-width: 768px) {
-    .profile-container{
-        padding: 70px 12px 0;
-    
-        h1{
+    .profile-container {
+        padding: 70px 36px 70px;
+        display: flex;
+        flex-wrap: wrap;
+
+        h1 {
             font-size: 28px;
-            text-align: center;
-            
         }
-    
-        .action-btns{
-            padding-top: 38px;
-    
-            p{
-                margin-bottom: 12px;
-                a{
-                    text-decoration: none;
-                    color: black;
-                    font-size: 22px;
-                    border-bottom: 1px solid transparent;
+
+        .profile-actions {
+            width: 30%;
+
+            .welcome {
+                p {
+                    font-size: 20px;
                     font-weight: 300;
-                    
-                    &:hover{
-                        border-bottom: 1px solid #efdd54;;
-                    }
-                
+
                 }
-    
             }
-    
+
+            .action-btns {
+                p {
+                    a {
+                        text-decoration: none;
+                        color: black;
+                        font-size: 20px;
+                        border-bottom: 1px solid transparent;
+                        font-weight: 300;
+
+                        &:hover {
+                            border-bottom: 1px solid #efdd54;
+                            ;
+                        }
+                    }
+                }
+            }
         }
-    
-        .user-metadata{
-    
-            h3{
-                font-size: 24px;
-                padding: 16px 0;
-            }
-            
-            p{
-                font-size: 24px;
-                margin: 12px 0;
-    
-            }
+
+        .user-info-container {
+            padding: 19px 0 0 100px;
+            width: 45%;
         }
-    
-        .admin-actions{
-    
-            p{
-    
-            }
-    
-            a{
-                text-decoration: none;
-                color: black;
-                font-size: 24px;
-                margin-right: 34px;
-                margin-bottom: 24px;
-                
-    
-    
-            }
-    
-        }
-        
     }
 }
