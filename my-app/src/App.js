@@ -15,6 +15,7 @@ import RedirectedRoutes from "./protected/RedirectedRoutes";
 import Spinners from "./components/spinners/Spinners";
 import Success from "./pages/Success";
 import { ProductsProvider } from "./Context/ProductsContext";
+import Dashboard from "./pages/dashboard/Dashboard";
   
 const Home = React.lazy(() => import("./pages/Home"));
 const AllProducts = React.lazy(() =>
@@ -87,6 +88,9 @@ function App() {
                       <Route path="/payment-success" element={<Success />}/>
                       {/* <Route path="/search?query"/> */}
                       <Route path="/filtred/byPrice?query"/>
+                      <Route 
+                      path="/dashboard" element={<Dashboard />}
+                      />
               </Routes>
             </Suspense>
             </ProductsProvider>
