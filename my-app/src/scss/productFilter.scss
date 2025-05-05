@@ -27,12 +27,12 @@
       border-bottom: 1px solid #efdd54;
 
       h3 {
-        font-size: 28px;
+        font-size: 22px;
         font-weight: 500;
       }
 
       svg {
-        font-size: 28px;
+        font-size: 22px;
         cursor: pointer;
       }
     }
@@ -69,8 +69,8 @@
       .slider::-webkit-slider-thumb {
         -webkit-appearance: none;
         appearance: none;
-        width: 24px;
-        height: 24px;
+        width: 18px;
+        height: 18px;
         border-radius: 50%;
         background: #000;
         cursor: pointer;
@@ -148,7 +148,7 @@
       .price-range {
         h3 {
           font-weight: 400;
-          font-size: 18px;
+          font-size: 16px;
           padding: 0 0 20px;
           
           span {
@@ -156,7 +156,7 @@
             border-radius: 3px;
             padding: 0 6px;
             margin-left: 8px;
-            font-size: 18px;
+            font-size: 16px;
           }
         }
         
@@ -171,7 +171,7 @@
         
         h3 {
           font-weight: 400;
-          font-size: 18px;
+          font-size: 16px;
           padding: 0 0 0px;
           
           span {

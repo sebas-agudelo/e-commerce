@@ -2,116 +2,55 @@ import React, { useContext, useEffect, useState } from 'react'
 import { AuthSessionContext } from '../../Context/SessionProvider';
 
 export default function UserData() {
-    const [userData, setUserData] = useState({
-        firstname: "",
-        lastname: "",
-        phone: "",
-        birthday: "",
-        address: "",
-        postal: "",
-    })
-
+ 
     const {verifySession, setLoading} = useContext(AuthSessionContext);
-
-    useEffect(() => {
-        const fetch = async () => {
-            await verifySession()
-            setLoading(false)
-        }
-
-        fetch()
-    }, [verifySession])
-
-
-    const fetchInserUserData = async () => {
-        try {
-            const response = await fetch(`https://examensarbeten.vercel.app/auth/register/information`, {
-              method: "POST",
-              credentials: "include",
-              headers: { "Content-Type": "application/json" },
-              body: JSON.stringify(userData),
-            });
+      const [userData, setUserData] = useState([]);
       
-            const data = await response.json();
-      
-            if (response.ok) {
-             
-                alert(data.success)
-            } else {
-              alert(data.error)
-            }
-          } catch (error) {
-            console.error(error);
-          }
+      useEffect(() => {
+        getUserData();
+      },[])
+    
+      const getUserData = async () => {
+        const response = await fetch(`https://examensarbeten.vercel.app/auth/profile`,{
+          method: "GET", 
+          credentials: "include",
+          headers: { "Content-Type": "application/json" },
+        })
+    
+        const data = await response.json();
+    
+        if(response.ok){
+          setUserData(data.users_info)
+    
+        } 
+       
+      }
 
-    };
 
-    const handleChange = (e) => {
-        const { name, value } = e.target;
-
-        setUserData((prevDetails) => ({
-            ...prevDetails,
-            [name]: value,
-        }));
-    };
-
-    const handleSubmit = (e) => {
-        e.preventDefault()
-        fetchInserUserData()
-    }
 
     return (
-        <main className='user-data-container' >
-            <section className='user-data-wrapper'>
+        <main className='' >
+             {userData.length > 0 ? userData.map((user) => 
+        <div className='user-metadata'>
+          <h3>Du är behörig admin</h3>
 
-            <article className="user-data-content">
-                <form onSubmit={handleSubmit}>
-                    <input 
-                        type='text' 
-                        name='firstname' 
-                        value={userData.firstname} 
-                        onChange={handleChange} 
-                        placeholder='Förnamn' 
-                    />
-                    <input 
-                        type='text' 
-                        name='lastname' 
-                        value={userData.lastname} 
-                        onChange={handleChange} 
-                        placeholder='Efternamn' 
-                    />
-                    <input 
-                        type='text' 
-                        name='phone' 
-                        value={userData.phone} 
-                        onChange={handleChange} 
-                        placeholder='Telefonnummer' 
-                    />
-                    <input 
-                        type='text' 
-                        name='birthday' 
-                        value={userData.birthday} 
-                        onChange={handleChange} 
-                        placeholder='Födelsedatum' 
-                    />
-                    <input 
-                        type='text' 
-                        name='address' 
-                        value={userData.address} 
-                        onChange={handleChange} 
-                        placeholder='Adress' 
-                    />
-                    <input 
-                        type='text' 
-                        name='postal' 
-                        value={userData.postal} 
-                        onChange={handleChange} 
-                        placeholder='Postnummer' 
-                    />
-                    <button type='submit'>Skicka</button>
-                </form>
-                </article>
-            </section>
+          <p>Förnamn: {user.firstname}</p>
+          <p>Efternamn: {user.lastname}</p>
+          <p>Mobil: {user.phone}</p>
+          <p>Födelsedatum: {user.birthday}</p>
+          <p>Adress: {user.address}</p>
+          <p>Postnummer: {user.postal}</p>
+        </div>
+    )
+    
+    : ""
+  }
+
+  <div>
+    <button>
+        Radera konto
+    </button>
+  </div>
         </main>
     );
 }

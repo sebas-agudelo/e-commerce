@@ -95,9 +95,12 @@ export default function ShowFilters({ category, categoryId }) {
 
       <div>
         <button className="filter-btn" onClick={handleClick}>
-          Filter
+          Alla filter
           <IoFilterSharp />
         </button>
+        {/* <button>
+          Sortera efter
+        </button> */}
       </div>
     </div>
   );

@@ -69,7 +69,7 @@ function App() {
                   }
                 />
                 <Route
-                  path="/register/information"
+                  path="/mydata"
                   element={
                     <ProtectedRoutes>
                       <UserData />
