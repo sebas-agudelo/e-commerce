@@ -5,8 +5,8 @@ import ShowProdcuts from "./ShowProdcuts";
 import { ProductContext } from "../../Context/ProductContext";
 import { ProductsApiContext } from "../../Context/ProductsContext";
 
-export default function ShowFilters({ category, categoryId }) {
-  const { price, setPrice, count, setCategoryID } =
+export default function ShowFilters({ category, currentCarId }) {
+  const { price, setPrice, count, cryID, setCategoryID, categoryID } =
     useContext(ProductsApiContext);
   const [isClicked, setIsClicked] = useState(false);
   const [isSelected, setIsSelected] = useState(true);
@@ -27,10 +27,11 @@ export default function ShowFilters({ category, categoryId }) {
   };
 
   useEffect(() => {
-    if (categoryId) {
+    if (currentCarId) {
       setIsSelected(false);
+
     }
-  }, [categoryId]);
+  }, []);
 
 
   return (
@@ -61,11 +62,11 @@ export default function ShowFilters({ category, categoryId }) {
           </div>
 
           <div className="categories-checkboxes">
-            {isSelected ? (
+         
               <>
                 <h3>kategori</h3>
-                <select name="category_id" onChange={handle}>
-                  <option selected disabled>
+                <select name="category_id" value={currentCarId} onChange={handle}>
+                  <option value={""} selected disabled>
                     Välj kategori
                   </option>
                   {categories.map((category) => (
@@ -75,11 +76,7 @@ export default function ShowFilters({ category, categoryId }) {
                   ))}
                 </select>
               </>
-            ) : (
-              <h3>
-                Kategori - <span>{category}</span>
-              </h3>
-            )}
+        
           </div>
         </div>
 

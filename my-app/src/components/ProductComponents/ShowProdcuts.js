@@ -4,24 +4,25 @@ import { Link } from "react-router-dom";
 import ShowPagination from "./ShowPagination";
 import { ProductsApiContext } from "../../Context/ProductsContext";
 
-export default function ShowProdcuts({ category, categoryId }) {
+export default function ShowProdcuts({ category, currentCarId }) {
   const [currentPath, setCurrentPath] = useState();
-  const { products, count } = useContext(ProductsApiContext);
+  const { products, count, categoryID } = useContext(ProductsApiContext);
 
   useEffect(() => {
     if (window.location.pathname === "/products") {
       setCurrentPath("Produkter");
     }
     if (
-      window.location.pathname === `/products/${categoryId}/cat/${category}`
+      window.location.pathname === `/products/${currentCarId}/cat/${category}`
     ) {
       setCurrentPath(category);
     }
     if (window.location.pathname === "/search") {
-      setCurrentPath("Sökord");
+      setCurrentPath("Sökresultat");
     }
-  }, []);
 
+  }, [categoryID]);
+  
   return (
     <section className="products-container">
       <div className="products-toolbar">
@@ -29,8 +30,10 @@ export default function ShowProdcuts({ category, categoryId }) {
           {currentPath}: <span>{count}</span>
         </h1>
 
-        <ShowFilters categoryId={categoryId} category={category}/>
+        <ShowFilters currentCarId={currentCarId} category={category}/>
       </div>
+
+      
 
       {products.map((product) => (
         <>

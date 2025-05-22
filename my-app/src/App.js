@@ -8,7 +8,6 @@ import { ProductProvider } from "./Context/ProductContext";
 import { CartProvider } from "./Context/CartContext";
 import SignIn from "./pages/auth_pages/SignIn";
 import ProductDetails from "./pages/product_pages/ProductDetails";
-import UserData from "./pages/auth_pages/UserData";
 import ProductSearch from "./pages/product_pages/Search";
 import ProtectedRoutes from "./protected/ProtectedRoutes";
 import RedirectedRoutes from "./protected/RedirectedRoutes";
@@ -16,6 +15,9 @@ import Spinners from "./components/spinners/Spinners";
 import Success from "./pages/Success";
 import { ProductsProvider } from "./Context/ProductsContext";
 import Dashboard from "./pages/dashboard/Dashboard";
+import MyOrders from "./pages/auth_pages/MyOrders";
+import MyData from "./pages/auth_pages/MyData";
+import Account from "./pages/auth_pages/Account";
   
 const Home = React.lazy(() => import("./pages/Home"));
 const AllProducts = React.lazy(() =>
@@ -44,7 +46,7 @@ function App() {
                 <Route path="/about" element={<About />} />
                 <Route path="/contact" element={<Contact />} />
                 <Route
-                  path="/products/:categoryId/cat/:category"
+                  path="/products/:currentCarId/cat/:category"
                   element={<ProductsByCategory />}
                 />
                 <Route path="/search" element={<ProductSearch />} />
@@ -70,13 +72,20 @@ function App() {
                   }
                 />
                 <Route
-                  path="/mydata"
+                  path="/profile/account"
                   element={
                     <ProtectedRoutes>
-                      <UserData />
+                      <Account />
                     </ProtectedRoutes>
                   }
                 />
+                 <Route 
+                      path="/profile/account/mydata" element={
+                        <ProtectedRoutes>
+                          <MyData />
+                        </ProtectedRoutes>
+                      }
+                      />
                       <Route
                         path="/profile"
                         element={
@@ -86,11 +95,19 @@ function App() {
                         }
                       />
                       <Route path="/payment-success" element={<Success />}/>
-                      {/* <Route path="/search?query"/> */}
-                      <Route path="/filtred/byPrice?query"/>
+                      <Route path="/search?query"/>
+                      {/* <Route path="/filtred/byPrice?query"/> */}
                       <Route 
                       path="/dashboard" element={<Dashboard />}
                       />
+                      <Route 
+                      path="/myorders"   element={
+                        <ProtectedRoutes>
+                          <MyOrders />
+                        </ProtectedRoutes>
+                      }
+                      />
+                      
               </Routes>
             </Suspense>
             </ProductsProvider>

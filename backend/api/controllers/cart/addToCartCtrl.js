@@ -1,10 +1,54 @@
 import { supabase_config } from "../../supabase_config/supabase_conlig.js";
 const supabase = supabase_config();
 
+//Hämtar hela varukorgen
+export const showCart = async (req, res) => {
+  const userID = req?.user?.id;
+
+  if (!userID) {
+    return res
+      .status(400)
+      .json({ error: "Ogiltig användare. Försök att logga in." });
+  }
+  try {
+    let { data: shopping_cart, error: cartError } = await supabase
+      .from("shopping_cart")
+      .select(
+        "product_id, quantity, unit_price, total_price, product_title, product_img"
+      )
+      .eq("user_id", userID);
+
+    if (cartError) {
+      return res
+        .status(500)
+        .json({ error: "Ett fel inträffade vid hämtning av varukorgen." });
+    }
+
+    if (!shopping_cart || shopping_cart.length === 0) {
+      return res.status(200).json({ shopping_cart: [] });
+    }
+
+    let totalPrice = 0;
+
+    shopping_cart.forEach((total) => {
+      totalPrice += +total.total_price;
+    });
+
+    return res
+      .status(200)
+      .json({ success: "Varukorgen hämtades", shopping_cart, totalPrice });
+  } catch (error) {
+    return res
+      .status(500)
+      .json({ error: "Ett oväntat fel inträffade. Försök senare igen" });
+  }
+};
+
+//Lägger till varukorgen
 export const addToCart = async (req, res) => {
   const { product_id, quantity } = req.body;
 
-  const userID = req.user.id;
+  const userID = req?.user?.id;
 
   if (!userID) {
     return res
@@ -12,25 +56,33 @@ export const addToCart = async (req, res) => {
       .json({ error: "Ogiltig användare. Försök att logga in." });
   }
 
+  if (!product_id) {
+    // console.error(`Product_id hittades inte: ---> ${product_id}`);
+    return;
+  }
+
+  if (!quantity || typeof quantity !== "number") {
+    // console.error(`Quantity är inget nummer eller ett giltigt värde: ---> ${typeof quantity}`);
+    return;
+  }
+
   try {
-    //Hämtar id, title, price och img från produkt tabellen som ska läggas till i varukorgen
     let { data: products, error: productsError } = await supabase
       .from("products")
       .select("id, title, price, img")
       .eq("id", product_id)
       .single();
 
-    if (!products || productsError) {
-      console.log(productsError);
-      
-      return res
-      .status(404)
-      .json({ error: "Produkten finns inte." });
+    if (productsError) {
+      return res.status(500).json({ error: "Ett oväntat fel inträffade." });
+    }
+
+    if (!products) {
+      return res.status(404).json({ error: "Produkten hittades inte." });
     }
 
     const totalPrice = products.price * quantity;
 
-    //Jag kollar om produkten redan finns i varukorgen om det gör det så uppdaterars varukorgen.
     let { data: existingItem, error: existingItemError } = await supabase
       .from("shopping_cart")
       .select("id, quantity, total_price")
@@ -38,13 +90,10 @@ export const addToCart = async (req, res) => {
       .eq("product_id", product_id)
       .single();
 
+    //Om produkten finns redan så uppdaterar vi det..
     if (existingItem) {
-
-      if (!existingItem || existingItemError) {
-
-        return res
-        .status(500)
-        .json({ error: "Varukorgen kunde inte uppdateras. Försök igen senare."});
+      if (existingItemError) {
+        return res.status(500).json({ error: "Ett oväntat fel inträffade." });
       }
 
       let updateQty = existingItem.quantity + quantity;
@@ -60,20 +109,21 @@ export const addToCart = async (req, res) => {
         .eq("id", existingItem.id)
         .select();
 
-      if (!updateCartItem || updateError) {
-  
-        return res
-        .status(500)
-        .json({error: "Varukorgen kunde inte uppdateras. Försök igen senare."
-        });
+      if (updateError) {
+        return res.status(500).json({ error: "Ett oväntat fel inträffade." });
       }
 
+      if (!updateCartItem || updateCartItem.length === 0) {
         return res
+          .status(400)
+          .json({ error: "Uppdateringen kunde inte genomföras. Försök igen" });
+      }
+
+      return res
         .status(200)
         .json({ success: "Produkten i varukorgen uppdaterasdes" });
     } else {
-
-      //Här lägger jag till produkten i varukorgen om den inte finns.
+      //Lägger jag till produkten i varukorgen om den inte finns.
       const { data: insertProduct, error: insertError } = await supabase
         .from("shopping_cart")
         .insert([
@@ -89,10 +139,14 @@ export const addToCart = async (req, res) => {
         ])
         .select();
 
-      if (!insertProduct || insertError) {
+      if (insertError) {
+        return res.status(500).json({ error: "Ett oväntat fel inträffade." });
+      }
+
+      if (!insertProduct || insertProduct.length === 0) {
         return res
-        .status(500)
-        .json({ error: "Produkten kunde inte läggas till i varukorgen. Försök igen senare."});
+          .status(400)
+          .json({ error: "Kunde inte lägga till produkten varukorgen." });
       }
 
       return res
@@ -107,34 +161,44 @@ export const addToCart = async (req, res) => {
   }
 };
 
+//Uppdaterar produkten i varukorgen
 export const updateCartQty = async (req, res) => {
   const { product_id, quantity } = req.body;
-  const userID = req.user.id;
+  const userID = req?.user?.id;
 
   if (!userID) {
     return res
       .status(400)
       .json({ error: "Ogiltig användare. Försök att logga in." });
   }
-  
-  if (quantity === undefined || quantity === null || !product_id) {
-    return res
-    .status(400)
-    .json({ error: "Ogiltig produkt eller kvantitet." });
+
+  if (!product_id) {
+    // console.error(`Product_id hittades inte: ---> ${product_id}`);
+    return;
   }
-  
+
+  if (typeof quantity !== "number") {
+    // console.error(`Quantity är inget nummer: ---> ${typeof quantity}`);
+    return;
+  }
+
   try {
     let { data: shopping_cart, error: cartError } = await supabase
       .from("shopping_cart")
       .select("quantity, unit_price, total_price")
       .eq("product_id", product_id)
-      .eq("user_id", userID)
+      // .eq("user_id", userID)
       .single();
 
-    if (cartError || !shopping_cart) {
-      return res
-      .status(404)
-      .json({ error: "Produkten hittades inte i din varukorg." });
+    if (cartError) {
+      return res.status(500).json({ error: "Ett oväntat fel inträffade." });
+    }
+
+    if (!shopping_cart || shopping_cart.length === 0) {
+      return res.status(400).json({
+        error:
+          "Produkten/produkterna kunde inte hämtas eller finns inte i din varukorgon.",
+      });
     }
 
     const totalPrice = quantity * parseFloat(shopping_cart.unit_price);
@@ -147,35 +211,30 @@ export const updateCartQty = async (req, res) => {
         .eq("user_id", userID);
 
       if (deleteError) {
-        return res
-        .status(500)
-        .json({ error: "Det gick inte att ta bort produkten från din varukorg. Vänligen Försök igen" });
+        return res.status(500).json({
+          error: "Ett oväntat fel inträffade.",
+        });
       }
 
-      return res
-      .status(200)
-      .json({ success: "Produkten har framgångsrikt tagits bort från din varukorg." });
+      return res.status(200).json({ deleted: "Produkten har tagits bort" });
+    }
+
+    if (typeof totalPrice !== "number") {
+      return;
     }
 
     const { data: updateCartItem, error: updateError } = await supabase
-    .from("shopping_cart")
-    .update({ quantity, total_price: totalPrice })
-    .eq("user_id", userID)
-    .eq("product_id", product_id)
-    .select();
+      .from("shopping_cart")
+      .update({ quantity, total_price: totalPrice })
+      .eq("user_id", userID)
+      .eq("product_id", product_id)
+      .select();
 
-  if (updateError) {
-    return res
-    .status(500)
-    .json({ error: "Det gick inte att uppdatera produktens kvantitet. Vänligen försök igen" });
-  }
-
-  if (!updateCartItem || updateCartItem.length === 0) {
-    return res
-    .status(404)
-    .json({ error: "Den angivna produkten finns inte i din varukorg eller kunde inte uppdateras." });
-  }
-  
+    if (updateError) {
+      return res.status(500).json({
+        error: "Ett oväntat fel inträffade.",
+      });
+    }
 
     return res.status(200).json({
       success: "Varukorgen har uppdaterats",
@@ -183,53 +242,9 @@ export const updateCartQty = async (req, res) => {
     });
   } catch (error) {
     console.error("Server error:", error);
-    return res.status(500).json({ error: "Ett oväntat fel inträffade. Försök senare igen." });
-  }
-};
-
-//Hämtar hela varukorgen
-export const showCart = async (req, res) => {
-  const userID = req.user.id;
-
-  if(!userID){
     return res
-    .status(400)
-    .json({ error: "Ogiltig användare. Försök att logga in." });
-  }
-
-  try {
-    let { data: shopping_cart, error: cartError } = await supabase
-      .from("shopping_cart")
-      .select("product_id, quantity, unit_price, total_price, product_title, product_img")
-      .eq("user_id", userID);
-
-      if(cartError){
-        return res
-        .status(500)
-        .json({ error: "Ett fel inträffade vid hämtning av varukorgen." });
-      }
-
-      if(!shopping_cart){
-        return res
-        .status(200)
-        .json([]);
-      }
-
-      let totalPrice = 0;
-
-    shopping_cart.forEach((total) => {
-      totalPrice += +total.total_price;
-    });
-
-    return res
-      .status(200)
-      .json({ success: "Varukorgen hämtades", shopping_cart, totalPrice });
-
-  } catch (error) {
-    console.error("Unexpected error:", error);
-    return res
-    .status(500)
-    .json({ error: "Ett oväntat fel inträffade. Försök senare igen" });
+      .status(500)
+      .json({ error: "Ett oväntat fel inträffade. Försök senare igen." });
   }
 };
 
@@ -239,8 +254,8 @@ export const deleteCart = async (req, res) => {
 
   if (!userID) {
     return res
-    .status(400)
-    .json({ error: "Ogiltig användare. Försök att logga in." });
+      .status(400)
+      .json({ error: "Ogiltig användare. Försök att logga in." });
   }
 
   try {
@@ -250,15 +265,10 @@ export const deleteCart = async (req, res) => {
       .eq("user_id", userID);
 
     if (deleteError) {
-      return res
-      .status(400)
-      .json({ error: "Varukorgen gick inte att rensa" });
+      return res.status(400).json({ error: "Varukorgen gick inte att rensa" });
     }
 
-    return res
-    .status(200)
-    .json({ success: "Varukorgen rensades" });
-    
+    return res.status(200).json({ success: "Varukorgen rensades" });
   } catch (error) {
     console.error("Unexpected error:", error);
     return res
@@ -266,4 +276,3 @@ export const deleteCart = async (req, res) => {
       .json({ error: "Ett oväntat fel inträffade. Försök senare igen" });
   }
 };
-

@@ -9,7 +9,7 @@ export const ProductsProvider = ({ children }) => {
   const [count, setCount] = useState(0); 
   const [currenPage, setCurrentPage] = useState(1);
   const [price, setPrice] = useState(0);
-  const [categoryID, setCategoryID] = useState();
+  const [categoryID, setCategoryID] = useState("");
   const [products, setProducts] = useState([]);
 
   const fetchProducts = async (url) => {
@@ -21,6 +21,9 @@ export const ProductsProvider = ({ children }) => {
           setPages(data.totalPages);
           setCount(data.count);
           setProducts(data.products);
+    }
+    if(!response.ok){
+      alert(data.error)
     }
     } catch (error) {
       console.error("Error fetching products:", error);

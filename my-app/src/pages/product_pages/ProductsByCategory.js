@@ -7,31 +7,31 @@ import { GrPrevious } from "react-icons/gr";
 import { ProductsApiContext } from "../../Context/ProductsContext";
 
 export default function ProductsByCategory() {
-  const { categoryId, category } = useParams();
-  const [pages, setPages] = useState();
-  const [count, setCount] = useState([]);
+  const { currentCarId, category } = useParams();
 
-  const { fetchProducts, currenPage, price, categoryID } =
+  const { fetchProducts, currenPage, price, setPrice, setCategoryID } =
     useContext(ProductsApiContext);
 
-  useEffect(() => {
-    fetchProductByCategory();
-  }, [categoryId, price, currenPage]);
+    useEffect(() => {
+      if (currentCarId) {
+        fetchProductByCategory();
+      } else{
+        setCategoryID("")
+        setPrice("")
+        
+      }
+    }, [currentCarId, price, currenPage]);
+    
+
 
   const fetchProductByCategory = async () => {
     try {
-      // `https://examensarbeten.vercel.app/api/product/categori/${categoryId}`
-      // `http://localhost:3030/api/product/categori/${categoryId}`
+    
+      let url = `http://localhost:3030/api/product/categori/${currentCarId}?page=${currenPage}`;
 
-      let url = `https://examensarbeten.vercel.app/api/product/categori/${categoryId}?page=${currenPage}`;
-
-      if (price && categoryID) {
-        url += `&price=${price}&categoryID=${categoryID}`;
-      } else if (price) {
+      if (price) {
         url += `&price=${price}`;
-      } else if (categoryID) {
-        url += `&categoryID=${categoryID}`;
-      }
+      } 
 
       fetchProducts(url);
     } catch (error) {
@@ -41,7 +41,7 @@ export default function ProductsByCategory() {
 
   return (
     <main className="Products-main">
-      <ShowProdcuts categoryId={categoryId} category={category} />
+      <ShowProdcuts currentCarId={currentCarId} category={category} />
       <Footer />
     </main>
   );

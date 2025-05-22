@@ -1,25 +1,32 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect, useRef } from "react";
 import Footer from "../Footer";
 import ShowProdcuts from "../../components/ProductComponents/ShowProdcuts";
 import { ProductsApiContext } from "../../Context/ProductsContext";
 
 export default function Products() {
-  const { products, count, fetchProducts, price, currenPage, categoryID } =
+  const { fetchProducts, price, currenPage, setCurrentPage, categoryID } =
     useContext(ProductsApiContext);
 
-  useEffect(() => {
-    const fetch = async () => {
-      await fetchAllProducts();
-    };
+  const prevPrice = useRef(price);
+  const prevCategoryID = useRef(categoryID);
 
-    fetch();
-  }, [price, categoryID, currenPage]);
+  useEffect(() => {
+    if (price !== prevPrice.current || categoryID !== prevCategoryID.current) {
+      setCurrentPage(1);
+    }
+
+    prevPrice.current = price;
+    prevCategoryID.current = categoryID;
+  }, [price, categoryID, setCurrentPage]);
+
+  useEffect(() => {
+    fetchAllProducts();
+    console.log(currenPage);
+  }, [currenPage, price, categoryID]);
 
   const fetchAllProducts = async () => {
-    // `https://examensarbeten.vercel.app/api/products/show`
-    // `http://localhost:3030/api/products/show`
     try {
-      let url = `https://examensarbeten.vercel.app/api/products/show?page=${currenPage}`;
+      let url = `http://localhost:3030/api/products/show?page=${currenPage}`;
 
       if (price && categoryID) {
         url += `&price=${price}&categoryID=${categoryID}`;

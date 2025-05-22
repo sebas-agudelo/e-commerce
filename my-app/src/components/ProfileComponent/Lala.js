@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import SignOut from "../SignOut";
 import { MdManageAccounts } from "react-icons/md";
 import { AiOutlineProduct } from "react-icons/ai";
+import { FaShippingFast } from "react-icons/fa";
 import { AuthSessionContext } from "../../Context/SessionProvider";
 
 export default function Lala() {
@@ -16,13 +17,18 @@ export default function Lala() {
       <div>
         <div className="action-btns">
           <p>
-            <Link to={`/mydata`}>
+            <Link to={`/profile/account`}>
               <MdManageAccounts /> Hantera konto
             </Link>
           </p>
           <p>
-            <Link to={``}>
+            <Link to={`/myorders`}>
               <AiOutlineProduct /> Mina beställningar
+            </Link>
+          </p>
+          <p>
+            <Link to={``}>
+              <FaShippingFast /> Mina returer
             </Link>
           </p>
         </div>

@@ -1,4 +1,4 @@
-import React, { useContext, useState, useEffect, useRef  } from "react";
+import React, { useContext, useState, useEffect, useRef } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { PiShoppingCartThin } from "react-icons/pi";
 import { AuthSessionContext } from "../../Context/SessionProvider";
@@ -7,26 +7,31 @@ import { RxHamburgerMenu } from "react-icons/rx";
 import { ProductContext } from "../../Context/ProductContext";
 import { IoSearchOutline } from "react-icons/io5";
 import { GoPerson } from "react-icons/go";
+import { CartContext } from "../../Context/CartContext";
+import { ProductsApiContext } from "../../Context/ProductsContext";
 
 export default function Navbar() {
+  let totalQty = 0;
   const { pathname } = useLocation();
   const { session } = useContext(AuthSessionContext);
   const { categories, getCategories } = useContext(ProductContext);
   const [query, setQuery] = useState("");
   const [isSearchClicked, setIsSearchClicked] = useState(false);
-  
+  const { cartItems } = useContext(CartContext);
+  const {setPrice, setCategoryID, setCurrentPage} = useContext(ProductsApiContext);
+
   const [isClicked, setIsClicked] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
   const [isCheckOut, setIsCheckOut] = useState(false);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const searchInputRef = useRef(null);
-  
+
   const nav = useNavigate();
 
   useEffect(() => {
     getCategories();
 
-    if(isSearchClicked){
+    if (isSearchClicked) {
       searchInputRef.current?.focus();
     }
 
@@ -69,25 +74,30 @@ export default function Navbar() {
       nav(`/search?query=${query}`);
     }
 
-    setIsSearchClicked(false)
+    setIsSearchClicked(false);
   };
 
   const toggleDropdown = (state) => {
     setIsDropdownOpen(state);
+
   };
+
+  const kl = () => {
+    setPrice(0)
+    setCategoryID("")
+    setCurrentPage(1)
+  }
 
   return (
     <header className={`${isScrolled ? "scrolled" : ""}`}>
       <div className="navbar-container">
-
         <div className="navbar-content-wrapper">
-
           <div className="nav-logo-img">
             <Link to={`/`}>
               <img src="/sound.png" />
             </Link>
           </div>
-          
+
           <nav className={isClicked ? "active-menu" : ""}>
             <ul onClick={isClose}>
               <li
@@ -107,7 +117,10 @@ export default function Navbar() {
                   <li>
                     <Link
                       to={`/products`}
-                      onClick={() => toggleDropdown(false)}
+                      onClick={() => {
+                        toggleDropdown(false)
+                        kl()
+                      }}
                     >
                       Alla hörlurar
                     </Link>
@@ -116,7 +129,10 @@ export default function Navbar() {
                     <li key={item.id}>
                       <Link
                         to={`/products/${item.id}/cat/${item.category}`}
-                        onClick={() => toggleDropdown(false)}
+                        onClick={() => {
+                          toggleDropdown(false)
+                          kl()
+                        }}
                       >
                         {item.category}
                       </Link>
@@ -179,9 +195,18 @@ export default function Navbar() {
                           </div>
                         )}
                         <Link className="cart-icon" to={`/cart`}>
-                          <PiShoppingCartThin />
+                          <PiShoppingCartThin />{" "}
+                          <p className="qty-wrapper">
+                            {cartItems && cartItems.length > 0
+                              ? cartItems.forEach((qty) => {
+                                  totalQty += qty.quantity;
+                                return totalQty;
+                                })
+                              : ""}
+                            {totalQty}
+                          </p>
                         </Link>
-                  </div>
+                      </div>
                     </>
                   )}
                 </>
@@ -194,10 +219,8 @@ export default function Navbar() {
               )}
             </>
           )}
-
         </div>
-
-</div>
+      </div>
     </header>
   );
 }

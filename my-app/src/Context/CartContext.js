@@ -22,7 +22,6 @@ export const CartProvider = ({ children }) => {
     const storedCart = localStorage.getItem("cart");
     const cartData = JSON.parse(storedCart);
 
-    //Visar varukorgen för utloggade användare
     if (!session) {
       if (cartData) {
         setCartItems(cartData);
@@ -33,30 +32,27 @@ export const CartProvider = ({ children }) => {
         });
 
         setTotal(totalPrice);
-        console.log(totalPrice);
       } else {
         setCartItems([]);
       }
-
-      //Visar varukorgen för inloggade anvämdare
-    } else {
+    } if(session) {
       try {
-        const response = await fetch("https://examensarbeten.vercel.app/api/cart/show", {
+        const response = await fetch("http://localhost:3030/api/cart/show", {
           method: "GET",
           credentials: "include",
           headers: { "Content-Type": "application/json" },
         });
 
         const data = await response.json();
-
+     
         if (response.ok) {
           setCartItems(data.shopping_cart);
           setTotal(data.totalPrice);
-        } else {
-          setCartMessages(data.error || "Kunde inte ladda varukorgen.");
+        } else if (!response.ok) {
+          alert(data.error);
         }
       } catch (error) {
-        console.error("Fetch error:", error);
+        console.error("Ett oväntat fel inträffade. Försök senare igen");
       }
     }
   };
@@ -73,25 +69,30 @@ export const CartProvider = ({ children }) => {
       alert("Produkten är ogiltig och kan inte läggas till i varukorgen.");
       return;
     }
-  
+
     // Lägg till produkten i localStorage om inte inloggad
     if (!session) {
       setCartItems((prevCart) => {
         const existingProductIndex = prevCart.findIndex(
           (item) => item.product_id === product.id
         );
+
         let updatedCart;
-  
+
         if (existingProductIndex !== -1) {
-          updatedCart = prevCart.map((item, index) =>
-            index === existingProductIndex
-              ? {
-                  ...item,
-                  quantity: item.quantity + quantity,
-                  total_price: item.unit_price * (item.quantity + quantity),
-                }
-              : item
-          );
+          updatedCart = prevCart.map((item, index) => {
+            if (index === existingProductIndex) {
+              return {
+                ...item,
+                quantity: item.quantity + quantity,
+                total_price: item.unit_price * (item.quantity + quantity),
+              };
+            } else {
+              return item;
+            }
+          });
+
+          
         } else {
           const productToAdd = {
             product_id: product.id,
@@ -101,19 +102,19 @@ export const CartProvider = ({ children }) => {
             total_price: product.price * quantity,
             quantity: quantity,
           };
-  
+          
           updatedCart = [...prevCart, productToAdd];
         }
-  
+        
         localStorage.setItem("cart", JSON.stringify(updatedCart));
         return updatedCart;
       });
-    } 
+    }
     // Lägg till produkter för inloggade användare
     else if (session) {
       try {
         const response = await fetch(
-          "https://examensarbeten.vercel.app/api/cart/addtocart",
+          "http://localhost:3030/api/cart/addtocart",
           {
             method: "POST",
             credentials: "include",
@@ -122,20 +123,48 @@ export const CartProvider = ({ children }) => {
           }
         );
         const data = await response.json();
-  
+        console.log(session);
+
         if (response.ok) {
-          console.log(data.success);
-          await showCart()
+          await showCart();
         } else {
-          console.error(data.error);
           alert(data.error);
         }
       } catch (error) {
-        console.error("Fetch error:", error);
+        console.error("Ett oväntat fel inträffade. Försök senare igen");
       }
     }
   };
-  
+
+    //Uppdaterar produkterer i varukorgen för inloggade användare
+  const updateCartQty = async (product_id, newQty) => {
+    try {
+      const response = await fetch("http://localhost:3030/api/cart/update", {
+        method: "PUT",
+        credentials: "include",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ product_id, quantity: newQty }),
+      });
+
+      const data = await response.json();
+
+     
+   
+      if(response.ok){
+        if(data.deleted){
+
+          alert(data.deleted)
+        }
+
+      }
+    
+      if (!response.ok) {
+        alert(data.error);
+      }
+    } catch (error) {
+      console.error("Ett oväntat fel inträffade. Försök senare igen");
+    }
+  };
 
   //Lägger till produkter från LocalStorage i databsen vid inloggning
   const checkLocalStorage = async () => {
@@ -146,7 +175,7 @@ export const CartProvider = ({ children }) => {
 
         try {
           const response = await fetch(
-            "https://examensarbeten.vercel.app/api/cart/addtocart",
+            "http://localhost:3030/api/cart/addtocart",
             {
               method: "POST",
               credentials: "include",
@@ -160,55 +189,35 @@ export const CartProvider = ({ children }) => {
             alert(data.error);
           }
         } catch (error) {
-          console.error("Fetch error:", error);
+          console.error("Ett oväntat fel inträffade. Försök senare igen");
         }
       }
       localStorage.removeItem("cart");
     }
   };
-  
 
-  const updateCartQty = async (product_id, newQty) => {
+  const clearCart = async () => {
     try {
-      const response = await fetch("https://examensarbeten.vercel.app/api/cart/update", {
-        method: "PUT",
-        credentials: "include",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ product_id, quantity: newQty }),
-      });
+      const response = await fetch(
+        "https://examensarbeten.vercel.app/api/cart/delete",
+        {
+          method: "DELETE",
+          credentials: "include",
+          headers: { "Content-Type": "application/json" },
+        }
+      );
 
       const data = await response.json();
 
-      if (!response.ok) {
-        alert(data.error || "Något gick fel");
+      if (response.ok) {
+        console.log("Produkter tillagda i databasen.");
+        setCartItems("");
+      } else {
+        alert(data.error);
       }
     } catch (error) {
       console.error("Fetch error:", error);
     }
-  };
-
-
-  const clearCart = async () => {
-  
-      try {
-        const response = await fetch("https://examensarbeten.vercel.app/api/cart/delete", {
-          method: "DELETE",
-          credentials: "include",
-          headers: { "Content-Type": "application/json" },
-       
-        });
-  
-        const data = await response.json();
-  
-        if (response.ok) {
-          console.log("Produkter tillagda i databasen.");
-          setCartItems("")
-        } else {
-          alert(data.error);
-        }
-      } catch (error) {
-        console.error("Fetch error:", error);
-      }
   };
 
   return (
@@ -225,7 +234,7 @@ export const CartProvider = ({ children }) => {
         setCartMessages,
         updateCartQty,
         setTotal,
-        clearCart
+        clearCart,
       }}
     >
       {children}

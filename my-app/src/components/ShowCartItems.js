@@ -11,7 +11,7 @@ export default function ShowCartItems({reduceQty, incruseQty}) {
     <>
       <article className="cart-content">
 
-        {cartItems.length <= 0 ? (
+        {cartItems && cartItems.length <= 0 ? (
           <>
             <div className="empty-cart-container">
               <h1>Varukorgen är tom</h1>
@@ -20,7 +20,7 @@ export default function ShowCartItems({reduceQty, incruseQty}) {
           </>
         ) : (
           <>
-            {cartItems.map((item) => (
+            {cartItems && cartItems.map((item) => (
               <>
                 <article className="cart-items" key={item.product_id}>
                   <article className="cart-title-img">

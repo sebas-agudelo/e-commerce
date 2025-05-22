@@ -12,12 +12,11 @@
 
         .welcome {
             padding: 28px 0;
-            border-bottom: 1px solid #dfded7;
+            border-bottom: 1px solid #f5f4ed;
 
             p {
                 font-size: 18px;
                 font-weight: 300;
-
             }
         }
 
@@ -55,14 +54,37 @@
         padding: 19px 0 0;
         width: 100%;
 
+        .user-info-empty, .show-errors-wrapper{
+            padding: 12px 0;
+            background-color: #f6f6f6;
+            margin: 0 0 6px;
+            
+             p{
+                
+                color: #ff0000;
+                font-size: 19px;
+           
+
+                svg {
+                    margin-right: 6px;
+                    font-size: 20px;
+                }
+             }
+        }
 
         form {
             display: flex;
             flex-direction: column;
+            margin-bottom: 28px;
+
 
             label {
                 padding: 10px 0;
                 font-weight: 300;
+
+                span {
+                    color: #ff0000;
+                }
             }
 
             input {
@@ -78,17 +100,39 @@
                 }
             }
 
+            button {
+                background-color: #efdd54;
+                border-style: none;
+                padding: 8px 0;
+                border-radius: 8px;
+                width: 100px;
+                margin: 28px 0 0;
+                cursor: pointer;
+
+            }
+
         }
 
-        .remove-account {
-            margin-top: 58px;
+        .account-actions {
+            margin-top: 12px;
 
             button {
+                margin-bottom: 18px;
+                display: block;
                 background: transparent;
                 border: none;
-                padding: 0 0 8px;
-                border-bottom: 1px solid #e0dfd9;
+                padding: 0 0 6px;
+                border-bottom: 1px solid #d8d5d5;
                 cursor: pointer;
+                font-size: 18px;
+                transition: border-bottom 350ms linear;
+
+                a {
+                    text-decoration: none;
+                    font-size: 18px;
+                    color: #000;
+
+                }
 
             }
         }
@@ -137,6 +181,21 @@
         .user-info-container {
             padding: 19px 0 0 100px;
             width: 45%;
+
+            .user-info-empty, .show-errors-wrapper{  
+                 p{
+                    font-size: 16.8px;
+
+                 }
+            }
+    
+            .account-actions {
+                button {
+                    &:hover {
+                        border-bottom: 1px solid #efdd54;
+                    }
+                }
+            }
         }
     }
 }

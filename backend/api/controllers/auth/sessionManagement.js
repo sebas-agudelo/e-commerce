@@ -1,20 +1,24 @@
 import { supabase_config } from "../../supabase_config/supabase_conlig.js";
+import validator from "validator";
 const supabase = supabase_config();
 
 export const sessionAuthCheck = async (req, res) => {
-  const token = req.cookies.cookie_key;
+  const token = req?.cookies?.cookie_key;
 
   if (!token) {
-    
     return res.status(200).json({ isLoggedIn: false });
   }
-  
+
   const { data, error } = await supabase.auth.getUser(token);
-  const email = data.user.email;
-  
+
+  const email = data?.user?.email;
+
+  if (!email) {
+    return res.status(400).json({ error: "Ingen användare hittad" });
+  }
+
   console.log(email);
   console.log("Token från sessionAuthCheck", token);
-  
 
   if (error || !data?.user) {
     return res.status(200).json({ isLoggedIn: false });
@@ -22,7 +26,6 @@ export const sessionAuthCheck = async (req, res) => {
 
   return res.status(200).json({ isLoggedIn: true, email: data.user.email });
 };
-
 
 export const authenticateUser = async (req, res, next) => {
   try {
@@ -115,7 +118,8 @@ export const signOut = async (req, res) => {
 
 export const profile = async (req, res) => {
   try {
-    const userId = req.user.id;
+    const userId = req?.user?.id;
+    const userEmail = req?.user?.email;
 
     let { data: users_info, error } = await supabase
       .from("users_info")
@@ -126,7 +130,7 @@ export const profile = async (req, res) => {
       console.log("Ingen användare hittades för user_id:", userId);
       return res.status(200).json({ success: [] });
     } else if (users_info) {
-      return res.status(200).json({ success: "Ja Ja", users_info });
+      return res.status(200).json({ success: "Ja Ja", users_info, userEmail });
     }
   } catch (error) {
     console.log("");
@@ -135,12 +139,57 @@ export const profile = async (req, res) => {
 
 export const insertUserData = async (req, res) => {
   const { firstname, lastname, phone, birthday, address, postal } = req.body;
-  const userID = req.user.id;
+  const postalCode = postal.toString();
+  const userID = req?.user?.id;
+  const nameRegex = /^[a-zA-ZÀ-ÖØ-öø-ÿÅÄÖåäößñÑ' -]+$/;
+  const addressRegex = /^[a-zA-Z0-9À-ÖØ-öø-ÿÅÄÖåäößñÑ\s.,\-\/]+$/;
+
+  if (!userID) {
+    return res
+      .status(401)
+      .json({ error: "Ogiltig användare. Försök att logga in." });
+  }
+
+  if (!firstname || !lastname || !phone || !birthday || !address || !postal) {
+    return res
+      .status(400)
+      .json({
+        error: "Det saknas information i ett eller flera obligatoriska fält.",
+      });
+  }
+
+  if (!firstname) {
+    return res.status(400).json({ error: "Förnam är obligatoriskt." });
+  }
+  if (!lastname) {
+    return res.status(400).json({ error: "Efternamn är obligatoriskt." });
+  }
+  if (!nameRegex.test(firstname) || !nameRegex.test(lastname)) {
+    return res
+      .status(400)
+      .json({ error: "För och efternamn bör endast innehålla bokstäver." });
+  }
+
+  if (!phone) {
+    return res.status(400).json({ error: "Telefonnummer ör obligatoriskt." });
+  }
+
+  if (!validator.isDate(birthday, new Date())) {
+    return res.status(400).json({ error: "Ogiltigt datumformat." });
+  }
+
+  if (!addressRegex.test(address)) {
+    return res.status(400).json({ error: "Adress är obligatoriskt." });
+  }
+
+  if (!validator.isPostalCode(postalCode, "SE")) {
+    return res.status(400).json({ error: "Ogiltigt postnummer." });
+  }
 
   try {
     const { data, error } = await supabase
       .from("users_info")
-      .insert([
+      .update([
         {
           firstname,
           lastname,
@@ -148,25 +197,111 @@ export const insertUserData = async (req, res) => {
           birthday,
           address,
           postal,
-          user_id: userID,
         },
       ])
-      .select();
+      .eq("user_id", userID);
 
-    if (error) {
-      console.log(error);
+    if (!data || error) {
       return res
-        .status(400)
-        .json({ error: "Kontrollera om alla fält är ifyllda" });
+        .status(500)
+        .json({
+          error:
+            "Ett oväntat fel inträffade. Kontrollera att alla obligatoriska fält är ifyllda.",
+        });
     }
 
-    console.log(data);
-
-    return res.status(201).json({ success: "Dina uppgifter registrerades" });
+    return res.status(201).json({ success: "Dina uppgifter har uppdaterats." });
   } catch (error) {
     console.error(error);
     return res
       .status(500)
-      .json({ error: "Ett oväntat fel inträffade. Försök senare igen." });
+      .json({ error: "Ett oväntat fel har inträffat. Försök senare igen." });
+  }
+};
+
+export const insert = async (req, res) => {
+  const { firstname, lastname, phone, birthday, address, postal, email } =
+    req.body;
+  const postalCode = postal.toString();
+  const userID = req?.user?.id;
+  const userEmail = req?.user?.email;
+
+  const nameRegex = /^[a-zA-ZÀ-ÖØ-öø-ÿÅÄÖåäößñÑ' -]+$/;
+  const addressRegex = /^[a-zA-Z0-9À-ÖØ-öø-ÿÅÄÖåäößñÑ\s.,\-\/]+$/;
+
+  if (!userID) {
+    return res
+      .status(401)
+      .json({ error: "Ogiltig användare. Försök att logga in." });
+  }
+
+  if (!firstname || !lastname || !phone || !birthday || !address || !postal) {
+    return res
+      .status(400)
+      .json({
+        error: "Det saknas information i ett eller flera obligatoriska fält.",
+      });
+  }
+
+  if (!firstname) {
+    return res.status(400).json({ error: "Förnam är obligatoriskt!" });
+  }
+  if (!lastname) {
+    return res.status(400).json({ error: "Efternamn är obligatoriskt!" });
+  }
+  if (!nameRegex.test(firstname) || !nameRegex.test(lastname)) {
+    return res
+      .status(400)
+      .json({ error: "För och efternamn bör endast innehålla bokstäver." });
+  }
+
+  if (!phone) {
+    return res.status(400).json({ error: "Telefonnummer ör obligatoriskt" });
+  }
+
+  if (!validator.isDate(birthday, new Date())) {
+    return res.status(400).json({ error: "Ogiltigt datumformat!" });
+  }
+
+  if (!addressRegex.test(address)) {
+    return res.status(400).json({ error: "Adress är obligatoriskt!" });
+  }
+
+  if (!validator.isPostalCode(postalCode, "SE")) {
+    return res.status(400).json({ error: "Ogiltigt postnummer!" });
+  }
+
+  try {
+    const { data, error } = await supabase
+      .from("users_info")
+      .insert([
+        {
+          user_id: userID,
+          firstname,
+          lastname,
+          phone,
+          birthday,
+          address,
+          postal,
+          email: userEmail,
+        },
+      ])
+      .select()
+      .eq("user_id", userID);
+
+    if (!data || error) {
+      return res
+        .status(500)
+        .json({
+          error:
+            "Ett oväntat fel inträffade. Kontrollera att alla obligatoriska fält är ifyllda.",
+        });
+    }
+
+    return res.status(201).json({ success: "Dina uppgifter har sparats." });
+  } catch (error) {
+    return res
+      .status(500)
+      .json({ error: "Ett oväntat fel har inträffat. Försök senare igen." });
   }
 };

@@ -2,6 +2,7 @@ import React, { useEffect } from "react";
 import { useParams } from "react-router-dom";
 import ProductStates from "../../hooks/ProductStates";
 import ShowProductDetails from "../../components/ProductComponents/ShowProductDetails";
+import Footer from "../Footer";
 
 export default function ProductDetails() {
   const [productData, setProductData] = ProductStates();
@@ -14,7 +15,7 @@ export default function ProductDetails() {
   const fetchProductById = async (id) => {
     try {
       const response = await fetch(
-        `https://examensarbeten.vercel.app/api/product/get/${id}`,
+        `http://localhost:3030/api/product/get/${id}`,
         {
           method: "GET",
           credentials: "include",
@@ -39,6 +40,7 @@ export default function ProductDetails() {
       <section>
         <ShowProductDetails productData={productData}/>
       </section>
+      <Footer />
     </main>
   );
 }

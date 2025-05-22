@@ -1,144 +1,215 @@
 import { supabase_config } from "../../supabase_config/supabase_conlig.js";
 const supabase = supabase_config();
 
-export const filtredProducts = async (price = null, categoryID = null, page, pageSize) => {
-  let query = supabase.from("products").select("id, title, price, img");
-  if (categoryID !== null) {
-    query = query.eq("category_id", categoryID);
-  }
-  const { data, error } = await query;
-  if (error || !data) {
-    return {
-      products: [],
-    };
-  }
-  let filtredProducts = data;
-  if (price !== null) {
-    const minPrice = parseInt(price);
-    const maxPrice = minPrice + 100;
-    filtredProducts = filtredProducts.filter(
-      (product) => product.price >= minPrice && product.price <= maxPrice
-    );
-  }
-
-  const count = filtredProducts.length;
-  const totalPages = Math.ceil(count / pageSize);
-
+//Funktionen för att filtrera produkterna efter pris och kategori samt pagination.
+export const filtredProducts = async (
+  price = null,
+  categoryID = null,
+  page,
+  pageSize,
+  searchQuery = null
+) => {
   const offset = (page - 1) * pageSize;
-  const paginatedProducts = filtredProducts.slice(offset, offset + pageSize)
-  
-  return {
-    currenPage: page,
-    totalPages: totalPages,
-    count: count,
-    products: paginatedProducts,
-    error: error,
-  };
-};
-
-export const pagination = async (page, pageSize, offset, categoryID) => {
   let query = supabase
     .from("products")
     .select("id, title, price, img", { count: "exact" })
     .range(offset, offset + pageSize - 1);
-  if (categoryID) {
+
+  if (price !== null && price !== undefined && price !== "" && price !== 0) {
+    const minPrice = parseInt(price);
+    const maxPrice = minPrice + 100;
+    query = query.gte("price", minPrice).lte("price", maxPrice);
+  };
+  if (categoryID !== null && categoryID !== undefined && categoryID !== "") {
     query = query.eq("category_id", categoryID);
-  }
+  };
+  if (searchQuery !== undefined && searchQuery !== null && searchQuery !== "") {
+    query = query.ilike("title", `%${searchQuery}%`);
+  };
   const { data, count, error } = await query;
   if (error || !data) {
     return {
       products: [],
+      currentPage: page,
+      totalPages: 0,
+      count: 0,
+      error: error,
     };
   }
-  let products = data;
   const totalPages = Math.ceil(count / pageSize);
   return {
     currenPage: page,
     totalPages: totalPages,
-    products: products,
     count: count,
+    products: data,
     error: error,
   };
 };
 
 //HÄMTAR ALLA PRODUKTER
 export const getProducts = async (req, res) => {
-  const { price, categoryID, page = 1, pageSize = 6 } = req.query;
-  const offset = (page - 1) * parseInt(pageSize);
-
+  const { price, categoryID, page } = req.query;  
   try {
     let products;
 
-    if (price || categoryID) {
-      products = await filtredProducts(price, categoryID, +page, +pageSize);
-    } else {
-      products = await pagination(page, pageSize, offset);
+    if (price && isNaN(parseInt(price))) {
+      throw new Error("Ogiltigt värde på 'price'");
+    };
+
+    if (
+      categoryID !== null &&
+      categoryID !== undefined &&
+      categoryID !== "" &&
+      typeof categoryID !== "string"
+    ) {
+      throw new Error("Ogiltigt värde på 'categoryID'");
+    };
+
+    if (page === undefined || page === null || parseInt(page) < 1) {
+      throw new Error("Ogiltigt värde på 'page'");
+    };
+
+    const pageSize = 1;
+    let parsedPageSize = pageSize;
+    if (isNaN(parsedPageSize) || parsedPageSize <= 0) {
+      throw new Error("Ogiltigt värde på 'pageSize'");
+    };
+
+    products = await filtredProducts(price, categoryID, parseInt(page), parsedPageSize);
+ 
+    if (!products || products.length <= 0) {
+      return res.status(200).json({
+        products: [],
+        count: 0,
+        currenPage: 0,
+        totalPages: 0,
+      });
     }
+
     return res.status(200).json(products);
   } catch (error) {
-    return res
-    .status(500)
-    .json({ error: "Ett okänt fel uppstod. Försök igen senare."});
+    console.error(error.message);
+    return res.status(500).json({ error: "Något gick fel. Försök igen." });
   }
 };
 
 //HÄMTAR PRODUKTER BASERAD PÅ KATEGORY
 export const productByCategory = async (req, res) => {
-  const { categoryId } = req.params;
-  const { price, categoryID, page = 1, pageSize = 6 } = req.query;
-  const offset = (page - 1) * parseInt(pageSize);
+  const { currentCarId } = req.params;
+  const { price, categoryID, page } = req.query;
+
+  const usedCategoryId = categoryID || currentCarId;
   try {
     let products;
-    if(categoryId === undefined || categoryId === null || typeof categoryId === "number"){
-      return res.status(404).json({error: "Kategorin hittades inte."})
-    }
-    if (price || categoryID) {
-      products = await filtredProducts(price, categoryID, +page, +pageSize);
-    } else {
-      products = await pagination(page, pageSize, offset, categoryId);
-    }
+
+    if (price && isNaN(parseInt(price))) {
+      throw new Error("Ogiltigt värde på 'price'");
+    };
+
+    if (
+      usedCategoryId === undefined ||
+      usedCategoryId === null ||
+      typeof usedCategoryId === "number"
+    ) {
+      throw new Error("Något har gått fel vid kategori hämtning.");
+    };
+
+    if (page === undefined || page === null || parseInt(page) < 1) {
+      throw new Error("Ogiltigt värde på 'page'");
+    };
+
+    const pageSize = 1;
+    let parsedPageSize = pageSize;
+    if (isNaN(parsedPageSize) || parsedPageSize <= 0) {
+      throw new Error("Ogiltigt värde på 'pageSize'. (Backend)");
+    };
+
+    products = await filtredProducts(price, usedCategoryId, parseInt(page), parsedPageSize);
+
+    if (!products || products.length <= 0) {
+      return res.status(200).json({
+        products: [],
+        count: 0,
+        currenPage: 0,
+        totalPages: 0,
+      });
+    };
+
     return res.status(200).json(products);
   } catch (error) {
-    return res
-    .status(500)
-    .json({ error: "Ett okänt fel uppstod. Försök igen senare."});
+    console.error(error.message);
+    return res.status(500).json({ error: "Något gick fel. Försök igen." });
   }
 };
 
 //SÖK FUNKTIONALITET
 export const searchProduct = async (req, res) => {
-  const { query, price, categoryID } = req.query;
+  const { price, categoryID, page, query } = req.query;
+  
   try {
     let products;
-    if (!query) {
-      return res.status(400).json({ error: "Sökterm saknas." });
+
+    if (price && isNaN(parseInt(price))) {
+      throw new Error("Ogiltigt värde på 'price'");
+    };
+
+    if (
+      categoryID !== null &&
+      categoryID !== undefined &&
+      categoryID !== "" &&
+      typeof categoryID !== "string"
+    ) {
+      throw new Error("Något har gått fel vid kategori hämtningen.");
+    };
+
+    console.log(page, "och", query);
+    
+  
+    if (page === undefined || page === null || parseInt(page) < 1) {
+      throw new Error("Ogiltigt värde på 'page'");
+    };
+
+    const pageSize = 1;
+    let parsedPageSize = pageSize;
+    if (isNaN(parsedPageSize) || parsedPageSize <= 0) {
+      throw new Error("Ogiltigt värde på 'pageSize'");
+    };
+
+    products = await filtredProducts(
+      price,
+      categoryID,
+      parseInt(page),
+      parsedPageSize,
+      query
+    );
+
+    if (!products || products.length <= 0) {
+      return res.status(200).json({
+        products: [],
+        count: 0,
+        currenPage: 0,
+        totalPages: 0,
+      });
     }
-    if (price || categoryID) {      
-      products = await filtredProducts(price, categoryID);
-    } else {
-      const { data, error } = await supabase
-        .from("products")
-        .select("*")
-        .ilike("title", `%${query}%`);
-      products = data;
-    }    
-    return res.status(200).json({products});
+
+    return res.status(200).json(products);
   } catch (error) {
+    console.error(error.message);
     return res
-    .status(500)
-    .json({ error: "Ett okänt fel uppstod. Försök igen senare."});
+      .status(500)
+      .json({ error: "Något gick fel. Försök igen." });
   }
 };
 
 //HÄMTAR EN PRODUKT BASERAD PÅ KATEGORI ID
 export const getProductByID = async (req, res) => {
   const { id } = req.params;
-  if (!id || typeof id === "number") {
-    return res
-      .status(400)
-      .json({ error: `Produkten är inte giltig. Försök igen` });
-  }
+
   try {
+    if (!id || typeof id === "number") {
+      throw new Error("Ogiltig produkt ID.");
+    }
+
     let { data: product, error: productError } = await supabase
       .from("products")
       .select("*")
@@ -146,19 +217,26 @@ export const getProductByID = async (req, res) => {
       .single();
 
     if (productError) {
+      throw new Error(`Supabase error: ${productError}`);
+    };
+
+    if(!product){
       return res
       .status(404)
-      .json({error: "Produkten som du försöker se är ogiltig eller har tagits bort."});
-    }
+      .json({ error: "Produkten kunde inte hittas." });
+    };
+
     return res.status(200).json({ product });
+
   } catch (error) {
+    console.error(error.message);
     return res
       .status(500)
-      .json({ error: "Ett okänt fel uppstod. Försök igen senare."});
+      .json({ error: "Något gick fel. Försök igen." });
   }
 };
 
-//HÄMTAR ALLA KATEGORIER 
+//HÄMTAR ALLA KATEGORIER
 export const categories = async (req, res) => {
   try {
     let { data, error } = await supabase.from("categories").select("*");
@@ -169,7 +247,7 @@ export const categories = async (req, res) => {
     }
   } catch (error) {
     return res
-    .status(500)
-    .json({ error: "Ett okänt fel uppstod. Försök igen senare."});
+      .status(500)
+      .json({ error: "Ett okänt fel uppstod. Försök igen senare." });
   }
 };

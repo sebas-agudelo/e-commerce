@@ -1,10 +1,8 @@
 import React, { useContext, useEffect, useState } from "react";
-import { Link, useNavigate, useParams } from "react-router-dom";
+import {useParams } from "react-router-dom";
 import { CartContext } from "../../Context/CartContext";
 import { AuthSessionContext } from "../../Context/SessionProvider";
 import { ProductContext } from "../../Context/ProductContext";
-import { BsPlusLg } from "react-icons/bs";
-import { PiMinusThin } from "react-icons/pi";
 import ShowCartItems from "../../components/ShowCartItems";
 
 export default function Cart() {
@@ -36,11 +34,17 @@ export default function Cart() {
     const newQty = item.quantity + 1;
     const totalPrice = item.unit_price * newQty;
 
-    const updatedCart = cartItems.map((items) =>
-      items.product_id === item.product_id
-        ? { ...items, quantity: newQty, total_price: totalPrice }
-        : items
-    );
+    const updatedCart = cartItems.map((items) =>{
+      if(items.product_id === item.product_id){
+        return {
+          ...items, 
+          quantity: newQty, 
+          total_price: totalPrice 
+        }
+      } else {
+        return items
+      }
+    });
 
     
     let newTotal = 0;
@@ -53,7 +57,6 @@ export default function Cart() {
 
     if(!session){
       localStorage.setItem("cart", JSON.stringify(updatedCart));
-      console.log("Varukorgen uppdaterad i localStorage");
     }else {
       updateCartQty(item.product_id, newQty);
     }
@@ -61,17 +64,22 @@ export default function Cart() {
 
   const reduceQty = (item) => {
     if (!item) {
-      console.log(item);
       return;
     }
     const newQty = item.quantity - 1;
     const totalPrice = item.unit_price * newQty;
 
-    const updatedCart = cartItems.map((items) =>
-      items.product_id === item.product_id
-        ? { ...items, quantity: newQty, total_price: totalPrice }
-        : items
-    );
+    const updatedCart = cartItems.map((items) =>{
+      if(items.product_id === item.product_id){
+        return {
+          ...items, 
+          quantity: newQty, 
+          total_price: totalPrice 
+        }
+      } else {
+        return items
+      }
+    });
 
     const filteredCart = updatedCart.filter((p) => p.quantity > 0);
 
@@ -88,15 +96,10 @@ export default function Cart() {
     if(!session){
       localStorage.setItem("cart", JSON.stringify(filteredCart));
 
-    } else {
+    } else if(session) {
       updateCartQty(item.product_id, newQty);
-
     }
-
-    
-    
   };
-  console.log("Cart items",cartItems);
 
   return (
     <main className="cart-container">
