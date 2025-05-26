@@ -7,27 +7,27 @@ import { GrPrevious } from "react-icons/gr";
 import { ProductsApiContext } from "../../Context/ProductsContext";
 
 export default function ProductsByCategory() {
-  const { currentCarId, category } = useParams();
+  const { selectedCatId, category } = useParams();
 
   const { fetchProducts, currenPage, price, setPrice, setCategoryID } =
     useContext(ProductsApiContext);
 
     useEffect(() => {
-      if (currentCarId) {
+      if (selectedCatId) {
         fetchProductByCategory();
       } else{
         setCategoryID("")
         setPrice("")
         
       }
-    }, [currentCarId, price, currenPage]);
+    }, [selectedCatId, price, currenPage]);
     
 
 
   const fetchProductByCategory = async () => {
     try {
     
-      let url = `http://localhost:3030/api/product/categori/${currentCarId}?page=${currenPage}`;
+      let url = `http://localhost:3030/api/product/categori/${selectedCatId}?page=${currenPage}`;
 
       if (price) {
         url += `&price=${price}`;
@@ -41,7 +41,7 @@ export default function ProductsByCategory() {
 
   return (
     <main className="Products-main">
-      <ShowProdcuts currentCarId={currentCarId} category={category} />
+      <ShowProdcuts selectedCatId={selectedCatId} category={category} />
       <Footer />
     </main>
   );

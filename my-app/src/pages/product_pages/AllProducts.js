@@ -1,28 +1,36 @@
-import React, { useContext, useEffect, useRef } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import Footer from "../Footer";
 import ShowProdcuts from "../../components/ProductComponents/ShowProdcuts";
 import { ProductsApiContext } from "../../Context/ProductsContext";
+import { useSearchParams } from "react-router-dom";
 
 export default function Products() {
-  const { fetchProducts, price, currenPage, setCurrentPage, categoryID } =
-    useContext(ProductsApiContext);
+  const {
+    fetchProducts,
+    price,
+    currenPage,
+    setCurrentPage,
+    categoryID,
+    setCategoryID,
+  } = useContext(ProductsApiContext);
 
-  const prevPrice = useRef(price);
-  const prevCategoryID = useRef(categoryID);
+  const [searchParams] = useSearchParams();
+  const urlCategory = searchParams.get("categoryID") || "";
+  const urlPage = parseInt(searchParams.get("page")) || 1;
+
 
   useEffect(() => {
-    if (price !== prevPrice.current || categoryID !== prevCategoryID.current) {
-      setCurrentPage(1);
+    setCategoryID(urlCategory);
+
+    if(categoryID && currenPage !== urlPage){
+      setCurrentPage(1)
     }
-
-    prevPrice.current = price;
-    prevCategoryID.current = categoryID;
-  }, [price, categoryID, setCurrentPage]);
+  }, [urlCategory, urlPage]);
 
   useEffect(() => {
+    if (categoryID !== urlCategory) return;
     fetchAllProducts();
-    console.log(currenPage);
-  }, [currenPage, price, categoryID]);
+  }, [currenPage, price, categoryID, urlCategory, urlPage]);
 
   const fetchAllProducts = async () => {
     try {

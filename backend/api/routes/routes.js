@@ -20,7 +20,7 @@ routes.get('/api/products/show', getProducts);
 routes.get('/api/product/get/:id', getProductByID);
 routes.get('/api/categori/get', categories)
 routes.get('/search', searchProduct);
-routes.get('/api/product/categori/:currentCarId', productByCategory);
+routes.get('/api/product/categori/:selectedCatId', productByCategory);
 /* ALL CART ROUTES */
 routes.post('/api/cart/addtocart', authenticateUser, addToCart);
 routes.put('/api/cart/update', authenticateUser, updateCartQty);

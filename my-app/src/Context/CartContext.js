@@ -35,7 +35,9 @@ export const CartProvider = ({ children }) => {
       } else {
         setCartItems([]);
       }
-    } if(session) {
+    } 
+    
+    if(session) {
       try {
         const response = await fetch("http://localhost:3030/api/cart/show", {
           method: "GET",
@@ -46,13 +48,13 @@ export const CartProvider = ({ children }) => {
         const data = await response.json();
      
         if (response.ok) {
-          setCartItems(data.shopping_cart);
-          setTotal(data.totalPrice);
+          setCartItems(data.shopping_cart || []);
+          setTotal(data.totalPrice || 0);
         } else if (!response.ok) {
           alert(data.error);
         }
       } catch (error) {
-        console.error("Ett oväntat fel inträffade. Försök senare igen");
+        console.error("Något gick fel");
       }
     }
   };

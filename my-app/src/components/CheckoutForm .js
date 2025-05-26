@@ -104,17 +104,19 @@ const CheckoutForm = () => {
 
   //Funktionen för att gå vidare till betalning
   const goToPayment = async () => {
-    if (
-      !payUserData.email ||
-      !payUserData.firstname ||
-      !payUserData.lastname ||
-      !payUserData.phone ||
-      !payUserData.address ||
-      !payUserData.postal
-    ) {
-      alert("Fälten är obligatoriska");
-      return;
-    }
+    // if (
+    //   !payUserData.email ||
+    //   !payUserData.firstname ||
+    //   !payUserData.lastname ||
+    //   !payUserData.phone ||
+    //   !payUserData.address ||
+    //   !payUserData.postal
+    // ) {
+    //   alert("Fälten är obligatoriska");
+    //   return;
+    // }
+
+
 
     setIsCompleted(true);
     setToThePayment(false);
@@ -140,6 +142,7 @@ const CheckoutForm = () => {
 
   //Funktionen för att skicka produkter som användaren köper till orders och items_order tabellen när en användare är inloggad
   const submitAuthUserOrder = async () => {
+    
     try {
       const response = await fetch(`http://localhost:3030/api/order/insert`, {
         method: "POST",
@@ -155,7 +158,7 @@ const CheckoutForm = () => {
       }
       if (!response.ok) {
         alert(data.error);
-        return;
+        // return;
       }
     } catch (error) {
       console.log(error);
@@ -164,18 +167,34 @@ const CheckoutForm = () => {
 
    //Funktionen för att skicka produkter som användaren köper till orders och items_order tabellen när en användare är utloggad
   const submitGuestOrder = async () => {
+    
     try{
+      const guestDataObject = {
+        email: payUserData.email,
+        firstname: payUserData.firstname,
+        lastname: payUserData.lastname,
+        birthday: payUserData.birthday,
+        phone: payUserData.phone,
+        address: payUserData.address,
+        postal_code: payUserData.postal,
+      };
+
       const response = await fetch('http://localhost:3030/api/order/guestorder', {
         method: "POST",
         credentials: "include",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ ItemsToSend, email: payUserData.email }),
+        body: JSON.stringify({ ItemsToSend, guestDataObject} ),
       })
 
       const data = await response.json();
 
+      if(response.ok){
+        alert(data.success)
+      }
+
       if(!response.ok){
         alert(data.error)
+        return
       }
 
     }catch(error){

@@ -1,5 +1,6 @@
 import { supabase_config } from "../../supabase_config/supabase_conlig.js";
 import validator from "validator";
+import { userDataValidations } from "../../validate/signValidation.js";
 
 const supabase = supabase_config();
 
@@ -9,14 +10,15 @@ export const showCostumersOrders = async (req, res) => {
 
   if (!userId) {
     return res
-      .status(400)
-      .json({ error: "Ingen användare hittades. Försök att logga in" });
+      .status(401)
+      .json({ error: "Din session har gått ut. Logga in för att fortsätta." });
   }
 
   try {
-   const { data: orders, error } = await supabase
-  .from("orders")
-  .select(`
+    const { data: orders, error } = await supabase
+      .from("orders")
+      .select(
+        `
     id,
     total_amount,
     created_at,
@@ -29,24 +31,25 @@ export const showCostumersOrders = async (req, res) => {
       unit_price,
       product_title
     )
-  `)
-  .eq("user_id", userId);
+  `
+      )
+      .eq("user_id", userId);
 
-  if(error){
-    return res
-    .status(500)
-    .json({error: "Ett oväntat fel inträffade."})
-  };
+    if (error) {
+      throw new Error(
+        `Internt fel vid hämtning av orders ---> showCostumersOrders orders: ${orders.message}`
+      );
+    }
 
-  if(!orders || orders.length === 0){
-    return res
-    .status(404)
-    .json({error: "Inga beställningar hittades"})
-  }
+    if (!orders || orders.length === 0) {
+      return res.status(200).json([]);
+    }
 
-  return res.status(200).json(orders);
+    return res.status(200).json(orders);
   } catch (error) {
-    console.error({ error: "Ett oväntat fel inträffade. Försök senare igen." });
+    console.error(error.message);
+
+    return res.status(500).json({ error: "Något gick fel. Försök igen." });
   }
 };
 
@@ -58,8 +61,8 @@ export const customerAuthOrders = async (req, res) => {
 
   if (!userId) {
     return res
-      .status(400)
-      .json({ error: "Ingen användare hittades. Försök att logga in" });
+      .status(401)
+      .json({ error: "Din session har gått ut. Logga in för att fortsätta." });
   }
 
   try {
@@ -68,16 +71,17 @@ export const customerAuthOrders = async (req, res) => {
       .select("id, user_id, total_price")
       .eq("user_id", userId);
 
-      if(error){
-        return res
-        .status(500)
-        .json({error: "Ett oväntat fel inträffade."})
-      }
+    if (error) {
+      throw new Error(
+        `Internt fel vid hämtning av varukorgen i samband med skapande av order (customerAuthOrders): ${error.message}`
+      );
+    }
 
-    if (!shopping_cart || shopping_cart.length === 0) {
-      return res
-        .status(404)
-        .json({ error: "Inga produkter hittades i varukorgen" });
+    if (shopping_cart.length <= 0) {
+      return res.status(400).json({
+        error:
+          "Ordern kunde inte skapas eftersom varukorgen är tom. Försök igen efter att du har lagt till produkter.",
+      });
     }
 
     let totalAmount = 0;
@@ -93,14 +97,26 @@ export const customerAuthOrders = async (req, res) => {
           email: email,
           total_amount: totalAmount,
           payment_status: "paid",
+          guest_id: null,
         },
       ])
       .select();
 
     if (ordersError) {
-      return res
-        .status(500)
-        .json({ error: "Din beställning kunde inte skapas. Försök igen" });
+      throw new Error(
+        `Internt fel vid skapande av orders. 'ordersError' (customerAuthOrders): ${ordersError.message}`
+      );
+    }
+
+    if (
+      orders === null ||
+      orders === undefined ||
+      orders.length === 0 ||
+      !orders[0].id
+    ) {
+      return res.status(500).json({
+        error: "Din order kunde inte registreras korrekt. Försök igen.",
+      });
     }
 
     const orderID = orders[0].id;
@@ -120,42 +136,66 @@ export const customerAuthOrders = async (req, res) => {
       .select();
 
     if (items_orders_Error) {
-      return res.status(500).json({ error: "" });
-    }
-
-    const { data: deleteCartm, error: errorDeleteCart } = await supabase
-      .from("shopping_cart")
-      .delete()
-      .eq("user_id", userId);
-
-    if (errorDeleteCart) {
-      return res.status(500).json({ error: "Varukorgen kunde inte rensas." });
+      throw new Error(
+        `Internt fel vid skapande av items order. 'items_orders_Error' (customerAuthOrders): ${items_orders_Error.message}`
+      );
     }
 
     return res
       .status(201)
       .json({ success: "Tack för din betalning, din order är skapad" });
   } catch (error) {
-    console.error(error);
-    // console.error(error);
-    return res
-      .status(500)
-      .json({ error: "Ett oväntat fel inträffade. Försök senare igen." });
+    console.error(error.message);
+    return res.status(500).json({ error: "Något gick fel. Försök igen." });
   }
 };
 
 //Bearbetar utloggade användarens order
 export const customerOrders = async (req, res) => {
-  const { ItemsToSend, email } = req.body;
+  const { guestDataObject, ItemsToSend } = req.body;
+  const { email, firstname, lastname, birthday, phone, address, postal_code } =
+    guestDataObject;
 
   const userId = req?.user?.id || null;
-
-  console.log(ItemsToSend);
+  const validationError = userDataValidations(email, firstname, lastname, birthday, phone, address, postal_code);
+  if (validationError) {
+    return res.status(400).json(validationError);
+  }
 
   try {
-    if (!validator.isEmail(email)) {
-      return res.status(400).json({ error: "Inte godkänt e-postformat" });
+
+    const { data: guestData, error: guestDataError } = await supabase
+      .from("guest")
+      .insert([
+        {
+          email: email || null,
+          firstname: firstname || null,
+          lastname: lastname || null,
+          person_number: birthday || null,
+          phone: phone || null,
+          address: address || null,
+          postal_code: postal_code || null,
+        },
+      ])
+      .select();
+
+    if (guestDataError) {
+      throw new Error(
+        `Internt fel vid skapande av gäst data. 'guestDataError' (Utloggad användare) (customerAuthOrders): ${guestDataError.message}`
+      );
     }
+
+    if (
+      guestData === null ||
+      guestData === undefined ||
+      guestData.length === 0 ||
+      !guestData[0].id
+    ) {
+      return res.status(500).json({
+        error: "Dina person uppgifter kunde inte registreras korrekt. Försök igen.",
+      });
+    }
+    const guestID = guestData[0].id;
 
     let totalAmount = 0;
     ItemsToSend.forEach((item) => {
@@ -170,14 +210,26 @@ export const customerOrders = async (req, res) => {
           email: email,
           total_amount: totalAmount,
           payment_status: "paid",
+          guest_id: guestID,
         },
       ])
       .select();
 
     if (ordersError) {
-      return res
-        .status(500)
-        .json({ error: "Din beställning kunde inte skapas. Försök igen" });
+      throw new Error(
+        `Internt fel vid skapande av orders. 'ordersError' (Utloggad användare) (customerAuthOrders): ${ordersError.message}`
+      );
+    }
+
+    if (
+      orders === null ||
+      orders === undefined ||
+      orders.length === 0 ||
+      !orders[0].id
+    ) {
+      return res.status(500).json({
+        error: "Din order kunde inte registreras korrekt. Försök igen.",
+      });
     }
 
     const orderID = orders[0].id;
@@ -197,7 +249,9 @@ export const customerOrders = async (req, res) => {
       .select();
 
     if (items_orders_Error) {
-      return res.status(500).json({ error: "", items_orders_Error });
+      throw new Error(
+        `Internt fel vid skapande av items order. 'items_orders_Error' (Utloggad användare) (customerAuthOrders): ${items_orders_Error.message}`
+      );
     }
 
     return res
@@ -205,8 +259,6 @@ export const customerOrders = async (req, res) => {
       .json({ success: "Tack för din betalning, din order är skapad" });
   } catch (error) {
     // console.error(error);
-    return res
-      .status(500)
-      .json({ error: "Ett oväntat fel inträffade. Försök senare igen." });
+    return res.status(500).json({ error: "Något gick fel. Försök igen." });
   }
 };

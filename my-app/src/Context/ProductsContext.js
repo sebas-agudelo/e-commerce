@@ -9,6 +9,7 @@ export const ProductsProvider = ({ children }) => {
   const [count, setCount] = useState(0); 
   const [currenPage, setCurrentPage] = useState(1);
   const [price, setPrice] = useState(0);
+  const [livePrice, setLivePrice] = useState(0);
   const [categoryID, setCategoryID] = useState("");
   const [products, setProducts] = useState([]);
 
@@ -18,9 +19,9 @@ export const ProductsProvider = ({ children }) => {
       const data = await response.json();
       
       if (response.ok) {
-          setPages(data.totalPages);
-          setCount(data.count);
-          setProducts(data.products);
+          setPages(data.totalPages || 1);
+          setCount(data.count || 0);
+          setProducts(data.products || []);
     }
     if(!response.ok){
       alert(data.error)
@@ -41,6 +42,8 @@ export const ProductsProvider = ({ children }) => {
         currenPage, 
         setPrice,
         price,
+        livePrice,
+        setLivePrice,
         setCategoryID,
         categoryID,
         setProducts,

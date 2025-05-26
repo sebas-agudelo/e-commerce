@@ -1,28 +1,27 @@
 import React, { useContext, useEffect, useState } from "react";
-import { GrNext } from "react-icons/gr";
-import { GrPrevious } from "react-icons/gr";
 import { ProductsApiContext } from "../../Context/ProductsContext";
 import { useSearchParams } from "react-router-dom";
 
+import { GrNext } from "react-icons/gr";
+import { GrPrevious } from "react-icons/gr";
+
 export default function ShowPagination() {
-  const { currenPage, categoryID, setCurrentPage, pages, products } =
+  const { currenPage, setCurrentPage, pages, products } =
     useContext(ProductsApiContext);
 
   const [searchParams, setSearchParams] = useSearchParams();
-
-  useEffect(() => {
-    // if (categoryID) {
-    //   setSearchParams("");
-    // }
-
-    const urlPage = parseInt(searchParams.get("page")) || 1;
-    setCurrentPage(urlPage);
-  }, [searchParams, setCurrentPage]);
-
+  const newParams = new URLSearchParams(searchParams);
+  const urlPage = parseInt(searchParams.get("page")) || 1;
+  
   const pageNumbers = [];
   for (let i = 1; i <= pages; i++) {
     pageNumbers.push(i);
-  }
+  };
+
+  useEffect(() => {
+    setCurrentPage(urlPage);
+  }, [urlPage, setCurrentPage]);
+
 
   const nextPage = async () => {
     if (currenPage < pages) {
@@ -36,16 +35,15 @@ export default function ShowPagination() {
     }
   };
 
-  const handlePageChange = (page) => {
-    updatePageParam(page);
-  };
-
+  
   const updatePageParam = (page) => {
-    const newParams = new URLSearchParams(searchParams);
     newParams.set("page", page);
-
     setSearchParams(newParams);
     setCurrentPage(page);
+  };
+  
+  const handlePageChange = (page) => {
+    updatePageParam(page);
   };
 
   return (

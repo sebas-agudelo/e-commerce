@@ -49,11 +49,12 @@ export const filtredProducts = async (
 //HÄMTAR ALLA PRODUKTER
 export const getProducts = async (req, res) => {
   const { price, categoryID, page } = req.query;  
+  console.log("Category ID",categoryID);
   try {
     let products;
 
     if (price && isNaN(parseInt(price))) {
-      throw new Error("Ogiltigt värde på 'price'");
+      return res.status(400).json({ error: "Ogiltig förfrågan" });
     };
 
     if (
@@ -62,19 +63,16 @@ export const getProducts = async (req, res) => {
       categoryID !== "" &&
       typeof categoryID !== "string"
     ) {
-      throw new Error("Ogiltigt värde på 'categoryID'");
+      return res.status(400).json({ error: "Ogiltig förfrågan" });
     };
 
-    if (page === undefined || page === null || parseInt(page) < 1) {
-      throw new Error("Ogiltigt värde på 'page'");
+    if (isNaN(page) || parseInt(page) < 1) {
+      return res.status(400).json({ error: "Ogiltig förfrågan" });
     };
 
     const pageSize = 1;
     let parsedPageSize = pageSize;
-    if (isNaN(parsedPageSize) || parsedPageSize <= 0) {
-      throw new Error("Ogiltigt värde på 'pageSize'");
-    };
-
+  
     products = await filtredProducts(price, categoryID, parseInt(page), parsedPageSize);
  
     if (!products || products.length <= 0) {
@@ -85,7 +83,7 @@ export const getProducts = async (req, res) => {
         totalPages: 0,
       });
     }
-
+    
     return res.status(200).json(products);
   } catch (error) {
     console.error(error.message);
@@ -95,15 +93,15 @@ export const getProducts = async (req, res) => {
 
 //HÄMTAR PRODUKTER BASERAD PÅ KATEGORY
 export const productByCategory = async (req, res) => {
-  const { currentCarId } = req.params;
+  const { selectedCatId } = req.params;
   const { price, categoryID, page } = req.query;
 
-  const usedCategoryId = categoryID || currentCarId;
+  const usedCategoryId = categoryID || selectedCatId;
   try {
     let products;
 
     if (price && isNaN(parseInt(price))) {
-      throw new Error("Ogiltigt värde på 'price'");
+      return res.status(400).json({ error: "Ogiltig förfrågan" });
     };
 
     if (
@@ -111,19 +109,16 @@ export const productByCategory = async (req, res) => {
       usedCategoryId === null ||
       typeof usedCategoryId === "number"
     ) {
-      throw new Error("Något har gått fel vid kategori hämtning.");
+      return res.status(400).json({ error: "Ogiltig förfrågan" });
     };
 
     if (page === undefined || page === null || parseInt(page) < 1) {
-      throw new Error("Ogiltigt värde på 'page'");
+      return res.status(400).json({ error: "Ogiltig förfrågan" });
     };
 
     const pageSize = 1;
     let parsedPageSize = pageSize;
-    if (isNaN(parsedPageSize) || parsedPageSize <= 0) {
-      throw new Error("Ogiltigt värde på 'pageSize'. (Backend)");
-    };
-
+  
     products = await filtredProducts(price, usedCategoryId, parseInt(page), parsedPageSize);
 
     if (!products || products.length <= 0) {
@@ -150,7 +145,7 @@ export const searchProduct = async (req, res) => {
     let products;
 
     if (price && isNaN(parseInt(price))) {
-      throw new Error("Ogiltigt värde på 'price'");
+      return res.status(400).json({ error: "Ogiltig förfrågan" });
     };
 
     if (
@@ -159,22 +154,16 @@ export const searchProduct = async (req, res) => {
       categoryID !== "" &&
       typeof categoryID !== "string"
     ) {
-      throw new Error("Något har gått fel vid kategori hämtningen.");
+      return res.status(400).json({ error: "Ogiltig förfrågan" });
     };
-
-    console.log(page, "och", query);
-    
   
     if (page === undefined || page === null || parseInt(page) < 1) {
-      throw new Error("Ogiltigt värde på 'page'");
+      return res.status(400).json({ error: "Ogiltig förfrågan" });
     };
 
     const pageSize = 1;
     let parsedPageSize = pageSize;
-    if (isNaN(parsedPageSize) || parsedPageSize <= 0) {
-      throw new Error("Ogiltigt värde på 'pageSize'");
-    };
-
+    
     products = await filtredProducts(
       price,
       categoryID,

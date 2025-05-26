@@ -4,13 +4,25 @@ import { VscChromeClose } from "react-icons/vsc";
 import ShowProdcuts from "./ShowProdcuts";
 import { ProductContext } from "../../Context/ProductContext";
 import { ProductsApiContext } from "../../Context/ProductsContext";
+import { useSearchParams } from "react-router-dom";
 
-export default function ShowFilters({ category, currentCarId }) {
-  const { price, setPrice, count, cryID, setCategoryID, categoryID } =
-    useContext(ProductsApiContext);
+export default function ShowFilters({ category, selectedCatId }) {
+  const {
+    price,
+    setPrice,
+    setLivePrice,
+    livePrice,
+    count,
+    setCategoryID,
+    categoryID,
+    setCurrentPage,
+  } = useContext(ProductsApiContext);
+
   const [isClicked, setIsClicked] = useState(false);
-  const [isSelected, setIsSelected] = useState(true);
   const { categories } = useContext(ProductContext);
+
+  const [searchParams, setSearchParams] = useSearchParams();
+  const newParams = new URLSearchParams(searchParams);
 
   const handleClick = () => {
     {
@@ -21,18 +33,25 @@ export default function ShowFilters({ category, currentCarId }) {
   const removeFilters = () => {
     setPrice(0);
     setCategoryID("");
-  };
-  const handle = (e) => {
-    setCategoryID(e.target.value);
+    setCurrentPage(1);
+    newParams.delete("page");
+    newParams.delete("categoryID");
+    setSearchParams(newParams);
   };
 
-  useEffect(() => {
-    if (currentCarId) {
-      setIsSelected(false);
+  const handleCategoryFilter = (e) => {
+    const selectedCategory = e.target.value;
+    newParams.set("categoryID", selectedCategory);
+    setSearchParams(newParams);
+    setCategoryID(selectedCategory);
 
+    if (selectedCategory) {
+      newParams.delete("page");
+      newParams.set("categoryID", selectedCategory);
+      setSearchParams(newParams);
+      setCurrentPage(1);
     }
-  }, []);
-
+  };
 
   return (
     <div>
@@ -43,6 +62,25 @@ export default function ShowFilters({ category, currentCarId }) {
           <div className="close-filter-menu">
             <h3>Filter</h3>
             <VscChromeClose onClick={handleClick} />
+          </div>
+          <div className="categories-checkboxes">
+            <>
+              <h3>kategori</h3>
+              {selectedCatId ? (
+                <h3>{category}</h3>
+              ) : (
+                <select name="category_id" value={categoryID} onChange={handleCategoryFilter}>
+                  <option value={""} selected disabled>
+                    Välj kategori
+                  </option>
+                  {categories.map((category) => (
+                    <option key={category.id} value={category.id}>
+                      {category.category}
+                    </option>
+                  ))}
+                </select>
+              )}
+            </>
           </div>
           <div className="price-range">
             <h3>
@@ -58,26 +96,11 @@ export default function ShowFilters({ category, currentCarId }) {
               onChange={(e) => {
                 setPrice(parseInt(e.target.value));
               }}
+              onMouseUp={() => setLivePrice(price)}
             />
           </div>
 
-          <div className="categories-checkboxes">
-         
-              <>
-                <h3>kategori</h3>
-                <select name="category_id" value={currentCarId} onChange={handle}>
-                  <option value={""} selected disabled>
-                    Välj kategori
-                  </option>
-                  {categories.map((category) => (
-                    <option key={category.id} value={category.id}>
-                      {category.category}
-                    </option>
-                  ))}
-                </select>
-              </>
-        
-          </div>
+          
         </div>
 
         <div className="filter-actions">
@@ -95,9 +118,6 @@ export default function ShowFilters({ category, currentCarId }) {
           Alla filter
           <IoFilterSharp />
         </button>
-        {/* <button>
-          Sortera efter
-        </button> */}
       </div>
     </div>
   );

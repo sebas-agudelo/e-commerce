@@ -8,12 +8,12 @@ dotenv.config();
 const stripePay = stripe(process.env.STRIPE_SECRET_KEY);
 
 const calculateOrderAmount = (items) => {
-  if (items.length === 0) return 100 * 100; // Om varukorgen är tom, sätt ett minimibelopp
+  if (items.length === 0) return 100 * 100;
   const totalAmount = items.reduce(
     (acc, product) => acc + product.unit_price * product.quantity,
     0
   );
-  return totalAmount * 100; // Stripe kräver beloppet i cent
+  return totalAmount * 100;
 };
 
 export const stripeCheckOut = async (req, res) => {
@@ -47,6 +47,6 @@ export const stripeCheckOut = async (req, res) => {
     console.error("Stripe Error:", error.message);
     return res
       .status(500)
-      .json({ error: "Ett fel inträffade vid skapandet av betalningen." });
+      .json({ error: "Något gick fel. Försök igen" });
   }
 };
