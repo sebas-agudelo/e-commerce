@@ -192,7 +192,7 @@ export const customerOrders = async (req, res) => {
       !guestData[0].id
     ) {
       return res.status(500).json({
-        error: "Dina person uppgifter kunde inte registreras korrekt. Försök igen.",
+        error: "Dina personuppgifter kunde inte registreras korrekt. Försök igen.",
       });
     }
     const guestID = guestData[0].id;
