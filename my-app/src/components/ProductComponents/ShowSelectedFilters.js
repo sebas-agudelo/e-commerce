@@ -40,14 +40,14 @@ export default function ShowSelectedFilters() {
   };
 
   return (
-    <div>
+    <div className="selected-filters-wrapper">
       {(price || categoryID) && (
-        <div>
+        <div className="selected-filters">
           <h2>Aktiva filter</h2>
 
-          <div>
+          <div className="selected-filters-content">
             {categoryID && (
-              <div onClick={() => removeSelectedFilter("categoryID")}>
+              <div className="selected-category" onClick={() => removeSelectedFilter("categoryID")}>
                 {currentFilterCategory && (
                   <h3>{currentFilterCategory.category}</h3>
                 )}
@@ -56,7 +56,7 @@ export default function ShowSelectedFilters() {
             )}
 
             {price > 0 && (
-              <div onClick={() => removeSelectedFilter("price")}>
+              <div className="selected-price" onClick={() => removeSelectedFilter("price")}>
                 <h3>{livePrice}</h3>
                 <IoCloseOutline />
               </div>

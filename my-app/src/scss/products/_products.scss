@@ -46,7 +46,7 @@
                 }
             }
 
-            .filter-btns{
+            .filter-btns {
                 display: flex;
                 justify-content: space-between;
 
@@ -61,12 +61,12 @@
                     align-items: center;
                     color: #090e20;
                     font-size: 18px;
-    
+
                     svg {
                         margin: 0 0 0 10px;
-                    font-size: 18px;
-                    // fill: #efdd54;
-    
+                        font-size: 18px;
+                        // fill: #efdd54;
+
                     }
                 }
             }
@@ -181,10 +181,6 @@
                     span {
                         font-size: 38px;
                     }
-                }
-
-                h2 {
-                    font-size: 23px;
                 }
 
                 .filter-btn {

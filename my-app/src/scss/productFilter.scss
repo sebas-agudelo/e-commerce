@@ -140,6 +140,43 @@
   right: -100%;
 }
 
+.selected-filters-wrapper{
+  margin: 0 0 19px;
+  
+  .selected-filters{
+    h2{
+      font-size: 18px;
+      font-weight: 500;
+    }
+
+    .selected-filters-content{
+      display: flex;
+      padding: 8px 0 0;
+      .selected-category, .selected-price{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        border: 1px solid ;
+        padding: 3px 6px;
+        margin-right: 12px;
+        width: auto;
+        height: auto;
+        border-radius: 5px;
+
+        h3{
+          font-size: 16px;
+          font-weight: 500;
+          margin-right: 6px;
+
+        }
+        svg{
+          font-size: 18px;
+        }
+      }
+    }
+  }
+}
+
 @media screen and (min-width: 768px) {
   .products-filter-container {
     width: 25%;
