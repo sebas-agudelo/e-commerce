@@ -48,19 +48,14 @@ export default function ShowPagination() {
 
   return (
     <div className="pagination-container">
-      <p>
-        Sida: {currenPage} - Produkter: {products.length}
-      </p>
       <div className="pagination-btn-wrapper">
-        {currenPage > 1 && (
           <button
             className="pgn-action-btn-prev"
             onClick={prevPage}
-            disabled={currenPage === 1}
           >
             <GrPrevious />
           </button>
-        )}
+        
 
         {pageNumbers.map((page) => (
           <button
@@ -73,12 +68,15 @@ export default function ShowPagination() {
           </button>
         ))}
 
-        {pages > 1 && currenPage < pages && (
+       
           <button className="pgn-action-btn-next" onClick={nextPage}>
             <GrNext />
           </button>
-        )}
+        
       </div>
+      <p>
+        Sida: {currenPage} - Av: {pages}
+      </p>
     </div>
   );
 }

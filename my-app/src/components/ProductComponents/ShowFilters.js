@@ -98,6 +98,7 @@ export default function ShowFilters({ category, selectedCatId }) {
                 setPrice(parseInt(e.target.value));
               }}
               onMouseUp={() => setLivePrice(price)}
+              onTouchEnd={() => setLivePrice(price)}
             />
           </div>
 

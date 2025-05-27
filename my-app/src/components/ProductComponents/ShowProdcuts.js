@@ -7,7 +7,6 @@ import { ProductContext } from "../../Context/ProductContext";
 import { useSearchParams } from "react-router-dom";
 import ShowSelectedFilters from "./ShowSelectedFilters";
 
-
 export default function ShowProdcuts({ category, selectedCatId }) {
   const [currentPath, setCurrentPath] = useState();
   const { products, count } = useContext(ProductsApiContext);
@@ -28,11 +27,12 @@ export default function ShowProdcuts({ category, selectedCatId }) {
 
   return (
     <section className="products-container">
-      <ShowSelectedFilters />
       <div className="products-toolbar">
         <h1>
           {currentPath}: <span>{count}</span>
         </h1>
+
+        <ShowSelectedFilters />
 
         <ShowFilters selectedCatId={selectedCatId} category={category} />
       </div>
