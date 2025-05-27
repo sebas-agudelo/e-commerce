@@ -48,27 +48,33 @@
                 }
             }
 
-
-            .filter-btn {
-                width: auto;
-                height: 35px;
-                border-style: none;
-                background: transparent;
-                cursor: pointer;
-                border-radius: 10px;
+            .filter-btns{
                 display: flex;
-                align-items: center;
-                color: #090e20;
-                font-weight: 500;
-                font-size: 18px;
+                justify-content: space-between;
 
-                svg {
-                    margin: 0 0 0 10px;
-                font-size: 18px;
-                fill: #efdd54;
-
+                .filter-btn {
+                    width: auto;
+                    height: 35px;
+                    border-style: none;
+                    background: transparent;
+                    cursor: pointer;
+                    border-radius: 10px;
+                    display: flex;
+                    align-items: center;
+                    color: #090e20;
+                    font-weight: 500;
+                    font-size: 18px;
+    
+                    svg {
+                        margin: 0 0 0 10px;
+                    font-size: 18px;
+                    fill: #efdd54;
+    
+                    }
                 }
             }
+
+
         }
 
         .product-wrapper {

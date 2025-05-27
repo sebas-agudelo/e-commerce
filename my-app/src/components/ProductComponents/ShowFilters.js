@@ -1,6 +1,7 @@
 import React, { useEffect, useState, useContext } from "react";
 import { IoFilterSharp } from "react-icons/io5";
 import { VscChromeClose } from "react-icons/vsc";
+import { AiOutlinePlus } from "react-icons/ai";
 import ShowProdcuts from "./ShowProdcuts";
 import { ProductContext } from "../../Context/ProductContext";
 import { ProductsApiContext } from "../../Context/ProductsContext";
@@ -113,7 +114,11 @@ export default function ShowFilters({ category, selectedCatId }) {
         </div>
       </div>
 
-      <div>
+      <div className="filter-btns">
+      <button className="filter-btn">
+          Sortera efter 
+          <AiOutlinePlus />
+        </button>
         <button className="filter-btn" onClick={handleClick}>
           Alla filter
           <IoFilterSharp />
