@@ -14,7 +14,7 @@ export default function ShowProdcuts({ category, selectedCatId }) {
 
   useEffect(() => {
     if (window.location.pathname === "/products") {
-      setCurrentPath("Produkter");
+      setCurrentPath("ALLA PRODUKTER");
     }
     if (
       window.location.pathname === `/products/${selectedCatId}/cat/${category}`

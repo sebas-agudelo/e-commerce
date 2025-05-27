@@ -25,46 +25,48 @@
     }
 
     .products-container {
+        // height: 100vh;
+
         .products-toolbar {
             width: 100%;
-            height: 40px;
+            height: auto;
             display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 32px 16px 16px;
+            flex-direction: column;
+            padding: 0 12px;
 
             h1 {
-                font-size: 16px;
-                font-weight: 400;
-                border-bottom: 0.5px solid #efdd54;
+                font-size: 28px;
+                font-weight: 500;
+                margin: 28px 0 38px;
+
 
                 span {
-                    font-size: 16px;
+                    font-size: 28px;
                     color: #efdd54;
+                    border-bottom: 0.5px solid #efdd54;
+
                 }
             }
 
-            h2 {
-                font-size: 19px;
-                color: #040f38;
-                font-weight: 500;
-            }
 
             .filter-btn {
                 width: 100px;
                 height: 35px;
                 border-style: none;
-                background-color: #efdd54;
+                background: transparent;
                 cursor: pointer;
                 border-radius: 10px;
                 display: flex;
-                justify-content: center;
                 align-items: center;
                 color: #090e20;
                 font-weight: 500;
+                font-size: 18px;
 
                 svg {
                     margin: 0 0 0 10px;
+                font-size: 18px;
+                fill: #efdd54;
+
                 }
             }
         }
