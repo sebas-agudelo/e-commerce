@@ -20,7 +20,7 @@ export const showCart = async (req, res) => {
       .eq("user_id", userID);
 
     if (cartError) {
-      throw new Error("Ett internt fel 'CartError'");
+      throw new Error(`Internt fel 'CartError' (ShowCart) ${cartError.message}`);
     };
 
     if (!shopping_cart || shopping_cart.length === 0) {
@@ -144,10 +144,10 @@ export const addToCart = async (req, res) => {
         throw new Error(`internt fel vid insättning i 'shopping_cart' (addToCart): ${insertError.message}`);
       };
 
-      if (!insertProduct) {
+      if (!insertProduct || insertProduct.length === 0) {
         return res
-          .status(400)
-          .json({ error: "Produkten kunde inte läggas till i varukorgen." });
+          .status(500)
+          .json({ error: "Produkten/Produkterna kunde inte läggas till i varukorgen. Försök igen" });
       }
 
       return res
@@ -203,7 +203,6 @@ export const updateCartQty = async (req, res) => {
       .json({
         error: "Produkten du försöker uppdatera finns inte i varukorgen."
       });
-      
     };
 
     const totalPrice = quantity * parseFloat(shopping_cart.unit_price);

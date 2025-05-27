@@ -63,8 +63,14 @@ export const customerAuthOrders = async (req, res) => {
     return res
       .status(401)
       .json({ error: "Din session har gått ut. Logga in för att fortsätta." });
-  }
+  };
 
+  if (!email || !validator.isEmail(email)) {
+    return res.status(400).json({
+      error: "Ogiltig eller saknad e-postadress.",
+    });
+  };
+  
   try {
     const { data: shopping_cart, error } = await supabase
       .from("shopping_cart")
@@ -80,7 +86,7 @@ export const customerAuthOrders = async (req, res) => {
     if (shopping_cart.length <= 0) {
       return res.status(400).json({
         error:
-          "Ordern kunde inte skapas eftersom varukorgen är tom. Försök igen efter att du har lagt till produkter.",
+          "Din varukorg är tom. Vi kan tyvärr inte behandla din beställning utan produkter. Vänligen lägg till minst en vara och försök igen.",
       });
     }
 
@@ -108,12 +114,7 @@ export const customerAuthOrders = async (req, res) => {
       );
     }
 
-    if (
-      orders === null ||
-      orders === undefined ||
-      orders.length === 0 ||
-      !orders[0].id
-    ) {
+    if (!orders || !orders[0].id) {
       return res.status(500).json({
         error: "Din order kunde inte registreras korrekt. Försök igen.",
       });
@@ -144,6 +145,8 @@ export const customerAuthOrders = async (req, res) => {
     return res
       .status(201)
       .json({ success: "Tack för din betalning, din order är skapad" });
+
+    
   } catch (error) {
     console.error(error.message);
     return res.status(500).json({ error: "Något gick fel. Försök igen." });
@@ -156,25 +159,27 @@ export const customerOrders = async (req, res) => {
   const { email, firstname, lastname, birthday, phone, address, postal_code } =
     guestDataObject;
 
+  console.log(guestDataObject);
+
   const userId = req?.user?.id || null;
+  
   const validationError = userDataValidations(email, firstname, lastname, birthday, phone, address, postal_code);
   if (validationError) {
     return res.status(400).json(validationError);
   }
 
   try {
-
     const { data: guestData, error: guestDataError } = await supabase
       .from("guest")
       .insert([
         {
-          email: email || null,
-          firstname: firstname || null,
-          lastname: lastname || null,
-          person_number: birthday || null,
-          phone: phone || null,
-          address: address || null,
-          postal_code: postal_code || null,
+          email: email,
+          firstname: firstname,
+          lastname: lastname,
+          person_number: birthday,
+          phone: phone,
+          address: address,
+          postal_code: postal_code,
         },
       ])
       .select();
@@ -185,14 +190,10 @@ export const customerOrders = async (req, res) => {
       );
     }
 
-    if (
-      guestData === null ||
-      guestData === undefined ||
-      guestData.length === 0 ||
-      !guestData[0].id
-    ) {
+    if (!guestData || !guestData[0].id) {
       return res.status(500).json({
-        error: "Dina personuppgifter kunde inte registreras korrekt. Försök igen.",
+        error:
+          "Dina personuppgifter kunde inte registreras korrekt. Försök igen.",
       });
     }
     const guestID = guestData[0].id;
@@ -221,12 +222,7 @@ export const customerOrders = async (req, res) => {
       );
     }
 
-    if (
-      orders === null ||
-      orders === undefined ||
-      orders.length === 0 ||
-      !orders[0].id
-    ) {
+    if (!orders || !orders[0].id) {
       return res.status(500).json({
         error: "Din order kunde inte registreras korrekt. Försök igen.",
       });
@@ -259,6 +255,8 @@ export const customerOrders = async (req, res) => {
       .json({ success: "Tack för din betalning, din order är skapad" });
   } catch (error) {
     // console.error(error);
+    console.error(error.message);
+
     return res.status(500).json({ error: "Något gick fel. Försök igen." });
   }
 };

@@ -48,7 +48,7 @@ export default function ShowProdcuts({ category, selectedCatId }) {
 
             <div className="product-details">
               <p id="title">{product.title}</p>
-              <p id="price">{product.price}.-</p>
+              <p id="price">{product.price}.00 kr.</p>
             </div>
           </Link>
           <article className="admin-actions-btn"></article>

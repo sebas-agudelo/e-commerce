@@ -70,7 +70,7 @@ export const getProducts = async (req, res) => {
       return res.status(400).json({ error: "Ogiltig förfrågan" });
     };
 
-    const pageSize = 1;
+    const pageSize = 4;
     let parsedPageSize = pageSize;
   
     products = await filtredProducts(price, categoryID, parseInt(page), parsedPageSize);

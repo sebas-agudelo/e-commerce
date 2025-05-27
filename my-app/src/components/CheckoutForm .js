@@ -296,7 +296,7 @@ const CheckoutForm = () => {
                   <div className="peronnr-email-wrapper">
                     <input
                       id="personnr"
-                      type="text"
+                      type="date"
                       placeholder="Personnummer"
                       required
                       name="birthday"

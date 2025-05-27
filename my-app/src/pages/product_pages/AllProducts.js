@@ -34,7 +34,7 @@ export default function Products() {
 
   const fetchAllProducts = async () => {
     try {
-      let url = `http://localhost:3030/api/products/show?page=${currenPage}`;
+      let url = `https://examensarbeten.vercel.app/api/products/show?page=${currenPage}`;
 
       if (price && categoryID) {
         url += `&price=${price}&categoryID=${categoryID}`;

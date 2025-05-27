@@ -27,19 +27,30 @@ export const userDataValidations = (
   address,
   postal_code
 ) => {
+  if (
+    !firstname &&
+    !lastname &&
+    !email &&
+    !birthday &&
+    !phone &&
+    !address &&
+    !postal_code
+  ) {
+    return { error: "Inga fält får lämnas tomma." };
+  };
   if (firstname === "" || firstname === null || firstname === undefined) {
     return { error: "Förnamn är obligatoriskt" };
   }
   if (lastname === "" || lastname === null || lastname === undefined) {
     return { error: "Efternamn är obligatoriskt" };
   }
-  if (!validator.isEmail(email)) {
+  if (!email || !validator.isEmail(email)) {
     return {
       error:
         "Ogiltigt e-postformat eller saknad e-postadress. Kontrollera inmatningen.",
     };
   }
-  if (!validator.isDate(birthday, new Date())) {
+  if (!birthday || !validator.isDate(birthday, new Date())) {
     return {
       error:
         "Ogiltigt datumformat eller saknat personnummer. Kontrollera inmatningen.",
@@ -59,7 +70,7 @@ export const userDataValidations = (
   ) {
     return { error: "Ogiltig eller saknad adress. Kontrollera inmatningen." };
   }
-  if (!validator.isPostalCode(postal_code, "SE")) {
+  if (!postal_code || !validator.isPostalCode(postal_code, "SE")) {
     return {
       error:
         "Ogiltig postnummer eller saknad postnummer. Kontrollera inmatningen.",
