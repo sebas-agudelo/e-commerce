@@ -25,9 +25,10 @@ export default function ProductsByCategory() {
 
 
   const fetchProductByCategory = async () => {
+    // let url = `http://localhost:3030/api/product/categori/${selectedCatId}?page=${currenPage}`;
+
     try {
-    
-      let url = `http://localhost:3030/api/product/categori/${selectedCatId}?page=${currenPage}`;
+      let url = `https://examensarbeten.vercel.app/api/product/categori/${selectedCatId}?page=${currenPage}`;
 
       if (price) {
         url += `&price=${price}`;

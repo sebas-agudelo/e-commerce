@@ -31,7 +31,7 @@ export const ProductProvider = ({ children }) => {
   const fetchProductById = async (id) => {
     try {
       const response = await fetch(
-        `http://localhost:3030/api/product/get/${id}`,
+        `https://examensarbeten.vercel.app/api/product/get/${id}`,
         {
           method: "GET",
           credentials: "include",
@@ -52,7 +52,7 @@ export const ProductProvider = ({ children }) => {
   };
 
   const getCategories = async () => {
-    const response = await fetch(`http://localhost:3030/api/categori/get`, {
+    const response = await fetch(`https://examensarbeten.vercel.app/api/categori/get`, {
       method: "GET",
       credentials: "include",
       headers: { "Content-Type": "application/json" },
