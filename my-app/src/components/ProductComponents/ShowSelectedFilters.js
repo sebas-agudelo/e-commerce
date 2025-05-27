@@ -40,8 +40,8 @@ export default function ShowSelectedFilters() {
   };
 
   return (
+      (price || categoryID) && (
     <div className="selected-filters-wrapper">
-      {(price || categoryID) && (
         <div className="selected-filters">
           <h2>Aktiva filter</h2>
 
@@ -63,7 +63,7 @@ export default function ShowSelectedFilters() {
             )}
           </div>
         </div>
-      )}
-    </div>
+        </div>
+      )
   );
 }
