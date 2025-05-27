@@ -33,6 +33,9 @@ export default function Products() {
   }, [currenPage, price, categoryID, urlCategory, urlPage]);
 
   const fetchAllProducts = async () => {
+    // let url = `https://examensarbeten.vercel.app/api/products/show?page=${currenPage}`;
+    // let url = `http://localhost:3030/api/products/show?page=${currenPage}`;
+
     try {
       let url = `https://examensarbeten.vercel.app/api/products/show?page=${currenPage}`;
 
