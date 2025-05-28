@@ -18,12 +18,11 @@ export default function Products() {
   const urlCategory = searchParams.get("categoryID") || "";
   const urlPage = parseInt(searchParams.get("page")) || 1;
 
-
   useEffect(() => {
     setCategoryID(urlCategory);
 
-    if(categoryID && currenPage !== urlPage){
-      setCurrentPage(1)
+    if (categoryID && currenPage !== urlPage) {
+      setCurrentPage(1);
     }
   }, [urlCategory, urlPage]);
 

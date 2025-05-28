@@ -6,6 +6,7 @@ import { ProductsApiContext } from "../../Context/ProductsContext";
 import { ProductContext } from "../../Context/ProductContext";
 import { useSearchParams } from "react-router-dom";
 import ShowSelectedFilters from "./ShowSelectedFilters";
+import ShowSearchPath from "./ShowSearchPath";
 
 export default function ShowProdcuts({ category, selectedCatId }) {
   const [currentPath, setCurrentPath] = useState();
@@ -23,14 +24,12 @@ export default function ShowProdcuts({ category, selectedCatId }) {
     if (window.location.pathname === "/search") {
       setCurrentPath("Sökresultat");
     }
-  }, [currentPath]);
+  }, [window.location.pathname]);
 
   return (
     <section className="products-container">
       <div className="products-toolbar">
-        <h1>
-          {currentPath}: <span>{count}</span>
-        </h1>
+        <ShowSearchPath selectedCatId={selectedCatId} category={category} />
 
         <ShowSelectedFilters />
 

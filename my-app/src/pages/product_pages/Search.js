@@ -27,7 +27,7 @@ const ProductSearch = () => {
     // `https://examensarbeten.vercel.app/search?query=${query}`
     // `http://localhost:3030/search?query=${query}`
     try {
-      let url = `http://localhost:3030/search?query=${query}&page=${currenPage}`;
+      let url = `https://examensarbeten.vercel.app/search?query=${query}&page=${currenPage}`;
 
       if (price && categoryID) {
         url += `&price=${price}&categoryID=${categoryID}`;
@@ -61,11 +61,11 @@ const ProductSearch = () => {
   return (
     <main className="Products-main">
 
-        <div className='search-word'>
+        {/* <div className='search-word'>
           <h1>Sökord:</h1>
           <h1 className='searched'>{`"${searchQuery}"`}</h1>
         </div>
-        
+         */}
         <ShowProdcuts 
          
             />
