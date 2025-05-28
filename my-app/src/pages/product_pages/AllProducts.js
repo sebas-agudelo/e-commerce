@@ -12,6 +12,7 @@ export default function Products() {
     setCurrentPage,
     categoryID,
     setCategoryID,
+    products,
   } = useContext(ProductsApiContext);
 
   const [searchParams] = useSearchParams();
@@ -27,8 +28,9 @@ export default function Products() {
   }, [urlCategory, urlPage]);
 
   useEffect(() => {
-    if (categoryID !== urlCategory) return;
-    fetchAllProducts();
+    if (categoryID === urlCategory && currenPage === urlPage) {
+      fetchAllProducts();
+    }
   }, [currenPage, price, categoryID, urlCategory, urlPage]);
 
   const fetchAllProducts = async () => {

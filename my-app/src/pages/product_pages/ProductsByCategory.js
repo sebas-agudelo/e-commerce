@@ -20,7 +20,7 @@ export default function ProductsByCategory() {
         setPrice("")
         
       }
-    }, [selectedCatId, price, currenPage]);
+    }, [selectedCatId, setCategoryID, price, currenPage]);
     
 
 
@@ -28,7 +28,9 @@ export default function ProductsByCategory() {
     // let url = `http://localhost:3030/api/product/categori/${selectedCatId}?page=${currenPage}`;
 
     try {
-      let url = `https://examensarbeten.vercel.app/api/product/categori/${selectedCatId}?page=${currenPage}`;
+      // let url = `https://examensarbeten.vercel.app/api/product/categori/${selectedCatId}?page=${currenPage}`;
+    let url = `http://localhost:3030/api/product/categori/${selectedCatId}?page=${currenPage}`;
+
 
       if (price) {
         url += `&price=${price}`;

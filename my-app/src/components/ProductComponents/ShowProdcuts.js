@@ -10,7 +10,7 @@ import ShowSearchPath from "./ShowSearchPath";
 
 export default function ShowProdcuts({ category, selectedCatId }) {
   const [currentPath, setCurrentPath] = useState();
-  const { products, count } = useContext(ProductsApiContext);
+  const { products, setProducts, count } = useContext(ProductsApiContext);
 
   useEffect(() => {
     if (window.location.pathname === "/products") {
