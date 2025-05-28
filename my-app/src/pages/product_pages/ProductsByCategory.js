@@ -5,22 +5,21 @@ import ShowProdcuts from "../../components/ProductComponents/ShowProdcuts";
 import { GrNext } from "react-icons/gr";
 import { GrPrevious } from "react-icons/gr";
 import { ProductsApiContext } from "../../Context/ProductsContext";
+import { useSearchParams } from "react-router-dom";
 
 export default function ProductsByCategory() {
   const { selectedCatId, category } = useParams();
-
-  const { fetchProducts, currenPage, price, setPrice, setCategoryID } =
+  const [searchParams] = useSearchParams();
+  const urlPage = parseInt(searchParams.get("page")) || 1;
+  
+  const { fetchProducts, currenPage, price} =
     useContext(ProductsApiContext);
 
     useEffect(() => {
-      if (selectedCatId) {
+      if (selectedCatId && currenPage === urlPage) {
         fetchProductByCategory();
-      } else{
-        setCategoryID("")
-        setPrice("")
-        
-      }
-    }, [selectedCatId, setCategoryID, price, currenPage]);
+      };
+    }, [currenPage, price, selectedCatId, urlPage]);
     
 
 
@@ -28,8 +27,8 @@ export default function ProductsByCategory() {
     // let url = `http://localhost:3030/api/product/categori/${selectedCatId}?page=${currenPage}`;
 
     try {
-      // let url = `https://examensarbeten.vercel.app/api/product/categori/${selectedCatId}?page=${currenPage}`;
-    let url = `http://localhost:3030/api/product/categori/${selectedCatId}?page=${currenPage}`;
+      let url = `https://examensarbeten.vercel.app/api/product/categori/${selectedCatId}?page=${currenPage}`;
+    // let url = `http://localhost:3030/api/product/categori/${selectedCatId}?page=${currenPage}`;
 
 
       if (price) {

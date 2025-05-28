@@ -11,8 +11,7 @@ export default function Products() {
     currenPage,
     setCurrentPage,
     categoryID,
-    setCategoryID,
-    products,
+    setCategoryID
   } = useContext(ProductsApiContext);
 
   const [searchParams] = useSearchParams();

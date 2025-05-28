@@ -11,21 +11,7 @@ import ShowSearchPath from "./ShowSearchPath";
 export default function ShowProdcuts({ category, selectedCatId }) {
   const [currentPath, setCurrentPath] = useState();
   const { products, setProducts, count } = useContext(ProductsApiContext);
-
-  useEffect(() => {
-    if (window.location.pathname === "/products") {
-      setCurrentPath("ALLA PRODUKTER");
-    }
-    if (
-      window.location.pathname === `/products/${selectedCatId}/cat/${category}`
-    ) {
-      setCurrentPath(category);
-    }
-    if (window.location.pathname === "/search") {
-      setCurrentPath("Sökresultat");
-    }
-  }, [window.location.pathname]);
-
+  
   return (
     <section className="products-container">
       <div className="products-toolbar">

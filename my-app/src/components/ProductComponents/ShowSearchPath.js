@@ -1,28 +1,32 @@
 import React, { useState, useEffect } from "react";
-import { useSearchParams } from "react-router-dom";
+import { useSearchParams, useLocation } from "react-router-dom";
 
-export default function ShowSearchPath({ category, selectedCatId }) {
+export default function ShowSearchPath({ selectedCatId, category }) {
   const [currentPath, setCurrentPath] = useState();
   const [searchParams] = useSearchParams();
+  const location = useLocation();
+  const path = location.pathname;
 
   const [searchQuery, setSearchQuery] = useState("");
 
   const queryFromURL = searchParams.get("query") || "";
 
   useEffect(() => {
-    if (window.location.pathname === "/products") {
+    if (path === "/products") {
       setCurrentPath("ALLA PRODUKTER");
     }
     if (
-      window.location.pathname === `/products/${selectedCatId}/cat/${category}`
+        path === `/products/${selectedCatId}/cat/${category}`
     ) {
       setCurrentPath(category);
+      console.log(category);
+      
     }
-    if (window.location.pathname === "/search") {
+    if (path === "/search") {
       setCurrentPath("Sökresultat");
       setSearchQuery(queryFromURL);
     }
-  }, [window.location.pathname]);
+  }, [location.pathname]);
   return (
     <div>
       {searchQuery ? (
