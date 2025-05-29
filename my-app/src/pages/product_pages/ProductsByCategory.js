@@ -20,16 +20,11 @@ export default function ProductsByCategory() {
         fetchProductByCategory();
       };
     }, [currenPage, price, selectedCatId, urlPage]);
-    
-
-
+  
   const fetchProductByCategory = async () => {
     // let url = `http://localhost:3030/api/product/categori/${selectedCatId}?page=${currenPage}`;
-
     try {
       let url = `https://examensarbeten.vercel.app/api/product/categori/${selectedCatId}?page=${currenPage}`;
-    // let url = `http://localhost:3030/api/product/categori/${selectedCatId}?page=${currenPage}`;
-
 
       if (price) {
         url += `&price=${price}`;

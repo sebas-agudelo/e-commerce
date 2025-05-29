@@ -32,16 +32,29 @@
             flex-direction: column;
             padding: 0 16px;
 
-            h1 {
+            .path {
                 font-size: 28px;
                 font-weight: 500;
                 margin: 28px 0 38px;
+            }
 
+            .search-text-wrapper{
+                margin: 28px 0 0;
 
-                span {
+                h2{
+                    font-size: 18px;
+                    font-weight: 300;
+
+                    span{
+                    font-size: 18px;
+                    }
+                }
+
+                h1{
                     font-size: 28px;
-                    color: #efdd54;
-                    border-bottom: 0.5px solid #efdd54;
+                font-weight: 500;
+                margin: 0 0 38px;
+
 
                 }
             }
@@ -175,12 +188,23 @@
             .products-toolbar {
                 height: auto;
 
-                h1 {
+                .path {
                     font-size: 38px;
 
                     span {
                         font-size: 38px;
                     }
+                }
+
+                .search-text-wrapper{
+                    h2{
+                        font-size: 20px;
+                       
+                        span{
+                        font-size: 20px;
+                        }
+                    }
+    
                 }
 
                 .filter-btn {

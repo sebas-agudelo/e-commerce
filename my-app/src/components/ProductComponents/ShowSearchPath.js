@@ -1,9 +1,11 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { useSearchParams, useLocation } from "react-router-dom";
+import { ProductsApiContext } from "../../Context/ProductsContext";
 
 export default function ShowSearchPath({ selectedCatId, category }) {
   const [currentPath, setCurrentPath] = useState();
   const [searchParams] = useSearchParams();
+  const {count} = useContext(ProductsApiContext)
   const location = useLocation();
   const path = location.pathname;
 
@@ -26,19 +28,17 @@ export default function ShowSearchPath({ selectedCatId, category }) {
       setCurrentPath("Sökresultat");
       setSearchQuery(queryFromURL);
     }
-  }, [location.pathname]);
+  }, [location.pathname, queryFromURL]);
   return (
     <div>
       {searchQuery ? (
         <div className="search-text-wrapper">
-          <h1>{currentPath}</h1>
-          <h2>{searchQuery}</h2>
+          <h2>{currentPath}: <span>{count}</span></h2>
+          <h1>{searchQuery}</h1>
         </div>
       ) : (
-        <h1>
+        <h1 className="path">
           {currentPath}
-          {/* : <span>{count}</span> */}
-          {/* <span>{searchQuery}</span> */}
         </h1>
       )}
     </div>
