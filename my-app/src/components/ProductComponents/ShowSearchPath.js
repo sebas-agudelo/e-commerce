@@ -20,9 +20,7 @@ export default function ShowSearchPath({ selectedCatId, category }) {
     if (
         path === `/products/${selectedCatId}/cat/${category}`
     ) {
-      setCurrentPath(category);
-      console.log(category);
-      
+      setCurrentPath(category);      
     }
     if (path === "/search") {
       setCurrentPath("Sökresultat");

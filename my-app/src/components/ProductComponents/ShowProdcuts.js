@@ -3,15 +3,12 @@ import ShowFilters from "./ShowFilters";
 import { Link } from "react-router-dom";
 import ShowPagination from "./ShowPagination";
 import { ProductsApiContext } from "../../Context/ProductsContext";
-import { ProductContext } from "../../Context/ProductContext";
-import { useSearchParams } from "react-router-dom";
 import ShowSelectedFilters from "./ShowSelectedFilters";
 import ShowSearchPath from "./ShowSearchPath";
 
 export default function ShowProdcuts({ category, selectedCatId }) {
-  const [currentPath, setCurrentPath] = useState();
   const { products, setProducts, count } = useContext(ProductsApiContext);
-  
+
   return (
     <section className="products-container">
       <div className="products-toolbar">

@@ -21,9 +21,9 @@ export default function Products() {
   useEffect(() => {
     setCategoryID(urlCategory);
 
-    if (categoryID && currenPage !== urlPage) {
-      setCurrentPage(1);
-    }
+    // if (categoryID && currenPage !== urlPage) {
+    //   setCurrentPage(1);
+    // }
   }, [urlCategory, urlPage]);
 
   useEffect(() => {

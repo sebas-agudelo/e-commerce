@@ -1,5 +1,5 @@
 import React, { useContext, useState, useEffect, useRef } from "react";
-import { Link, useLocation, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate, useSearchParams } from "react-router-dom";
 import { PiShoppingCartThin } from "react-icons/pi";
 import { AuthSessionContext } from "../../Context/SessionProvider";
 import { VscChromeClose } from "react-icons/vsc";
@@ -25,6 +25,11 @@ export default function Navbar() {
   const [isCheckOut, setIsCheckOut] = useState(false);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const searchInputRef = useRef(null);
+    const [searchParams, setSearchParams] = useSearchParams();
+  const newParams = new URLSearchParams(searchParams);
+
+    const urlCategory = searchParams.get("categoryID") || "";
+  
 
   const nav = useNavigate();
 
@@ -70,8 +75,13 @@ export default function Navbar() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    
     if (query) {
+      setCategoryID("");
+      setPrice(0);
+  
       nav(`/search?query=${query}`);
+      
     }
 
     setIsSearchClicked(false);

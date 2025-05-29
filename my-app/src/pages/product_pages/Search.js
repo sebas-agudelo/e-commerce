@@ -6,26 +6,29 @@ import Footer from '../Footer';
 import { ProductsApiContext } from '../../Context/ProductsContext';
 
 const ProductSearch = () => {
-  const [searchParams, setSearchParams] = useSearchParams();
-  const navigate = useNavigate();
-  
+  const [searchParams] = useSearchParams();
+
   const queryFromURL = searchParams.get('query') || '';
-  const [searchQuery, setSearchQuery] = useState("");
-  const [error, setError] = useState(null);
-  const {fetchProducts, price, currenPage, categoryID} = useContext(ProductsApiContext)
-  const {id} = useParams()
+  const urlPage = parseInt(searchParams.get("page")) || 1;
+  const urlCategory = searchParams.get("categoryID") || "";
+  
+  const {fetchProducts, price, currenPage, categoryID, setCategoryID} = useContext(ProductsApiContext)
 
   useEffect(() => {
-    if (queryFromURL) {
-      fetchSearchProducts(queryFromURL);
-      setSearchQuery(queryFromURL)
+    if(urlCategory){
+      setCategoryID(urlCategory)
     }
-    // fetchProductById(id)
-  }, [currenPage, queryFromURL, price, categoryID]);
+  },[urlCategory])
+
+  useEffect(() => {
+    if (queryFromURL && currenPage === urlPage && categoryID === urlCategory) {
+      fetchSearchProducts(queryFromURL);
+
+    };
+    
+  }, [currenPage, queryFromURL, price, categoryID, urlPage, urlCategory]);
 
   const fetchSearchProducts = async (query) => {
-    // `https://examensarbeten.vercel.app/search?query=${query}`
-    // `http://localhost:3030/search?query=${query}`
     try {
       let url = `https://examensarbeten.vercel.app/search?query=${query}&page=${currenPage}`;
 
@@ -39,23 +42,11 @@ const ProductSearch = () => {
 
       fetchProducts(url);
 
-
-      setError(null);
     } catch (err) {
-      setError(err.message);
+      console.log(err);
+      
 
     }
-  };
-
-  const handleSearch = () => {
-    if (!searchQuery.trim()) {
-      setError('Skriv något för att söka.');
-      return;
-    }
-
-    setSearchParams({ query: searchQuery });
-
-    navigate(`/search?query=${searchQuery}`);
   };
 
   return (

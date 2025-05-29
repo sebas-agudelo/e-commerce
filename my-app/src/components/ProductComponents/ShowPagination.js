@@ -20,7 +20,7 @@ export default function ShowPagination() {
 
   useEffect(() => {
     setCurrentPage(urlPage);
-  }, [urlPage, setCurrentPage, products]);
+  }, [urlPage, setCurrentPage]);
 
 
   const nextPage = async () => {
