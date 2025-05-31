@@ -6,16 +6,19 @@ import { GrNext } from "react-icons/gr";
 import { GrPrevious } from "react-icons/gr";
 import { ProductsApiContext } from "../../Context/ProductsContext";
 import { useSearchParams } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+
 
 export default function ProductsByCategory() {
   const { selectedCatId, category } = useParams();
   const [searchParams] = useSearchParams();
   const urlPage = parseInt(searchParams.get("page")) || 1;
+  const nav = useNavigate();
   
   const { fetchProducts, currenPage, price} =
     useContext(ProductsApiContext);
 
-    useEffect(() => {
+    useEffect(() => {   
       if (selectedCatId && currenPage === urlPage) {
         fetchProductByCategory();
       };
@@ -30,7 +33,8 @@ export default function ProductsByCategory() {
         url += `&price=${price}`;
       } 
 
-      fetchProducts(url);
+    await fetchProducts(url);
+
     } catch (error) {
       alert("Ett oväntat fel har inträffat")
     }

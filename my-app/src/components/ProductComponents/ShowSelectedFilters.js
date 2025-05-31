@@ -19,8 +19,6 @@ export default function ShowSelectedFilters() {
   const newParams = new URLSearchParams(searchParams);
   const { categories } = useContext(ProductContext);
 
-  console.log(typeof price);
-
   const currentFilterCategory = categories.find((c) => c.id === categoryID);
 
   const removeSelectedFilter = (selectedFilter) => {
@@ -40,14 +38,17 @@ export default function ShowSelectedFilters() {
   };
 
   return (
-      (price || categoryID) && (
-    <div className="selected-filters-wrapper">
+    (price || categoryID) && (
+      <div className="selected-filters-wrapper">
         <div className="selected-filters">
           <h2>Aktiva filter</h2>
 
           <div className="selected-filters-content">
             {categoryID && (
-              <div className="selected-category" onClick={() => removeSelectedFilter("categoryID")}>
+              <div
+                className="selected-category"
+                onClick={() => removeSelectedFilter("categoryID")}
+              >
                 {currentFilterCategory && (
                   <h3>{currentFilterCategory.category}</h3>
                 )}
@@ -56,14 +57,17 @@ export default function ShowSelectedFilters() {
             )}
 
             {price > 0 && (
-              <div className="selected-price" onClick={() => removeSelectedFilter("price")}>
+              <div
+                className="selected-price"
+                onClick={() => removeSelectedFilter("price")}
+              >
                 <h3>{livePrice}</h3>
                 <IoCloseOutline />
               </div>
             )}
           </div>
         </div>
-        </div>
-      )
+      </div>
+    )
   );
 }

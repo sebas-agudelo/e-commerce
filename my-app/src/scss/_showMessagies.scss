@@ -1,0 +1,26 @@
+.products-container {
+    .show-messages-errors {
+        background-color: #f3f3f3;
+        padding: 28px 38px;
+        height: auto;
+        display: flex;
+flex-direction: column;
+        // justify-content: center;
+        // align-items: center;
+        border-radius: 0 0 18px 0;
+        box-shadow: rgba(0, 0, 0, 0.15) 0px 3px 3px 0px;
+
+        .be-msg{
+            display: flex;
+        svg{
+            fill: #ff0000;
+            font-size: 18px;
+            // margin-right: 5px;
+        }
+        p {
+            color: #ff0000;
+            font-size: 16px;
+        }
+    }
+    }
+}

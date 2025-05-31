@@ -33,9 +33,6 @@ export default function Products() {
   }, [currenPage, price, categoryID, urlCategory, urlPage]);
 
   const fetchAllProducts = async () => {
-    // let url = `https://examensarbeten.vercel.app/api/products/show?page=${currenPage}`;
-    // let url = `http://localhost:3030/api/products/show?page=${currenPage}`;
-
     try {
       let url = `https://examensarbeten.vercel.app/api/products/show?page=${currenPage}`;
 
@@ -47,9 +44,9 @@ export default function Products() {
         url += `&categoryID=${categoryID}`;
       }
 
-      fetchProducts(url);
+      await fetchProducts(url);
     } catch (error) {
-      alert("Ett oväntat fel har inträffat");
+      alert("Något gick fel. Försök igen.");
     }
   };
 

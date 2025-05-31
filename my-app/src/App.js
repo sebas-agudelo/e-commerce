@@ -18,6 +18,7 @@ import Dashboard from "./pages/dashboard/Dashboard";
 import MyOrders from "./pages/auth_pages/MyOrders";
 import MyData from "./pages/auth_pages/MyData";
 import Account from "./pages/auth_pages/Account";
+import PageNotFound from "./pages/PageNotFound";
   
 const Home = React.lazy(() => import("./pages/Home"));
 const AllProducts = React.lazy(() =>
@@ -107,6 +108,8 @@ function App() {
                         </ProtectedRoutes>
                       }
                       />
+
+                      <Route path="/pagenotfound" element={<PageNotFound />}/>
                       
               </Routes>
             </Suspense>

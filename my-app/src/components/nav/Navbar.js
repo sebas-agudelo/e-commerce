@@ -1,5 +1,10 @@
 import React, { useContext, useState, useEffect, useRef } from "react";
-import { Link, useLocation, useNavigate, useSearchParams } from "react-router-dom";
+import {
+  Link,
+  useLocation,
+  useNavigate,
+  useSearchParams,
+} from "react-router-dom";
 import { PiShoppingCartThin } from "react-icons/pi";
 import { AuthSessionContext } from "../../Context/SessionProvider";
 import { VscChromeClose } from "react-icons/vsc";
@@ -18,18 +23,18 @@ export default function Navbar() {
   const [query, setQuery] = useState("");
   const [isSearchClicked, setIsSearchClicked] = useState(false);
   const { cartItems } = useContext(CartContext);
-  const {setPrice, setCategoryID, setCurrentPage} = useContext(ProductsApiContext);
+  const { setPrice, setCategoryID, setCurrentPage, setMessage } =
+    useContext(ProductsApiContext);
 
   const [isClicked, setIsClicked] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
   const [isCheckOut, setIsCheckOut] = useState(false);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const searchInputRef = useRef(null);
-    const [searchParams, setSearchParams] = useSearchParams();
+  const [searchParams, setSearchParams] = useSearchParams();
   const newParams = new URLSearchParams(searchParams);
 
-    const urlCategory = searchParams.get("categoryID") || "";
-  
+  const urlCategory = searchParams.get("categoryID") || "";
 
   const nav = useNavigate();
 
@@ -75,13 +80,12 @@ export default function Navbar() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    
+
     if (query) {
       setCategoryID("");
       setPrice(0);
-  
+
       nav(`/search?query=${query}`);
-      
     }
 
     setIsSearchClicked(false);
@@ -89,14 +93,14 @@ export default function Navbar() {
 
   const toggleDropdown = (state) => {
     setIsDropdownOpen(state);
-
   };
 
   const kl = () => {
-    setPrice(0)
-    setCategoryID("")
-    setCurrentPage(1)
-  }
+    setPrice(0);
+    setCategoryID("");
+    setCurrentPage(1);
+    setMessage("")
+  };
 
   return (
     <header className={`${isScrolled ? "scrolled" : ""}`}>
@@ -128,8 +132,8 @@ export default function Navbar() {
                     <Link
                       to={`/products`}
                       onClick={() => {
-                        toggleDropdown(false)
-                        kl()
+                        toggleDropdown(false);
+                        kl();
                       }}
                     >
                       Alla hörlurar
@@ -140,8 +144,8 @@ export default function Navbar() {
                       <Link
                         to={`/products/${item.id}/cat/${item.category}`}
                         onClick={() => {
-                          toggleDropdown(false)
-                          kl()
+                          toggleDropdown(false);
+                          kl();
                         }}
                       >
                         {item.category}
@@ -210,7 +214,7 @@ export default function Navbar() {
                             {cartItems && cartItems.length > 0
                               ? cartItems.forEach((qty) => {
                                   totalQty += qty.quantity;
-                                return totalQty;
+                                  return totalQty;
                                 })
                               : ""}
                             {totalQty}

@@ -1,9 +1,8 @@
 import { createContext, useState } from "react";
+import { useNavigate } from "react-router-dom";
 
-// Skapa contexten
 export const ProductsApiContext = createContext();
 
-// ProductsProvider är inte asynkron
 export const ProductsProvider = ({ children }) => {
   const [pages, setPages] = useState(1); 
   const [count, setCount] = useState(0); 
@@ -12,22 +11,37 @@ export const ProductsProvider = ({ children }) => {
   const [livePrice, setLivePrice] = useState(0);
   const [categoryID, setCategoryID] = useState("");
   const [products, setProducts] = useState([]);
+  const [message, setMessage] = useState("");
+  const nav = useNavigate()
 
   const fetchProducts = async (url) => {
     try {
       const response = await fetch(url);
       const data = await response.json();
+      console.log(data);
+      
       
       if (response.ok) {
           setPages(data.totalPages || 1);
           setCount(data.count || 0);
-          setProducts(data.products || []);
+          setCurrentPage(data.currenPage || 1)
+          setProducts(data.products);
     }
     if(!response.ok){
-      alert(data.error)
+      if(data.reason === "INVALID_CATEGORY"){
+        nav("/pagenotfound")
+        return;
+      }
+      setMessage(data.error);
+      setPages(data.totalPages || 0);
+      setCount(data.count || 0);
+      setCurrentPage(data.currenPage || 0);  
+      setProducts(data.products || []);
+      
+      
     }
     } catch (error) {
-      console.error("Error fetching products:", error);
+      alert("Något gick fel. Försök igen");
     }
   };
   return (
@@ -48,6 +62,8 @@ export const ProductsProvider = ({ children }) => {
         categoryID,
         setProducts,
         products,
+        setMessage,
+        message
       }}
     >
       {children}

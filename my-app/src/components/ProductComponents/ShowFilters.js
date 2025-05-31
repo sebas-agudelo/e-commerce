@@ -16,7 +16,7 @@ export default function ShowFilters({ category, selectedCatId }) {
     count,
     setCategoryID,
     categoryID,
-    setCurrentPage,
+    setCurrentPage
   } = useContext(ProductsApiContext);
 
   const [isClicked, setIsClicked] = useState(false);
@@ -88,14 +88,14 @@ export default function ShowFilters({ category, selectedCatId }) {
               Pris: <span>{price}:-</span>
             </h3>
             <input
-              type="range"
+              type="text"
               min={0}
               max={2000}
               value={price}
               className="slider"
               id="myRange"
               onChange={(e) => {
-                setPrice(parseInt(e.target.value));
+                setPrice(e.target.value);
               }}
               onMouseUp={() => setLivePrice(price)}
               onTouchEnd={() => setLivePrice(price)}

@@ -5,12 +5,16 @@ import ShowPagination from "./ShowPagination";
 import { ProductsApiContext } from "../../Context/ProductsContext";
 import ShowSelectedFilters from "./ShowSelectedFilters";
 import ShowSearchPath from "./ShowSearchPath";
+import ShowErrors from "../ShowMessagies/ShowErrors";
 
 export default function ShowProdcuts({ category, selectedCatId }) {
   const { products, setProducts, count } = useContext(ProductsApiContext);
 
   return (
     <section className="products-container">
+
+      <ShowErrors />
+
       <div className="products-toolbar">
         <ShowSearchPath selectedCatId={selectedCatId} category={category} />
 
@@ -19,7 +23,7 @@ export default function ShowProdcuts({ category, selectedCatId }) {
         <ShowFilters selectedCatId={selectedCatId} category={category} />
       </div>
 
-      {products.map((product) => (
+      {products && products.map((product) => (
         <article key={product.id} className="product-wrapper">
           <Link to={`/product/${product.id}`}>
             <div className="product-img-wrapper">
