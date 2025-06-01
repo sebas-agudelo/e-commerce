@@ -29,7 +29,7 @@ export const ProductsProvider = ({ children }) => {
     }
     if(!response.ok){
       if(data.reason === "INVALID_CATEGORY"){
-        nav("/pagenotfound")
+        nav("/notfound")
         return;
       }
       setMessage(data.error);
