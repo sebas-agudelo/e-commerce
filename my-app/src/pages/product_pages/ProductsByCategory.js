@@ -15,11 +15,12 @@ export default function ProductsByCategory() {
   const urlPage = parseInt(searchParams.get("page")) || 1;
   const nav = useNavigate();
   
-  const { fetchProducts, currenPage, price} =
+  const { fetchProducts, currenPage, price, setCategoryID} =
     useContext(ProductsApiContext);
 
     useEffect(() => {   
       if (selectedCatId && currenPage === urlPage) {
+        setCategoryID(selectedCatId)
         fetchProductByCategory();
       };
     }, [currenPage, price, selectedCatId, urlPage]);

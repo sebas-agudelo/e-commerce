@@ -1,5 +1,4 @@
 import { createContext, useState } from "react";
-import { useNavigate } from "react-router-dom";
 
 export const ProductsApiContext = createContext();
 
@@ -12,24 +11,24 @@ export const ProductsProvider = ({ children }) => {
   const [categoryID, setCategoryID] = useState("");
   const [products, setProducts] = useState([]);
   const [message, setMessage] = useState("");
-  const nav = useNavigate()
+  const [invalidCategory, setInvalidCategory] = useState(false);
 
   const fetchProducts = async (url) => {
+    
     try {
       const response = await fetch(url);
-      const data = await response.json();
-      console.log(data);
-      
+      const data = await response.json();    
       
       if (response.ok) {
           setPages(data.totalPages || 1);
           setCount(data.count || 0);
           setCurrentPage(data.currenPage || 1)
           setProducts(data.products);
+          setInvalidCategory(false)
     }
     if(!response.ok){
       if(data.reason === "INVALID_CATEGORY"){
-        nav("/notfound")
+        setInvalidCategory(true)
         return;
       }
       setMessage(data.error);
@@ -63,7 +62,8 @@ export const ProductsProvider = ({ children }) => {
         setProducts,
         products,
         setMessage,
-        message
+        message,
+        invalidCategory
       }}
     >
       {children}

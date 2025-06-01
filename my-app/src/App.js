@@ -109,7 +109,7 @@ function App() {
                       }
                       />
 
-                      <Route path="/notfound" element={<PageNotFound />}/>
+                      <Route path="*" element={<PageNotFound />}/>
                       
               </Routes>
             </Suspense>
