@@ -18,10 +18,10 @@ export default function ShowProdcuts({ category, selectedCatId }) {
         <PageNotFound />
       ) : (
         <section className="products-container">
-          {invalidFilter ? (
-            <ShowErrors />
-          ) : (
-            <>
+        {invalidFilter ? (
+          <ShowErrors />
+        ) : (
+          <>
               <div className="products-toolbar">
                 <ShowSearchPath
                   selectedCatId={selectedCatId}

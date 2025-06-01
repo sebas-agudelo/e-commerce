@@ -3,7 +3,12 @@
         background-color: #fafafa;
         width: 100%;
         padding: 28px 16px;
-        height: auto;
+        height: 450px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+
     
         .be-msg {
             display: flex;
