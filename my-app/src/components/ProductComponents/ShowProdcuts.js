@@ -9,7 +9,7 @@ import ShowErrors from "../ShowMessagies/ShowErrors";
 import PageNotFound from "../../pages/PageNotFound";
 
 export default function ShowProdcuts({ category, selectedCatId }) {
-  const { products, setProducts, count, invalidCategory } =
+  const { products, setProducts, count, invalidCategory, invalidFilter } =
     useContext(ProductsApiContext);
 
   return (
@@ -18,37 +18,46 @@ export default function ShowProdcuts({ category, selectedCatId }) {
         <PageNotFound />
       ) : (
         <section className="products-container">
-          <div className="products-toolbar">
-            <ShowSearchPath selectedCatId={selectedCatId} category={category} />
+          {invalidFilter ? (
+            <ShowErrors />
+          ) : (
+            <>
+              <div className="products-toolbar">
+                <ShowSearchPath
+                  selectedCatId={selectedCatId}
+                  category={category}
+                />
 
-            {/* <ShowSelectedFilters /> */}
+                <ShowSelectedFilters />
 
-            <ShowFilters selectedCatId={selectedCatId} category={category} />
-          </div>
+                <ShowFilters
+                  selectedCatId={selectedCatId}
+                  category={category}
+                />
+              </div>
 
-          {products &&
-            products.map((product) => (
-              <article key={product.id} className="product-wrapper">
-                <Link to={`/product/${product.id}`}>
-                  <div className="product-img-wrapper">
-                    <div className="product-img">
-                      <img src={product.img} alt={product.title} />
-                    </div>
-                  </div>
+              {products &&
+                products.map((product) => (
+                  <article key={product.id} className="product-wrapper">
+                    <Link to={`/product/${product.id}`}>
+                      <div className="product-img-wrapper">
+                        <div className="product-img">
+                          <img src={product.img} alt={product.title} />
+                        </div>
+                      </div>
 
-                  <div className="product-details">
-                    <p id="title">{product.title}</p>
-                    <p id="price">{product.price}.00 kr.</p>
-                  </div>
-                </Link>
-                <article className="admin-actions-btn"></article>
-              </article>
-            ))}
+                      <div className="product-details">
+                        <p id="title">{product.title}</p>
+                        <p id="price">{product.price}.00 kr.</p>
+                      </div>
+                    </Link>
+                    <article className="admin-actions-btn"></article>
+                  </article>
+                ))}
 
-          <ShowErrors />
-
-          <ShowPagination />
-          
+              <ShowPagination />
+            </>
+          )}
         </section>
       )}
     </>

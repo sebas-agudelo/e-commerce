@@ -12,6 +12,7 @@ export const ProductsProvider = ({ children }) => {
   const [products, setProducts] = useState([]);
   const [message, setMessage] = useState("");
   const [invalidCategory, setInvalidCategory] = useState(false);
+  const [invalidFilter, setInvalidFilter] = useState(false);
 
   const fetchProducts = async (url) => {
     
@@ -25,17 +26,20 @@ export const ProductsProvider = ({ children }) => {
           setCurrentPage(data.currenPage || 1)
           setProducts(data.products);
           setInvalidCategory(false)
+          setInvalidFilter(false)
     }
     if(!response.ok){
       if(data.reason === "INVALID_CATEGORY"){
         setInvalidCategory(true)
         return;
       }
+
       setMessage(data.error);
       setPages(data.totalPages || 0);
       setCount(data.count || 0);
       setCurrentPage(data.currenPage || 0);  
       setProducts(data.products || []);
+      setInvalidFilter(true)
       
       
     }
@@ -63,7 +67,8 @@ export const ProductsProvider = ({ children }) => {
         products,
         setMessage,
         message,
-        invalidCategory
+        invalidCategory,
+        invalidFilter
       }}
     >
       {children}
