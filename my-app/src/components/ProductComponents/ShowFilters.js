@@ -88,14 +88,14 @@ export default function ShowFilters({ category, selectedCatId }) {
               Pris: <span>{price}:-</span>
             </h3>
             <input
-              type="text"
+              type="range"
               min={0}
               max={2000}
               value={price}
               className="slider"
               id="myRange"
               onChange={(e) => {
-                setPrice(e.target.value);
+                setPrice(parseInt(e.target.value));
               }}
               onMouseUp={() => setLivePrice(price)}
               onTouchEnd={() => setLivePrice(price)}
