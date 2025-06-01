@@ -6,7 +6,7 @@ import { GrNext } from "react-icons/gr";
 import { GrPrevious } from "react-icons/gr";
 
 export default function ShowPagination() {
-  const { currenPage, setCurrentPage, pages, products } =
+  const { currenPage, setCurrentPage, pages } =
     useContext(ProductsApiContext);
 
   const [searchParams, setSearchParams] = useSearchParams();

@@ -20,7 +20,6 @@ export default function ProductsByCategory() {
 
     useEffect(() => {   
       if (selectedCatId && currenPage === urlPage) {
-        setCategoryID(selectedCatId)
         fetchProductByCategory();
       };
     }, [currenPage, price, selectedCatId, urlPage]);

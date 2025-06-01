@@ -18,12 +18,10 @@ export default function ShowProdcuts({ category, selectedCatId }) {
         <PageNotFound />
       ) : (
         <section className="products-container">
-          <ShowErrors />
-
           <div className="products-toolbar">
             <ShowSearchPath selectedCatId={selectedCatId} category={category} />
 
-            <ShowSelectedFilters />
+            {/* <ShowSelectedFilters /> */}
 
             <ShowFilters selectedCatId={selectedCatId} category={category} />
           </div>
@@ -47,7 +45,10 @@ export default function ShowProdcuts({ category, selectedCatId }) {
               </article>
             ))}
 
+          <ShowErrors />
+
           <ShowPagination />
+          
         </section>
       )}
     </>

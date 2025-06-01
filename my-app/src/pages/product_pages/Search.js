@@ -1,31 +1,35 @@
-import React, { useState, useEffect, useContext } from 'react';
-import { Link, useNavigate, useParams, useSearchParams } from 'react-router-dom';
-import { ProductContext } from '../../Context/ProductContext';
-import ShowProdcuts from '../../components/ProductComponents/ShowProdcuts';
-import Footer from '../Footer';
-import { ProductsApiContext } from '../../Context/ProductsContext';
+import React, { useState, useEffect, useContext } from "react";
+import {
+  Link,
+  useNavigate,
+  useParams,
+  useSearchParams,
+} from "react-router-dom";
+import { ProductContext } from "../../Context/ProductContext";
+import ShowProdcuts from "../../components/ProductComponents/ShowProdcuts";
+import Footer from "../Footer";
+import { ProductsApiContext } from "../../Context/ProductsContext";
 
 const ProductSearch = () => {
   const [searchParams] = useSearchParams();
 
-  const queryFromURL = searchParams.get('query') || '';
+  const queryFromURL = searchParams.get("query") || "";
   const urlPage = parseInt(searchParams.get("page")) || 1;
   const urlCategory = searchParams.get("categoryID") || "";
-  
-  const {fetchProducts, price, currenPage, categoryID, setCategoryID} = useContext(ProductsApiContext)
+
+  const { fetchProducts, price, currenPage, categoryID, setCategoryID } =
+    useContext(ProductsApiContext);
 
   useEffect(() => {
-    if(urlCategory){
-      setCategoryID(urlCategory)
+    if (urlCategory) {
+      setCategoryID(urlCategory);
     }
-  },[urlCategory])
+  }, [urlCategory]);
 
   useEffect(() => {
     if (queryFromURL && currenPage === urlPage && categoryID === urlCategory) {
       fetchSearchProducts(queryFromURL);
-
-    };
-    
+    }
   }, [currenPage, queryFromURL, price, categoryID, urlPage, urlCategory]);
 
   const fetchSearchProducts = async (query) => {
@@ -41,18 +45,15 @@ const ProductSearch = () => {
       }
 
       fetchProducts(url);
-
     } catch (err) {
       console.log(err);
-      
-
     }
   };
 
   return (
     <main className="Products-main">
-        <ShowProdcuts />
-        <Footer />
+      <ShowProdcuts />
+      <Footer />
     </main>
   );
 };
