@@ -14,8 +14,8 @@ export default function Cart() {
     updateCartQty,
     setTotal,
   } = useContext(CartContext);
-  const { fetchProductById } = useContext(ProductContext);
   const {session} = useContext(AuthSessionContext);
+  const { fetchProductById } = useContext(ProductContext);
 
   const { id } = useParams();
 
