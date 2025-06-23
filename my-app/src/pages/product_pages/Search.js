@@ -1,11 +1,5 @@
-import React, { useState, useEffect, useContext } from "react";
-import {
-  Link,
-  useNavigate,
-  useParams,
-  useSearchParams,
-} from "react-router-dom";
-import { ProductContext } from "../../Context/ProductContext";
+import React, { useEffect, useContext } from "react";
+import { useSearchParams } from "react-router-dom";
 import ShowProdcuts from "../../components/ProductComponents/ShowProdcuts";
 import Footer from "../Footer";
 import { ProductsApiContext } from "../../Context/ProductsContext";
@@ -46,7 +40,7 @@ const ProductSearch = () => {
 
       fetchProducts(url);
     } catch (err) {
-      console.log(err);
+      alert("Ett oväntat fel har inträffat. Försök igen.");
     }
   };
 

@@ -23,7 +23,6 @@ export const ProductProvider = ({ children }) => {
   });
 
   useEffect(() => {
-    // getCategories();
     setErrorMessage("");
     setOkMessage("");
   }, [location]);
@@ -47,21 +46,28 @@ export const ProductProvider = ({ children }) => {
         setErrorMessage(data.error);
       }
     } catch (error) {
-      console.error(error);
+      alert("Ett oväntat fel har inträffat. Försök igen.");
     }
   };
 
   const getCategories = async () => {
-    const response = await fetch(`https://examensarbeten.vercel.app/api/categori/get`, {
-      method: "GET",
-      credentials: "include",
-      headers: { "Content-Type": "application/json" },
-    });
+    try {
+      const response = await fetch(
+        `https://examensarbeten.vercel.app/api/categori/get`,
+        {
+          method: "GET",
+          credentials: "include",
+          headers: { "Content-Type": "application/json" },
+        }
+      );
 
-    const data = await response.json();
+      const data = await response.json();
 
-    if (response.ok) {
-      setCategories(data.data);
+      if (response.ok) {
+        setCategories(data.data);
+      }
+    } catch (error) {
+      alert("Ett oväntat fel har inträffat. Försök igen.");
     }
   };
 
@@ -77,8 +83,7 @@ export const ProductProvider = ({ children }) => {
         setOkMessage,
         getCategories,
         fetchProductById,
-        setCategories
-      
+        setCategories,
       }}
     >
       {children}

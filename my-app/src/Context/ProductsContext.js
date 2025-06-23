@@ -13,6 +13,7 @@ export const ProductsProvider = ({ children }) => {
   const [message, setMessage] = useState("");
   const [invalidCategory, setInvalidCategory] = useState(false);
   const [invalidFilter, setInvalidFilter] = useState(false);
+  const [productLoading, setProductLoading] = useState(false);
 
   const fetchProducts = async (url) => {
     
@@ -44,7 +45,7 @@ export const ProductsProvider = ({ children }) => {
       
     }
     } catch (error) {
-      alert("Något gick fel. Försök igen");
+      alert("Ett oväntat fel har inträffat. Försök igen");
     }
   };
   return (
@@ -68,7 +69,9 @@ export const ProductsProvider = ({ children }) => {
         setMessage,
         message,
         invalidCategory,
-        invalidFilter
+        invalidFilter,
+        setProductLoading,
+        productLoading
       }}
     >
       {children}

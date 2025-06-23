@@ -25,7 +25,7 @@ export const userDataValidations = (
   birthday,
   phone,
   address,
-  postal_code
+  postal
 ) => {
   if (
     !firstname &&
@@ -34,7 +34,7 @@ export const userDataValidations = (
     !birthday &&
     !phone &&
     !address &&
-    !postal_code
+    !postal
   ) {
     return { error: "Inga fält får lämnas tomma." };
   };
@@ -70,7 +70,7 @@ export const userDataValidations = (
   ) {
     return { error: "Ogiltig eller saknad adress. Kontrollera inmatningen." };
   }
-  if (!postal_code || !validator.isPostalCode(postal_code, "SE")) {
+  if (!postal || !validator.isPostalCode(postal, "SE")) {
     return {
       error:
         "Ogiltig postnummer eller saknad postnummer. Kontrollera inmatningen.",

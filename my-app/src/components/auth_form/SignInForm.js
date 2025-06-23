@@ -1,5 +1,3 @@
-import React from "react";
-
 export default function SignInForm({ handleSubmit, setEmail, setPassword, errorMessage }) {
   return (
     <>

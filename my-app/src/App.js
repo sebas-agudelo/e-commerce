@@ -14,12 +14,11 @@ import RedirectedRoutes from "./protected/RedirectedRoutes";
 import Spinners from "./components/spinners/Spinners";
 import Success from "./pages/Success";
 import { ProductsProvider } from "./Context/ProductsContext";
-import Dashboard from "./pages/dashboard/Dashboard";
 import MyOrders from "./pages/auth_pages/MyOrders";
 import MyData from "./pages/auth_pages/MyData";
 import Account from "./pages/auth_pages/Account";
 import PageNotFound from "./pages/PageNotFound";
-  
+
 const Home = React.lazy(() => import("./pages/Home"));
 const AllProducts = React.lazy(() =>
   import("./pages/product_pages/AllProducts")
@@ -40,79 +39,79 @@ function App() {
         <ProductProvider>
           <CartProvider>
             <ProductsProvider>
-            <Navbar />
-            <Suspense fallback={<Spinners />}>
-              <Routes>
-                <Route path="/" element={<Home />} />
-                <Route path="/about" element={<About />} />
-                <Route path="/contact" element={<Contact />} />
-                <Route
-                  path="/products/:selectedCatId/cat/:category"
-                  element={<ProductsByCategory />}
-                />
-                <Route path="/search" element={<ProductSearch />} />
+              <Navbar />
+              <Suspense fallback={<Spinners />}>
+                <Routes>
+                  <Route path="/" element={<Home />} />
+                  <Route path="/about" element={<About />} />
+                  <Route path="/contact" element={<Contact />} />
+                  <Route
+                    path="/products/:selectedCatId/cat/:category"
+                    element={<ProductsByCategory />}
+                  />
+                  <Route path="/search" element={<ProductSearch />} />
 
-                {/* CART PAGES */}
-                <Route path="/cart" element={<Cart />} />
-                <Route path="/checkout" element={<CheckOut />} />
+                  {/* CART PAGES */}
+                  <Route path="/cart" element={<Cart />} />
+                  <Route path="/checkout" element={<CheckOut />} />
 
+                  {/* PRODUCT PAGES */}
+                  {/* <Route path="/products" element={<AllProducts />} /> */}
+                  <Route path="/product/:id" element={<ProductDetails />} />
 
-       {/* PRODUCT PAGES */}
-       <Route path="/products" element={<AllProducts />} />
-       <Route path="/product/:id" element={<ProductDetails />} />
-            
-          
-
-                {/* AUTH PAGES */}
-                <Route
-                  path="/signin"
-                  element={
-                    <RedirectedRoutes>
-                      <SignIn />
-                    </RedirectedRoutes>
-                  }
-                />
-                <Route
-                  path="/profile/account"
-                  element={
-                    <ProtectedRoutes>
-                      <Account />
-                    </ProtectedRoutes>
-                  }
-                />
-                 <Route 
-                      path="/profile/account/mydata" element={
-                        <ProtectedRoutes>
-                          <MyData />
-                        </ProtectedRoutes>
-                      }
-                      />
-                      <Route
-                        path="/profile"
-                        element={
-                          <ProtectedRoutes>
-                            <Profile />
-                          </ProtectedRoutes>
-                        }
-                      />
-                      <Route path="/payment-success" element={<Success />}/>
-                      <Route path="/search?query"/>
-                      {/* <Route path="/filtred/byPrice?query"/> */}
-                      <Route 
+                  {/* AUTH PAGES */}
+                  <Route
+                    path="/signin"
+                    element={
+                      <RedirectedRoutes>
+                        <SignIn />
+                      </RedirectedRoutes>
+                    }
+                  />
+                  <Route
+                    path="/profile/account"
+                    element={
+                      <ProtectedRoutes>
+                        <Account />
+                      </ProtectedRoutes>
+                    }
+                  />
+                  <Route
+                    path="/profile/account/mydata"
+                    element={
+                      <ProtectedRoutes>
+                        <MyData />
+                      </ProtectedRoutes>
+                    }
+                  />
+                  <Route
+                    path="/profile"
+                    element={
+                      <ProtectedRoutes>
+                        <Profile />
+                      </ProtectedRoutes>
+                    }
+                  />
+                  <Route path="/payment-success" element={<Success />} />
+                  <Route path="/search?query" />
+                  {/* <Route path="/filtred/byPrice?query"/> */}
+                  {/* <Route 
                       path="/dashboard" element={<Dashboard />}
-                      />
-                      <Route 
-                      path="/myorders"   element={
-                        <ProtectedRoutes>
-                          <MyOrders />
-                        </ProtectedRoutes>
-                      }
-                      />
+                      /> */}
+                  <Route
+                    path="/myorders"
+                    element={
+                      <ProtectedRoutes>
+                        <MyOrders />
+                      </ProtectedRoutes>
+                    }
+                  />
 
-                      <Route path="*" element={<PageNotFound />}/>
-                      
-              </Routes>
-            </Suspense>
+                  <Route path="*" element={<PageNotFound />} />
+
+                  <Route path="/products" element={<AllProducts />} />
+                </Routes>
+              </Suspense>
             </ProductsProvider>
           </CartProvider>
         </ProductProvider>

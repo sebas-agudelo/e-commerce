@@ -11,7 +11,8 @@ export default function Products() {
     currenPage,
     setCurrentPage,
     categoryID,
-    setCategoryID
+    setCategoryID,
+    setProductLoading
   } = useContext(ProductsApiContext);
 
   const [searchParams] = useSearchParams();
@@ -20,10 +21,7 @@ export default function Products() {
 
   useEffect(() => {
     setCategoryID(urlCategory);
-
-    // if (categoryID && currenPage !== urlPage) {
-    //   setCurrentPage(1);
-    // }
+      setCurrentPage(urlPage);
   }, [urlCategory, urlPage]);
 
   useEffect(() => {
@@ -33,6 +31,7 @@ export default function Products() {
   }, [currenPage, price, categoryID, urlCategory, urlPage]);
 
   const fetchAllProducts = async () => {
+setProductLoading(true)
     try {
       let url = `https://examensarbeten.vercel.app/api/products/show?page=${currenPage}`;
 
@@ -45,8 +44,12 @@ export default function Products() {
       }
 
       await fetchProducts(url);
+
+      
     } catch (error) {
-      alert("Något gick fel. Försök igen.");
+      alert("Ett oväntat fel har inträffat. Försök igen.");
+    } finally{
+      setProductLoading(false)
     }
   };
 

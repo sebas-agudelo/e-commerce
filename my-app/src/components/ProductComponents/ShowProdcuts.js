@@ -7,9 +7,11 @@ import ShowSelectedFilters from "./ShowSelectedFilters";
 import ShowSearchPath from "./ShowSearchPath";
 import ShowErrors from "../ShowMessagies/ShowErrors";
 import PageNotFound from "../../pages/PageNotFound";
+import Spinners from "../spinners/Spinners";
+import ContentSpinner from "../spinners/ContentSpinner";
 
 export default function ShowProdcuts({ category, selectedCatId }) {
-  const { products, setProducts, count, invalidCategory, invalidFilter } =
+  const { products, invalidCategory, invalidFilter, productLoading } =
     useContext(ProductsApiContext);
 
   return (
@@ -36,6 +38,8 @@ export default function ShowProdcuts({ category, selectedCatId }) {
                 />
               </div>
 
+          {productLoading ? <ContentSpinner /> : 
+          <>
               {products &&
                 products.map((product) => (
                   <article key={product.id} className="product-wrapper">
@@ -56,6 +60,8 @@ export default function ShowProdcuts({ category, selectedCatId }) {
                 ))}
 
               <ShowPagination />
+              </>
+              }
             </>
           )}
         </section>

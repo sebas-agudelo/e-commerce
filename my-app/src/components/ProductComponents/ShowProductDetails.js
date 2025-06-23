@@ -8,7 +8,6 @@ import { CartContext } from "../../Context/CartContext";
 export default function ShowProductDetails({productData}) {
       const [isClicked, setIsClicked] = useState(false);
       const {addToCart} = useContext(CartContext);
-      //   const [productData] = ProductStates();
 
       const readMoreOpen = () => {
         setIsClicked(true);

@@ -1,9 +1,7 @@
-import React, { useContext, useEffect, useState } from "react";
-import { useParams, Link } from "react-router-dom";
+import React, { useContext, useEffect } from "react";
+import { useParams } from "react-router-dom";
 import Footer from "../Footer";
 import ShowProdcuts from "../../components/ProductComponents/ShowProdcuts";
-import { GrNext } from "react-icons/gr";
-import { GrPrevious } from "react-icons/gr";
 import { ProductsApiContext } from "../../Context/ProductsContext";
 import { useSearchParams } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
@@ -15,7 +13,7 @@ export default function ProductsByCategory() {
   const urlPage = parseInt(searchParams.get("page")) || 1;
   const nav = useNavigate();
   
-  const { fetchProducts, currenPage, price, setCategoryID} =
+  const { fetchProducts, currenPage, price, setCategoryID, setProductLoading} =
     useContext(ProductsApiContext);
 
     useEffect(() => {   
@@ -25,6 +23,7 @@ export default function ProductsByCategory() {
     }, [currenPage, price, selectedCatId, urlPage]);
   
   const fetchProductByCategory = async () => {
+    setProductLoading(true)
     // let url = `http://localhost:3030/api/product/categori/${selectedCatId}?page=${currenPage}`;
     try {
       let url = `https://examensarbeten.vercel.app/api/product/categori/${selectedCatId}?page=${currenPage}`;
@@ -35,8 +34,12 @@ export default function ProductsByCategory() {
 
     await fetchProducts(url);
 
+    // setProductLoading(false)
+
     } catch (error) {
-      alert("Ett oväntat fel har inträffat")
+      alert("Ett oväntat fel har inträffat. Försök igen.")
+    } finally{
+      setProductLoading(false)
     }
   };
 

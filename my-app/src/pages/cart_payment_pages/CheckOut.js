@@ -2,7 +2,7 @@ import { useEffect, useState, useContext } from "react";
 import { useLocation } from "react-router-dom";
 import { loadStripe } from "@stripe/stripe-js";
 import { Elements } from "@stripe/react-stripe-js";
-import CheckoutForm from "../../components/CheckoutForm ";
+import CheckoutForm from "../../components/CheckOutComponent/CheckoutForm ";
 import { CartContext } from "../../Context/CartContext";
 import Spinners from "../../components/spinners/Spinners";
 
@@ -21,7 +21,7 @@ export default function CheckOut() {
     })
       .then((res) => res.json())
       .then((data) => {
-        console.log("Server response:", data); // 
+        console.log("Server response:", data); 
         if (data.client_secret) {
           
           setClientSecret(data.client_secret);

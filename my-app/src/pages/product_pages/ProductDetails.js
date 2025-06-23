@@ -31,7 +31,7 @@ export default function ProductDetails() {
         // setErrorMessage(data.error);
       }
     } catch (error) {
-      console.error(error);
+      alert("Ett oväntat fel har inträffat. Försök igen");
     }
   };
 

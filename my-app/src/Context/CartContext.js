@@ -35,9 +35,9 @@ export const CartProvider = ({ children }) => {
       } else {
         setCartItems([]);
       }
-    } 
-    
-    if(session) {
+    }
+
+    if (session) {
       try {
         const response = await fetch("http://localhost:3030/api/cart/show", {
           method: "GET",
@@ -46,15 +46,15 @@ export const CartProvider = ({ children }) => {
         });
 
         const data = await response.json();
-     
+
         if (response.ok) {
           setCartItems(data.shopping_cart || []);
           setTotal(data.totalPrice || 0);
-        } else if (!response.ok) {
-          alert(data.error);
+        } else {
+          alert(data.error || "Ett fel uppstod vid hämtning av varukorgen.");
         }
       } catch (error) {
-        console.error("Något gick fel");
+        alert("Något gick fel. Försök igen");
       }
     }
   };
@@ -93,8 +93,6 @@ export const CartProvider = ({ children }) => {
               return item;
             }
           });
-
-          
         } else {
           const productToAdd = {
             product_id: product.id,
@@ -104,14 +102,15 @@ export const CartProvider = ({ children }) => {
             total_price: product.price * quantity,
             quantity: quantity,
           };
-          
+
           updatedCart = [...prevCart, productToAdd];
         }
-        
+
         localStorage.setItem("cart", JSON.stringify(updatedCart));
         return updatedCart;
       });
     }
+
     // Lägg till produkter för inloggade användare
     else if (session) {
       try {
@@ -133,12 +132,12 @@ export const CartProvider = ({ children }) => {
           alert(data.error);
         }
       } catch (error) {
-        console.error("Ett oväntat fel inträffade. Försök senare igen");
+        console.error("Ett oväntat fel inträffade. Försök igen");
       }
     }
   };
 
-    //Uppdaterar produkterer i varukorgen för inloggade användare
+  //Uppdaterar produkterer i varukorgen för inloggade användare
   const updateCartQty = async (product_id, newQty) => {
     try {
       const response = await fetch("http://localhost:3030/api/cart/update", {
@@ -150,21 +149,15 @@ export const CartProvider = ({ children }) => {
 
       const data = await response.json();
 
-     
-   
-      if(response.ok){
-        if(data.deleted){
-
-          alert(data.deleted)
+      if (response.ok) {
+        if (data.deleted) {
+          alert(data.deleted);
         }
-
-      }
-    
-      if (!response.ok) {
+      } else {
         alert(data.error);
       }
     } catch (error) {
-      console.error("Ett oväntat fel inträffade. Försök senare igen");
+      console.error("Ett oväntat fel inträffade. Försök igen");
     }
   };
 
@@ -187,11 +180,12 @@ export const CartProvider = ({ children }) => {
           );
 
           const data = await response.json();
+          
           if (!response.ok) {
             alert(data.error);
           }
         } catch (error) {
-          console.error("Ett oväntat fel inträffade. Försök senare igen");
+          console.error("Ett oväntat fel inträffade. Försök igen");
         }
       }
       localStorage.removeItem("cart");
