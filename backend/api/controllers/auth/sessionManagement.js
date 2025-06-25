@@ -10,23 +10,16 @@ export const sessionAuthCheck = async (req, res) => {
     return res.status(200).json({ isLoggedIn: false });
   }
 
-  const { data, error } = await supabase.auth.getUser(token);
+  const supabase = supabase_config(token);
+  const { data: { user }, error } = await supabase.auth.getUser();
 
-  const email = data?.user?.email;
-
-  if (!email) {
-    return res.status(400).json({ error: "Ingen användare hittad" });
-  }
-
-  console.log(email);
-  console.log("Token från sessionAuthCheck", token);
-
-  if (error || !data?.user) {
+  if (!user || error) {
     return res.status(200).json({ isLoggedIn: false });
   }
 
-  return res.status(200).json({ isLoggedIn: true, email: data.user.email });
+  return res.status(200).json({ isLoggedIn: true, email: user.email });
 };
+
 
 export const authenticateUser = async (req, res, next) => {
   const access_token = req?.cookies?.cookie_key;
