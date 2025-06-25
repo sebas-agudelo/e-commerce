@@ -10,34 +10,51 @@ export const sessionAuthCheck = async (req, res) => {
     return res.status(200).json({ isLoggedIn: false });
   }
 
-  const supabase = supabase_config(token);
-  const { data: { user }, error } = await supabase.auth.getUser();
+  const { data, error } = await supabase.auth.getUser(token);
 
-  if (!user || error) {
+  const email = data?.user?.email;
+
+  if (!email) {
+    return res.status(400).json({ error: "Ingen användare hittad" });
+  }
+
+  console.log(email);
+  console.log("Token från sessionAuthCheck", token);
+
+  if (error || !data?.user) {
     return res.status(200).json({ isLoggedIn: false });
   }
 
-  return res.status(200).json({ isLoggedIn: true, email: user.email });
+  return res.status(200).json({ isLoggedIn: true, email: data.user.email });
 };
 
-
 export const authenticateUser = async (req, res, next) => {
-  const access_token = req?.cookies?.cookie_key;
+  try {
+    const access_token = req.cookies.cookie_key;
+    if (!access_token) {
+      return res
+        .status(401)
+        .json({ error: "Ingen giltig inloggning hittades" });
+    }
+    const {
+      data: { user },
+      error,
+    } = await supabase.auth.getUser(access_token);
 
-  if (!access_token) {
-    return res.status(401).json({ error: 'Ingen giltig inloggning hittades' });
+    if (error || !user) {
+      return res
+        .status(401)
+        .json({ error: "Ingen giltig inloggning hittades" });
+    }
+
+    req.user = user;
+
+    next();
+  } catch (error) {
+    return res
+      .status(500)
+      .json({ error: "Ett oväntat fel inträffade. Försök senare igen." });
   }
-
-  const supabase = supabase_config(access_token);
-
-  const { data: { user }, error } = await supabase.auth.getUser();
-
-  if (error || !user) {
-    return res.status(401).json({ error: 'Ingen giltig inloggning hittades' });
-  }
-
-  req.user = user;
-  next();
 };
 
 export const signIn = async (req, res) => {
@@ -65,8 +82,8 @@ export const signIn = async (req, res) => {
     return res
       .cookie("cookie_key", access_token, {
         httpOnly: true,
-        secure: true,
-        sameSite: "none",
+        secure: false,
+        sameSite: "lax",
         maxAge: 24 * 60 * 60 * 1000,
       })
       .status(200)
