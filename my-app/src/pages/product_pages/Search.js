@@ -11,7 +11,8 @@ const ProductSearch = () => {
   const urlPage = parseInt(searchParams.get("page")) || 1;
   const urlCategory = searchParams.get("categoryID") || "";
 
-  const { fetchProducts, price, currenPage, categoryID, setCategoryID } =
+  
+  const { fetchProducts, price, currenPage, categoryID, setCategoryID, setProductLoading } =
     useContext(ProductsApiContext);
 
   useEffect(() => {
@@ -21,15 +22,19 @@ const ProductSearch = () => {
   }, [urlCategory]);
 
   useEffect(() => {
+    
     if (queryFromURL && currenPage === urlPage && categoryID === urlCategory) {
       fetchSearchProducts(queryFromURL);
     }
   }, [currenPage, queryFromURL, price, categoryID, urlPage, urlCategory]);
 
   const fetchSearchProducts = async (query) => {
+    setProductLoading(true)
+    
     try {
-      let url = `https://examensarbeten.vercel.app/search?query=${query}&page=${currenPage}`;
 
+      let url = `http://localhost:3030/search?query=${query}&page=${currenPage}`;
+      
       if (price && categoryID) {
         url += `&price=${price}&categoryID=${categoryID}`;
       } else if (price) {
@@ -38,9 +43,11 @@ const ProductSearch = () => {
         url += `&categoryID=${categoryID}`;
       }
 
-      fetchProducts(url);
-    } catch (err) {
+      await fetchProducts(url);
+    } catch (error) {
       alert("Ett oväntat fel har inträffat. Försök igen.");
+    } finally{
+      setProductLoading(false)
     }
   };
 

@@ -17,6 +17,8 @@
 @use "./pageNotFound";
 @use "./success";
 @use "./cart/confirmDeleteProduct";
+@use "./auth/orderDetails";
+
 
 *{
     margin: 0;

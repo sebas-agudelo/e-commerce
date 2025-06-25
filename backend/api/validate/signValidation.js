@@ -27,40 +27,27 @@ export const userDataValidations = (
   address,
   postal
 ) => {
-  if (
-    !firstname &&
-    !lastname &&
-    !email &&
-    !birthday &&
-    !phone &&
-    !address &&
-    !postal
-  ) {
-    return { error: "Inga fält får lämnas tomma." };
+
+  const errors = {};
+
+  if (!birthday || !validator.isDate(birthday, new Date())) { 
+      errors.birthday =  "Du måste ange ditt födelsedatum.";
   };
-  if (firstname === "" || firstname === null || firstname === undefined) {
-    return { error: "Förnamn är obligatoriskt" };
-  }
-  if (lastname === "" || lastname === null || lastname === undefined) {
-    return { error: "Efternamn är obligatoriskt" };
-  }
+
   if (!email || !validator.isEmail(email)) {
-    return {
-      error:
-        "Ogiltigt e-postformat eller saknad e-postadress. Kontrollera inmatningen.",
-    };
-  }
-  if (!birthday || !validator.isDate(birthday, new Date())) {
-    return {
-      error:
-        "Ogiltigt datumformat eller saknat personnummer. Kontrollera inmatningen.",
-    };
-  }
-  if (phone === "" || phone === null || phone === undefined) {
-    return {
-      error:
-        "Ogiltigt telefonnummer eller saknad telefonnummer. Kontrollera inmatningen.",
-    };
+    errors.email = "Du måste ange din e-postadress.";
+  }; 
+
+  if (firstname === "" || firstname === null || firstname === undefined) {
+    errors.firstname = "Du måste ange ditt förnamn.";
+  };
+
+  if (lastname === "" || lastname === null || lastname === undefined) {
+    errors.lastname = "Du måste ange ditt efternamn.";
+  };
+
+  if (phone === "" || phone === null || phone === undefined ||  !/^\d+$/.test(phone)) {
+   errors.phone = "Du måste ange ditt telefonnummer.";
   }
   if (
     address === "" ||
@@ -68,13 +55,58 @@ export const userDataValidations = (
     address === undefined ||
     typeof address !== "string"
   ) {
-    return { error: "Ogiltig eller saknad adress. Kontrollera inmatningen." };
+    errors.address = "Du måste ange adress.";
   }
   if (!postal || !validator.isPostalCode(postal, "SE")) {
-    return {
-      error:
-        "Ogiltig postnummer eller saknad postnummer. Kontrollera inmatningen.",
-    };
+    errors.postal = "Du måste ange ett postnummer.";
+  }
+
+  if(Object.keys(errors).length > 0){
+    return {errors}
+  }
+  return null;
+};
+
+export const uuserDataValidations = (
+  firstname,
+  lastname,
+  birthday,
+  phone,
+  address,
+  postal
+) => {
+
+  const errors = {};
+
+  if (!birthday || !validator.isDate(birthday, new Date())) { 
+      errors.birthday =  "Du måste ange ditt födelsedatum.";
+  };
+
+  if (firstname === "" || firstname === null || firstname === undefined) {
+    errors.firstname = "Du måste ange ditt förnamn.";
+  };
+
+  if (lastname === "" || lastname === null || lastname === undefined) {
+    errors.lastname = "Du måste ange ditt efternamn.";
+  };
+
+  if (phone === "" || phone === null || phone === undefined ||  !/^\d+$/.test(phone)) {
+   errors.phone = "Du måste ange ditt telefonnummer.";
+  }
+  if (
+    address === "" ||
+    address === null ||
+    address === undefined ||
+    typeof address !== "string"
+  ) {
+    errors.address = "Du måste ange adress.";
+  }
+  if (!postal || !validator.isPostalCode(postal, "SE")) {
+    errors.postal = "Du måste ange ett postnummer.";
+  }
+
+  if(Object.keys(errors).length > 0){
+    return {errors}
   }
   return null;
 };

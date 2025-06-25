@@ -209,7 +209,7 @@ export default function Navbar() {
                           </div>
                         )}
                         <Link className="cart-icon" to={`/cart`}>
-                          <PiShoppingCartThin />{" "}
+                          <PiShoppingCartThin />
                           <p className="qty-wrapper">
                             {cartItems && cartItems.length > 0
                               ? cartItems.forEach((qty) => {

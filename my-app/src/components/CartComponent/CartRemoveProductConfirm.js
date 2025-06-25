@@ -1,4 +1,4 @@
-export default function CartDeleteProductComponent({onDelete, onCancel}) {
+export default function CartRemoveProductConfirm({onDelete, onCancel}) {
   return (
     <div className='cart-delete-confirm-product-wrapper'>
         <div  className='cart-delete-confirm-product-content'>

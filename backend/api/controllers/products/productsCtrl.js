@@ -277,7 +277,8 @@ export const searchProduct = async (req, res) => {
       price,
       categoryID,
       parsedPage,
-      DEFAULT_PAGESIZE
+      DEFAULT_PAGESIZE,
+      query
     );
 
     if (!Array.isArray(products.products) || products.products.length === 0) {

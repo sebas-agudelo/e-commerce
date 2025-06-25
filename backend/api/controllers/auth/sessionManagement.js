@@ -1,4 +1,5 @@
 import { supabase_config } from "../../supabase_config/supabase_conlig.js";
+import { uuserDataValidations } from "../../validate/signValidation.js";
 import validator from "validator";
 const supabase = supabase_config();
 
@@ -137,54 +138,72 @@ export const profile = async (req, res) => {
   }
 };
 
-export const insertUserData = async (req, res) => {
+export const updateUserData = async (req, res) => {
   const { firstname, lastname, phone, birthday, address, postal } = req.body;
-  const postalCode = postal.toString();
-  const userID = req?.user?.id;
-  const nameRegex = /^[a-zA-ZÀ-ÖØ-öø-ÿÅÄÖåäößñÑ' -]+$/;
-  const addressRegex = /^[a-zA-Z0-9À-ÖØ-öø-ÿÅÄÖåäößñÑ\s.,\-\/]+$/;
+    const userID = req?.user?.id;
+  
+    if (!userID) {
+      return res
+        .status(401)
+        .json({ error: "Ogiltig användare. Försök att logga in." });
+    }
 
-  if (!userID) {
-    return res
-      .status(401)
-      .json({ error: "Ogiltig användare. Försök att logga in." });
-  }
-
-  if (!firstname || !lastname || !phone || !birthday || !address || !postal) {
-    return res
-      .status(400)
-      .json({
-        error: "Det saknas information i ett eller flera obligatoriska fält.",
-      });
-  }
-
-  if (!firstname) {
-    return res.status(400).json({ error: "Förnam är obligatoriskt." });
-  }
-  if (!lastname) {
-    return res.status(400).json({ error: "Efternamn är obligatoriskt." });
-  }
-  if (!nameRegex.test(firstname) || !nameRegex.test(lastname)) {
-    return res
-      .status(400)
-      .json({ error: "För och efternamn bör endast innehålla bokstäver." });
+   const validationError = uuserDataValidations(
+    firstname,
+    lastname,
+    birthday,
+    phone,
+    address,
+    postal
+  );
+  if (validationError) {
+    return res.status(400).json(validationError);
   }
 
-  if (!phone) {
-    return res.status(400).json({ error: "Telefonnummer ör obligatoriskt." });
-  }
+  
 
-  if (!validator.isDate(birthday, new Date())) {
-    return res.status(400).json({ error: "Ogiltigt datumformat." });
-  }
+  // // console.log(firstname, lastname, phone, birthday, address, postal);
+  
+  // const postalCode = postal.toString();
 
-  if (!addressRegex.test(address)) {
-    return res.status(400).json({ error: "Adress är obligatoriskt." });
-  }
+  // const nameRegex = /^[a-zA-ZÀ-ÖØ-öø-ÿÅÄÖåäößñÑ' -]+$/;
+  // const addressRegex = /^[a-zA-Z0-9À-ÖØ-öø-ÿÅÄÖåäößñÑ\s.,\-\/]+$/;
 
-  if (!validator.isPostalCode(postalCode, "SE")) {
-    return res.status(400).json({ error: "Ogiltigt postnummer." });
-  }
+  // if (!firstname || !lastname || !phone || !birthday || !address || !postal) {
+  //   return res
+  //     .status(400)
+  //     .json({
+  //       error: "Det saknas information i ett eller flera obligatoriska fält.",
+  //     });
+  // }
+
+  // if (!firstname) {
+  //   return res.status(400).json({ error: "Förnam är obligatoriskt." });
+  // }
+  // if (!lastname) {
+  //   return res.status(400).json({ error: "Efternamn är obligatoriskt." });
+  // }
+  // if (!nameRegex.test(firstname) || !nameRegex.test(lastname)) {
+  //   return res
+  //     .status(400)
+  //     .json({ error: "För och efternamn bör endast innehålla bokstäver." });
+  // }
+
+  // if (!phone) {
+  //   return res.status(400).json({ error: "Telefonnummer ör obligatoriskt." });
+  // }
+
+  // if (!validator.isDate(birthday, new Date())) {
+  //   return res.status(400).json({ error: "Ogiltigt datumformat." });
+  // }
+
+  // if (!addressRegex.test(address)) {
+  //   return res.status(400).json({ error: "Adress är obligatoriskt." });
+  // }
+
+  // if (!validator.isPostalCode(postalCode, "SE")) {
+  //   return res.status(400).json({ error: "Ogiltigt postnummer." });
+  // }
 
   try {
     const { data, error } = await supabase
@@ -201,15 +220,16 @@ export const insertUserData = async (req, res) => {
       ])
       .eq("user_id", userID);
 
-    if (!data || error) {
-      return res
-        .status(500)
-        .json({
-          error:
-            "Ett oväntat fel inträffade. Kontrollera att alla obligatoriska fält är ifyllda.",
-        });
-    }
 
+
+
+
+      if(error){
+        throw new Error(`internt fel: Kunde inte uppdatera användarensuppgidter. (insertUserData: error): ${JSON.stringify(
+            error
+          )}`)
+      }
+    
     return res.status(201).json({ success: "Dina uppgifter har uppdaterats." });
   } catch (error) {
     console.error(error);
@@ -219,7 +239,7 @@ export const insertUserData = async (req, res) => {
   }
 };
 
-export const insert = async (req, res) => {
+export const addUserInfo = async (req, res) => {
   const { firstname, lastname, phone, birthday, address, postal, email } =
     req.body;
   const postalCode = postal.toString();

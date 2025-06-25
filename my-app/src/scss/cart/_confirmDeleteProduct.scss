@@ -23,7 +23,7 @@
         align-items: center;
 
         p {
-            font-size: 18px;
+            font-size: 16px;
             text-align: center;
         }
 
@@ -32,10 +32,6 @@
         .confirm-delete-product-btn {
             background-color: #ff5656;
             width: 89px;
-
-            svg {
-                font-size: 18px;
-            }
         }
 
         ;
@@ -54,6 +50,7 @@
             padding: 6px 0;
             border-radius: 6px;
             margin: 18px 6px 0 6px;
+            font-size: 16px;
             
         }
 

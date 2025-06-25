@@ -1,6 +1,6 @@
 import React, { useContext, useEffect } from "react";
 import { Link } from "react-router-dom";
-import { CartContext } from "../Context/CartContext";
+import { CartContext } from "../../Context/CartContext";
 import { BsPlusLg } from "react-icons/bs";
 import { PiMinusThin } from "react-icons/pi";
 

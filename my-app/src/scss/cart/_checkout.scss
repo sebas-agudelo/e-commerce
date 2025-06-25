@@ -11,7 +11,7 @@ $letterSize: 16px;
         height: auto;
         padding: 100px 12px 70px;
 
-        h1{
+        h1 {
             font-weight: 400;
         }
 
@@ -24,12 +24,12 @@ $letterSize: 16px;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            
-            p{
+
+            p {
                 cursor: pointer;
                 transition: color 250ms linear;
 
-                &:hover{
+                &:hover {
                     color: #efdd54;
                 }
             }
@@ -41,11 +41,11 @@ $letterSize: 16px;
             height: auto;
             background-color: #f8f8f8;
             padding: 12px 28px;
-        
+
             display: flex;
             flex-direction: column;
             justify-content: space-between;
-        
+
             .checkout-items {
                 max-width: 100%;
                 display: flex;
@@ -62,7 +62,7 @@ $letterSize: 16px;
                     max-width: 62px;
                     height: 100%;
                     margin-right: 16px;
-                    
+
                     display: flex;
                     justify-content: center;
                     align-items: center;
@@ -75,10 +75,11 @@ $letterSize: 16px;
                 .checkout-items-details {
                     width: 83%;
                     max-width: 634px;
+
                     p {
                         font-size: $letterSize;
                     }
-                    
+
                     .checkout-items-title-price {
                         display: flex;
                         justify-content: space-between;
@@ -107,8 +108,8 @@ $letterSize: 16px;
                 }
             }
 
-             //Knappen för att gå vidare till kunduppgifter
-             .checkout-to-costumer-info-btn {
+            //Knappen för att gå vidare till kunduppgifter
+            .checkout-to-costumer-info-btn {
                 display: flex;
                 justify-content: end;
                 padding: 16px 0;
@@ -129,7 +130,7 @@ $letterSize: 16px;
             height: auto;
             font-size: $letterSize;
             margin: 20px 0 0;
-        
+
             .checkout-costumer-info {
                 width: 100%;
                 padding: 12px 28px;
@@ -148,6 +149,13 @@ $letterSize: 16px;
                 padding: 38px 28px;
                 box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
 
+                .payment-user-error-message {
+                    color: #dd0101;
+                    margin-bottom: 12px;
+                    font-size: 15px;
+
+                }
+
                 h1 {
                     text-align: start;
                     padding: 0 0 38px;
@@ -165,8 +173,8 @@ $letterSize: 16px;
                     }
                 }
 
-                .peronnr-email-wrapper {              
-                    input{
+                .peronnr-email-wrapper {
+                    input {
                         width: 100%;
                         margin: 10px 0;
                     }
@@ -206,7 +214,7 @@ $letterSize: 16px;
                     align-items: center;
                     padding: 28px 0 0;
 
-                    .change-auth-user-info-btn{
+                    .change-auth-user-info-btn {
                         margin-bottom: 18px;
                     }
 
@@ -273,7 +281,7 @@ $letterSize: 16px;
             height: auto;
             padding: 100px 0 70px;
 
-            h1{
+            h1 {
                 font-weight: 400;
             }
 
@@ -287,12 +295,12 @@ $letterSize: 16px;
                 display: flex;
                 justify-content: space-between;
                 align-items: center;
-                
-                p{
+
+                p {
                     cursor: pointer;
                     transition: color 250ms linear;
 
-                    &:hover{
+                    &:hover {
                         color: #efdd54;
                     }
                 }
@@ -304,11 +312,11 @@ $letterSize: 16px;
                 height: auto;
                 background-color: #f8f8f8;
                 padding: 12px 28px;
-            
+
                 display: flex;
                 flex-direction: column;
                 justify-content: space-between;
-            
+
                 .checkout-items {
                     display: flex;
                     flex-wrap: wrap;
@@ -369,7 +377,8 @@ $letterSize: 16px;
             }
 
             .checkout-form {
-                .checkout-user-form {  
+                .checkout-user-form {
+
 
                     h1 {
                         margin: 0 9px;
@@ -377,18 +386,22 @@ $letterSize: 16px;
 
                     .peronnr-email-wrapper {
                         padding: 12px 0;
+                        display: flex;
 
-                        input {
+                        .payment-user-data-input-wrapper {
                             margin: 0 9px;
                             width: calc(50% - 18px);
                         }
+
+
 
                     }
 
                     .firstname-lastname-wrapper {
                         padding: 12px 0;
+                        display: flex;
 
-                        input {
+                        .payment-user-data-input-wrapper {
                             margin: 0 9px;
                             width: calc(50% - 18px);
                         }
@@ -398,41 +411,42 @@ $letterSize: 16px;
                         padding: 12px 0;
 
                         input {
-                            margin: 0 9px;
+                            margin: 10px 9px;
                             width: calc(50% - 18px);
+                        }
+
+                        .payment-user-error-message {
+                            margin: 0 9px 12px;
                         }
                     }
 
                     .address-postalcode-wrapper {
                         padding: 12px 0;
+                        display: flex;
+                        flex-direction: column;
 
-                        #address {
-                            margin: 0 9px;
-                            width: calc(65% - 18px);
-                        }
-
-                        #postalcode {
-                            margin: 0 9px;
-                            width: calc(35% - 18px);
+                        .payment-user-data-input-wrapper {
+                            margin: 10px 9px;
+                            width: calc(50% - 18px);
                         }
                     }
 
                     .checkout-to-payment-btn {
                         display: flex;
                         flex-direction: row;
-                        justify-content: space-between;     
-    
-                        .change-auth-user-info-btn{
+                        justify-content: space-between;
+
+                        .change-auth-user-info-btn {
                             margin-bottom: 0;
                             border-bottom: 1px solid transparent;
 
                             cursor: pointer;
 
-                            &:hover{ 
+                            &:hover {
                                 border-bottom: 1px solid #efdd54;
                             }
                         }
-    
+
                         .checkout-btn {
                             cursor: pointer;
                         }

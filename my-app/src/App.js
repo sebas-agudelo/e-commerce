@@ -18,6 +18,7 @@ import MyOrders from "./pages/auth_pages/MyOrders";
 import MyData from "./pages/auth_pages/MyData";
 import Account from "./pages/auth_pages/Account";
 import PageNotFound from "./pages/PageNotFound";
+import OrderDetails from "./pages/auth_pages/OrderDetails";
 
 const Home = React.lazy(() => import("./pages/Home"));
 const AllProducts = React.lazy(() =>
@@ -110,6 +111,10 @@ function App() {
                   <Route path="*" element={<PageNotFound />} />
 
                   <Route path="/products" element={<AllProducts />} />
+                  <Route
+                    path="/profile/orders/details/order/:order_id"
+                    element={<OrderDetails />}
+                  />
                 </Routes>
               </Suspense>
             </ProductsProvider>

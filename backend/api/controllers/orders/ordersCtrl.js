@@ -26,7 +26,7 @@ export const validateCheckoutUserData = async (req, res) => {
 };
 
 //Hämtar inloggade användarens order för att visa i Mina beställningar
-export const showCostumersOrders = async (req, res) => {
+export const getUserOrderSummaries = async (req, res) => {
   const userId = req?.user?.id || null;
 
   if (!userId) {
@@ -44,6 +44,50 @@ export const showCostumersOrders = async (req, res) => {
       total_amount,
       created_at,
       payment_status,
+      email
+        `
+      )
+      .eq("user_id", userId);
+
+    if (ordersError) {
+      throw new Error(
+        `Internt fel: Kunde inte hämta hela ordern för inloggad användare. (showCostumersOrders: ordersError): ${JSON.stringify(
+          ordersError
+        )}`
+      );
+    }
+
+    if (!orders || !Array.isArray(orders) || orders.length === 0) {
+      return res.status(200).json([]);
+    }
+
+    return res.status(200).json(orders);
+  } catch (error) {
+    console.error(error);
+
+    return res.status(500).json({ error: "Något gick fel. Försök igen." });
+  }
+};
+
+export const getUserOrderDetails = async (req, res) => {
+const userId = req?.user?.id || null;
+  const { order_id } = req.params;
+  
+  if (!userId) {
+    return res
+      .status(401)
+      .json({ error: "Din session har gått ut. Logga in för att fortsätta." });
+  }
+
+  try {
+      const { data: orders, ordersError } = await supabase
+      .from("orders")
+      .select(
+        `
+      id,
+      total_amount,
+      created_at,
+      payment_status,
       email,
       items_order (
         order_id,
@@ -54,6 +98,7 @@ export const showCostumersOrders = async (req, res) => {
         )
         `
       )
+      .eq("id", order_id)
       .eq("user_id", userId);
 
     if (ordersError) {
@@ -127,7 +172,7 @@ export const customerAuthOrders = async (req, res) => {
           user_id: userId,
           email: email,
           total_amount: totalAmount,
-          payment_status: "paid",
+          payment_status: "betald",
           guest_id: null,
         },
       ])

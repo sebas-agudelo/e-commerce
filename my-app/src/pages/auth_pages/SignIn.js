@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from "react";
-import SignInForm from "../../components/auth_form/SignInForm";
+import SignInForm from "../../components/AuthComponent/SignInForm";
 import { useNavigate } from "react-router-dom";
 import { AuthSessionContext } from "../../Context/SessionProvider";
 

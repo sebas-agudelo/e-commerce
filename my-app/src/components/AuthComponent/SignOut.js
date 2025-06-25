@@ -1,6 +1,6 @@
 import React, { useContext } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom';
-import { AuthSessionContext } from '../Context/SessionProvider';
+import { AuthSessionContext } from '../../Context/SessionProvider';
 
 export default function SignOut() {
   const {setSession, setAdmin } = useContext(AuthSessionContext)

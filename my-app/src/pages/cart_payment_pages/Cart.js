@@ -3,9 +3,9 @@ import { useParams } from "react-router-dom";
 import { CartContext } from "../../Context/CartContext";
 import { AuthSessionContext } from "../../Context/SessionProvider";
 import { ProductContext } from "../../Context/ProductContext";
-import ShowCartItems from "../../components/ShowCartItems";
+import ShowCartItems from "../../components/CartComponent/ShowCartItems";
 import Footer from "../Footer";
-import CartDeleteProductComponent from "../../components/CartComponent/CartDeleteProductComponent";
+import CartRemoveProductConfirm from "../../components/CartComponent/CartRemoveProductConfirm";
 // let productTodelete = null;
 
 export default function Cart() {
@@ -146,7 +146,7 @@ export default function Cart() {
       <section>
         <ShowCartItems reduceQty={reduceQty} incruseQty={incruseQty} />
         {showDelMessage ? (
-          <CartDeleteProductComponent
+          <CartRemoveProductConfirm
             onDelete={handleConfirmDelete}
             onCancel={handleCancelDeleteProduct}
           />

@@ -7,6 +7,7 @@ import {
 import { CartContext } from "../../Context/CartContext";
 import { AuthSessionContext } from "../../Context/SessionProvider";
 
+
 const CheckoutForm = () => {
   const stripe = useStripe();
   const elements = useElements();
@@ -16,6 +17,7 @@ const CheckoutForm = () => {
 
   const [isUserInfoEditable, setIsUserInfoEditable] = useState(false);
   const [errorMessage, setErrorMessage] = useState(null);
+  const [userInputError, setUserInputError] = useState({});
   const [isCheckedItem, setIsCheckedItem] = useState(false);
   const [toThePayment, setToThePayment] = useState(false);
   const [isCompleted, setIsCompleted] = useState(false);
@@ -83,7 +85,6 @@ const CheckoutForm = () => {
 
   //Gå vidare till betalning
   const validateBeforePayment = async () => {
-
     //Objektet för att kontrollera användarensuppgift data vid betalning.
     const guestDataObject = {
       email: paymentUserData.email,
@@ -96,35 +97,38 @@ const CheckoutForm = () => {
     };
 
     //Validerar gäst och inloggad användarensdata i backend.
-      try {
-        const response = await fetch(
-          `http://localhost:3030/api/user/validation`,
-          {
-            method: "POST",
-            credentials: "include",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify(guestDataObject),
-          }
-        );
-  
-        const data = await response.json();
-  
-        if (data.success === "true") {
-          setIsCompleted(true);
-          setToThePayment(false);
-          setIsClicked(false);
-        };
-  
-        if (!response.ok) {
-          alert(data.error);
-          return;
+    try {
+      const response = await fetch(
+        `http://localhost:3030/api/user/validation`,
+        {
+          method: "POST",
+          credentials: "include",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(guestDataObject),
         }
-      } catch (error) {
-        alert("Ett oväntat fel har inträffat. Försök igen.");
+      );
+
+      const data = await response.json();
+
+      if (data.success === "true") {
+        setIsCompleted(true);
+        setToThePayment(false);
+        setIsClicked(false);
       }
+
+      if (!response.ok) {
+        // alert(data.error);
+
+        setUserInputError(data.errors);
+
+        return;
+      }
+    } catch (error) {
+      alert("Ett oväntat fel har inträffat. Försök igen.");
+    }
   };
 
-    //Skickar produkterna/produkten för att skapa en order för en inloggad användare.
+  //Skickar produkterna/produkten för att skapa en order för en inloggad användare.
   const submitAuthUserOrder = async () => {
     try {
       const response = await fetch(`http://localhost:3030/api/order/insert`, {
@@ -144,11 +148,11 @@ const CheckoutForm = () => {
         // return;
       }
     } catch (error) {
-      alert("Ett oväntat fel har inträffat. Försök igen")
+      alert("Ett oväntat fel har inträffat. Försök igen");
     }
   };
 
-   //Skickar produkterna/produkten för att skapa order för en utloggad användare.
+  //Skickar produkterna/produkten för att skapa order för en utloggad användare.
   const submitGuestOrder = async () => {
     try {
       const guestDataObject = {
@@ -173,14 +177,13 @@ const CheckoutForm = () => {
 
       const data = await response.json();
 
-      if (response.ok) {
-        alert(data.success);
-      } else {
+      if (!response.ok) {
         alert(data.error);
         return;
-      }
+      };
+      
     } catch (error) {
-      alert("Ett oväntat fel har inträffat. Försök igen")
+      alert("Ett oväntat fel har inträffat. Försök igen");
     }
   };
 
@@ -202,7 +205,7 @@ const CheckoutForm = () => {
   };
 
   //Funktionen för att gå tillbaka till kunduppgifter
-  const returnToCustomerInfo  = () => {
+  const returnToCustomerInfo = () => {
     setToThePayment(true);
     setIsCompleted(false);
     setIsCheckedItem(true);
@@ -215,6 +218,13 @@ const CheckoutForm = () => {
       ...prevData,
       [name]: value,
     }));
+
+    if (userInputError && userInputError[name]) {
+      setUserInputError((prevErrors) => ({
+        ...prevErrors,
+        [name]: null,
+      }));
+    }
   };
 
   const handleSubmit = async (event) => {
@@ -303,59 +313,89 @@ const CheckoutForm = () => {
         )}
 
         <article className="checkout-form">
+          {/* <UserInputError userInputMessage={userInputError}/> */}
           <form onSubmit={handleSubmit}>
             {toThePayment ? (
               <>
-                <article className="checkout-user-form">
+                <article className={`checkout-user-form`}>
                   <h1>Kunduppgifter</h1>
 
                   <div className="peronnr-email-wrapper">
-                    <input
-                      id="personnr"
-                      type="date"
-                      placeholder="Personnummer"
-                      required
-                      name="birthday"
-                      value={paymentUserData.birthday}
-                      onChange={handlePaymentInputChange}
-                      disabled={isUserInfoEditable}
-                    />
-                    <input
-                      id="email"
-                      type="email"
-                      placeholder="Email"
-                      required
-                      name="email"
-                      value={paymentUserData.email}
-                      onChange={handlePaymentInputChange}
-                      disabled={isUserInfoEditable}
-                    />
+                    <div className="payment-user-data-input-wrapper">
+                      <input
+                        id="personnr"
+                        type="date"
+                        placeholder="Personnummer"
+                        required
+                        name="birthday"
+                        value={paymentUserData.birthday}
+                        onChange={handlePaymentInputChange}
+                        disabled={isUserInfoEditable}
+                      />
+                      {userInputError.birthday && (
+                        <p className="payment-user-error-message">
+                          {userInputError.birthday}
+                        </p>
+                      )}
+                    </div>
+
+                    <div className="payment-user-data-input-wrapper">
+                      <input
+                        id="email"
+                        type="email"
+                        placeholder="Email"
+                        required
+                        name="email"
+                        value={paymentUserData.email}
+                        onChange={handlePaymentInputChange}
+                        disabled={isUserInfoEditable}
+                      />
+                      {userInputError.email && (
+                        <p className="payment-user-error-message">
+                          {userInputError.email}
+                        </p>
+                      )}
+                    </div>
                   </div>
 
                   <div className="firstname-lastname-wrapper">
-                    <input
-                      type="text"
-                      placeholder="Förnamn"
-                      required
-                      name="firstname"
-                      value={paymentUserData.firstname}
-                      onChange={handlePaymentInputChange}
-                      disabled={isUserInfoEditable}
-                    />
-                    <input
-                      type="text"
-                      placeholder="Efternamn"
-                      required
-                      name="lastname"
-                      value={paymentUserData.lastname}
-                      onChange={handlePaymentInputChange}
-                      disabled={isUserInfoEditable}
-                    />
+                    <div className="payment-user-data-input-wrapper">
+                      <input
+                        type="text"
+                        placeholder="Förnamn"
+                        required
+                        name="firstname"
+                        value={paymentUserData.firstname}
+                        onChange={handlePaymentInputChange}
+                        disabled={isUserInfoEditable}
+                      />
+                      {userInputError.firstname && (
+                        <p className="payment-user-error-message">
+                          {userInputError.firstname}
+                        </p>
+                      )}
+                    </div>
+                    <div className="payment-user-data-input-wrapper">
+                      <input
+                        type="text"
+                        placeholder="Efternamn"
+                        required
+                        name="lastname"
+                        value={paymentUserData.lastname}
+                        onChange={handlePaymentInputChange}
+                        disabled={isUserInfoEditable}
+                      />
+                      {userInputError.lastname && (
+                        <p className="payment-user-error-message">
+                          {userInputError.lastname}
+                        </p>
+                      )}
+                    </div>
                   </div>
 
                   <div className="phonenumber-wrapper">
                     <input
-                      type="text"
+                      type="number"
                       placeholder="Telefonnummer"
                       required
                       name="phone"
@@ -363,29 +403,48 @@ const CheckoutForm = () => {
                       onChange={handlePaymentInputChange}
                       disabled={isUserInfoEditable}
                     />
+                    {userInputError.phone && (
+                      <p className="payment-user-error-message">
+                        {userInputError.phone}
+                      </p>
+                    )}
                   </div>
 
                   <div className="address-postalcode-wrapper">
-                    <input
-                      id="address"
-                      type="text"
-                      placeholder="Address"
-                      required
-                      name="address"
-                      value={paymentUserData.address}
-                      onChange={handlePaymentInputChange}
-                      disabled={isUserInfoEditable}
-                    />
-                    <input
-                      id="postalcode"
-                      type="text"
-                      placeholder="Postnummer"
-                      required
-                      name="postal"
-                      value={paymentUserData.postal}
-                      onChange={handlePaymentInputChange}
-                      disabled={isUserInfoEditable}
-                    />
+                    <div className="payment-user-data-input-wrapper">
+                      <input
+                        id="address"
+                        type="text"
+                        placeholder="Address"
+                        required
+                        name="address"
+                        value={paymentUserData.address}
+                        onChange={handlePaymentInputChange}
+                        disabled={isUserInfoEditable}
+                      />
+                      {userInputError.address && (
+                        <p className="payment-user-error-message">
+                          {userInputError.address}
+                        </p>
+                      )}
+                    </div>
+                    <div className="payment-user-data-input-wrapper">
+                      <input
+                        id="postalcode"
+                        type="text"
+                        placeholder="Postnummer"
+                        required
+                        name="postal"
+                        value={paymentUserData.postal}
+                        onChange={handlePaymentInputChange}
+                        disabled={isUserInfoEditable}
+                      />
+                      {userInputError.postal && (
+                        <p className="payment-user-error-message">
+                          {userInputError.postal}
+                        </p>
+                      )}
+                    </div>
                   </div>
 
                   <div className="checkout-to-payment-btn">

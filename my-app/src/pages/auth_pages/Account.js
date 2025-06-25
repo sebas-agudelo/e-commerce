@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
-import Lala from "../../components/ProfileComponent/Lala";
-import AccountComponent from "../../components/ProfileComponent/AccountComponent";
+import UserProfileActions from "../../components/ProfileComponent/UserProfileActions";
+import AccountInfoAccess from "../../components/ProfileComponent/AccountInfoAccess";
 
 export default function Account() {
     const [width, setWidth] = useState(window.innerWidth >= 768)
@@ -13,8 +13,8 @@ export default function Account() {
   return (
     <main className="profile-container">
       <h1>MITT KONTO</h1>
-      {width && <Lala />}
-      <AccountComponent />
+      {width && <UserProfileActions />}
+      <AccountInfoAccess />
     </main>
   );
 }

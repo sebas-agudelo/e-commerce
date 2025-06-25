@@ -169,6 +169,24 @@ header {
                     font-size: 25px;
                     color: #000;
                 }
+
+                .cart-icon{
+                    p{
+                        position: absolute;
+                        top: 55%;
+                        right: 15%;
+                        background-color: #efdd54;
+                        width: 22px;
+                        height: 22px;
+                        // padding: 3px;
+                        border-radius: 50%;
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
+                        transform: translate(-15%, -55%);
+                        font-size: 13px;
+                    }
+                }
             }
 
             .open {
@@ -316,6 +334,18 @@ header {
 
                 .grapper {
                     display: flex;
+                    height: 100%;
+                    .cart-icon{
+                    p{
+                        position: absolute;
+                        top: 100%;
+                        right: -5%;
+                        width: 20px;
+                        height: 20px;
+                        transform: translate(5%, -100%);
+                        font-size: 12px;
+                    }
+                }
                 }
 
                 .search-input-container {
