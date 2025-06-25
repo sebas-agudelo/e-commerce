@@ -30,32 +30,26 @@ export const sessionAuthCheck = async (req, res) => {
 
 export const authenticateUser = async (req, res, next) => {
   try {
-    const access_token = req.cookies.cookie_key;
+    const access_token = req?.cookies?.cookie_key;
     if (!access_token) {
-      return res
-        .status(401)
-        .json({ error: "Ingen giltig inloggning hittades" });
+      return res.status(401).json({ error: "Ingen giltig inloggning hittades" });
     }
-    const {
-      data: { user },
-      error,
-    } = await supabase.auth.getUser(access_token);
 
-    // if (error || !user) {
-    //   return res
-    //     .status(401)
-    //     .json({ error: "Ingen giltig inloggning hittades" });
-    // }
+    const supabase = createServerSupabaseClient(access_token);
+
+    const { data: { user }, error } = await supabase.auth.getUser();
+
+    if (error || !user) {
+      return res.status(401).json({ error: "Ingen giltig inloggning hittades" });
+    }
 
     req.user = user;
-
     next();
   } catch (error) {
-    return res
-      .status(500)
-      .json({ error: "Ett oväntat fel inträffade. Försök senare igen." });
+    return res.status(500).json({ error: "Ett oväntat fel inträffade. Försök senare igen." });
   }
 };
+
 
 export const signIn = async (req, res) => {
   const { email, password } = req.body;
