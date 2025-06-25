@@ -33,7 +33,7 @@ const ProductSearch = () => {
     
     try {
 
-      let url = `http://localhost:3030/search?query=${query}&page=${currenPage}`;
+      let url = `https://examensarbeten.vercel.app/search?query=${query}&page=${currenPage}`;
       
       if (price && categoryID) {
         url += `&price=${price}&categoryID=${categoryID}`;
