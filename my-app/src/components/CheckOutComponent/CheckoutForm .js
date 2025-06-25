@@ -50,7 +50,7 @@ const CheckoutForm = () => {
 
   const fetchAuthUserData = async () => {
     try {
-      const response = await fetch(`http://localhost:3030/auth/profile`, {
+      const response = await fetch(`https://examensarbeten.vercel.app/auth/profile`, {
         method: "GET",
         credentials: "include",
         headers: { "Content-Type": "application/json" },
@@ -99,7 +99,7 @@ const CheckoutForm = () => {
     //Validerar gäst och inloggad användarensdata i backend.
     try {
       const response = await fetch(
-        `http://localhost:3030/api/user/validation`,
+        `https://examensarbeten.vercel.app/api/user/validation`,
         {
           method: "POST",
           credentials: "include",
@@ -131,7 +131,7 @@ const CheckoutForm = () => {
   //Skickar produkterna/produkten för att skapa en order för en inloggad användare.
   const submitAuthUserOrder = async () => {
     try {
-      const response = await fetch(`http://localhost:3030/api/order/insert`, {
+      const response = await fetch(`https://examensarbeten.vercel.app/api/order/insert`, {
         method: "POST",
         credentials: "include",
         headers: { "Content-Type": "application/json" },
@@ -166,7 +166,7 @@ const CheckoutForm = () => {
       };
 
       const response = await fetch(
-        "http://localhost:3030/api/order/guestorder",
+        "https://examensarbeten.vercel.app/order/guestorder",
         {
           method: "POST",
           credentials: "include",
@@ -233,7 +233,7 @@ const CheckoutForm = () => {
     event.preventDefault();
 
     const payment_success_redirect_url =
-      "http://localhost:3000/payment-success";
+      "https://examensarbeten-luzs.vercel.app/payment-success";
 
     if (!stripe || !elements) {
       // Stripe.js hasn't yet loaded.

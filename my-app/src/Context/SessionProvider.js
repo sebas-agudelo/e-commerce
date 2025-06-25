@@ -24,7 +24,7 @@ export const SessionProvider = ({ children }) => {
   const verifySession = async () => {
     try {
       const response = await fetch(
-        "http://localhost:3030/auth/sessionAuthCheck",
+        "https://examensarbeten.vercel.app/sessionAuthCheck",
         {
           method: "GET",
           credentials: "include",

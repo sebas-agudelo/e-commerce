@@ -22,7 +22,7 @@ export default function MyOrders() {
       try {
         setLoading(true);
         const response = await fetch(
-          `http://localhost:3030/api/order/myorders`,
+          `https://examensarbeten.vercel.app/api/order/myorders`,
           {
             method: "GET",
             credentials: "include",
