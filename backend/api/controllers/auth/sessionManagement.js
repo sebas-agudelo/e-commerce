@@ -87,9 +87,9 @@ export const signIn = async (req, res) => {
         maxAge: 24 * 60 * 60 * 1000,
       })
       .status(200)
-      .json({ successfully: "Du är inloggad" });
+      .json({ successfully: "Du är inloggad", token: access_token });
   } catch (error) {
-    console.log({ error: "Ett oväntat fel inträffade. Försök senare igen." });
+    console.log("Ett oväntat fel inträffade. Försök senare igen.");
   }
 };
 
