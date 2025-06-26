@@ -160,51 +160,6 @@ export const updateUserData = async (req, res) => {
     return res.status(400).json(validationError);
   }
 
-  
-
-  // // console.log(firstname, lastname, phone, birthday, address, postal);
-  
-  // const postalCode = postal.toString();
-
-  // const nameRegex = /^[a-zA-ZÀ-ÖØ-öø-ÿÅÄÖåäößñÑ' -]+$/;
-  // const addressRegex = /^[a-zA-Z0-9À-ÖØ-öø-ÿÅÄÖåäößñÑ\s.,\-\/]+$/;
-
-  // if (!firstname || !lastname || !phone || !birthday || !address || !postal) {
-  //   return res
-  //     .status(400)
-  //     .json({
-  //       error: "Det saknas information i ett eller flera obligatoriska fält.",
-  //     });
-  // }
-
-  // if (!firstname) {
-  //   return res.status(400).json({ error: "Förnam är obligatoriskt." });
-  // }
-  // if (!lastname) {
-  //   return res.status(400).json({ error: "Efternamn är obligatoriskt." });
-  // }
-  // if (!nameRegex.test(firstname) || !nameRegex.test(lastname)) {
-  //   return res
-  //     .status(400)
-  //     .json({ error: "För och efternamn bör endast innehålla bokstäver." });
-  // }
-
-  // if (!phone) {
-  //   return res.status(400).json({ error: "Telefonnummer ör obligatoriskt." });
-  // }
-
-  // if (!validator.isDate(birthday, new Date())) {
-  //   return res.status(400).json({ error: "Ogiltigt datumformat." });
-  // }
-
-  // if (!addressRegex.test(address)) {
-  //   return res.status(400).json({ error: "Adress är obligatoriskt." });
-  // }
-
-  // if (!validator.isPostalCode(postalCode, "SE")) {
-  //   return res.status(400).json({ error: "Ogiltigt postnummer." });
-  // }
-
   try {
     const { data, error } = await supabase
       .from("users_info")
